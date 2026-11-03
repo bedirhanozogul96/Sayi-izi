@@ -13,8 +13,8 @@
   --bg:#F2F2F7; --cell:#FFFFFF; --cell2:#F2F2F7;
   --label:#000000; --label2:rgba(60,60,67,.6); --label3:rgba(60,60,67,.3);
   --sep:rgba(60,60,67,.29); --fill:rgba(120,120,128,.2); --fill3:rgba(118,118,128,.12);
-  --blue:#007AFF; --green:#34C759; --red:#FF3B30; --orange:#FF9500; --indigo:#5856D6;
-  --tint-blue:rgba(0,122,255,.12); --tint-red:rgba(255,59,48,.12); --tint-green:rgba(52,199,89,.15); --tint-orange:rgba(255,149,0,.15);
+  --blue:#007AFF; --green:#34C759; --red:#FF3B30; --orange:#FF9500; --indigo:#5856D6; --purple:#AF52DE;
+  --tint-blue:rgba(0,122,255,.12); --tint-red:rgba(255,59,48,.12); --tint-green:rgba(52,199,89,.15); --tint-orange:rgba(255,149,0,.15); --tint-purple:rgba(175,82,222,.15);
   --material:rgba(242,242,247,.78); --hud:rgba(250,250,252,.86);
   --ink:#1C1C1E; --ten:#1C1C1E;
   --surface:var(--cell); --text:var(--label); --muted:var(--label2); --faint:rgba(60,60,67,.45); --line:rgba(60,60,67,.18);
@@ -25,8 +25,8 @@
   --bg:#000000; --cell:#1C1C1E; --cell2:#2C2C2E;
   --label:#FFFFFF; --label2:rgba(235,235,245,.6); --label3:rgba(235,235,245,.3);
   --sep:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill3:rgba(118,118,128,.24);
-  --blue:#0A84FF; --green:#30D158; --red:#FF453A; --orange:#FF9F0A; --indigo:#5E5CE6;
-  --tint-blue:rgba(10,132,255,.2); --tint-red:rgba(255,69,58,.2); --tint-green:rgba(48,209,88,.2); --tint-orange:rgba(255,159,10,.2);
+  --blue:#0A84FF; --green:#30D158; --red:#FF453A; --orange:#FF9F0A; --indigo:#5E5CE6; --purple:#BF5AF2;
+  --tint-blue:rgba(10,132,255,.2); --tint-red:rgba(255,69,58,.2); --tint-green:rgba(48,209,88,.2); --tint-orange:rgba(255,159,10,.2); --tint-purple:rgba(191,90,242,.22);
   --material:rgba(28,28,30,.78); --hud:rgba(44,44,46,.88);
   --ink:#F2F2F7; --ten:#636366;
   --faint:rgba(235,235,245,.45); --line:rgba(84,84,88,.5);
@@ -48,6 +48,8 @@ svg.i{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .btn.tinted{background:var(--tint-blue);color:var(--blue)}
 .btn.tinted-green{background:var(--tint-green);color:var(--green)}
 .btn.tinted-red{background:var(--tint-red);color:var(--red)}
+.btn.tinted-orange{background:var(--tint-orange);color:var(--orange)}
+.btn.tinted-purple{background:var(--tint-purple);color:var(--purple)}
 .btn.block{width:100%}
 .btn.small{min-height:34px;padding:0 14px;font-size:15px;border-radius:17px}
 .plain{border:none;background:none;color:var(--blue);font-size:17px;padding:8px 4px;display:inline-flex;align-items:center;gap:6px}
@@ -120,7 +122,7 @@ select option{background:var(--cell);color:var(--label)}
 .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px}
 .side-foot .nav button svg.i{color:var(--label2)}
 .content{flex:1;min-width:0;padding:max(18px,env(safe-area-inset-top)) 32px 60px}
-.content-inner{max-width:880px;margin:0 auto}
+.content-inner{max-width:900px;margin:0 auto}
 .large-title{font-size:34px;font-weight:700;letter-spacing:.37px;margin:20px 0 4px}
 .large-sub{color:var(--label2);font-size:15px;margin:0 0 12px;letter-spacing:-.24px}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;align-items:start}
@@ -167,7 +169,7 @@ select option{background:var(--cell);color:var(--label)}
 .code-list .ph small{display:block;font-weight:400;font-size:13px;color:var(--label2)}
 .code-list .code{font-family:var(--round);font-size:22px;font-weight:700;letter-spacing:2px;font-variant-numeric:tabular-nums}
 
-/* öğrenci seçim kartları (Öğretimi Düzenle & Sonuçlar) */
+/* öğrenci seçim kartları */
 .student-pills{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
 .st-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:14px;background:var(--cell);border:1.5px solid transparent;
   font-weight:600;font-size:16px;color:var(--label);box-shadow:0 2px 8px rgba(0,0,0,.04);transition:all .15s}
@@ -178,6 +180,13 @@ select option{background:var(--cell);color:var(--label)}
 .student-code-banner{background:var(--tint-blue);border:1.5px solid var(--blue);color:var(--blue);padding:12px 16px;border-radius:12px;
   margin:14px 0 8px;display:flex;align-items:center;justify-content:space-between;font-weight:600}
 .student-code-banner b{font-size:18px}
+
+/* ölçüt karşılama ve GAG bilgi kutuları */
+.criterion-banner{padding:14px 16px;border-radius:12px;margin:12px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:15px}
+.criterion-banner.met{background:var(--tint-green);border:1.5px solid var(--green);color:var(--green)}
+.criterion-banner.wait{background:var(--cell);border:1px solid var(--sep);color:var(--label2)}
+.gag-banner{background:var(--tint-purple);border:1.5px solid var(--purple);color:var(--purple);padding:12px 16px;border-radius:12px;margin:10px 0;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.err-breakdown{margin-top:6px;padding:8px 10px;border-radius:8px;background:var(--tint-red);color:var(--red);font-size:12px;line-height:1.45;font-weight:500}
 
 /* sonuçlar ve grafik */
 .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 4px}
@@ -199,7 +208,8 @@ select option{background:var(--cell);color:var(--label)}
 .res-row.open .chev{transform:rotate(90deg)}
 .cap{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;letter-spacing:0}
 .cap.y{background:var(--tint-blue);color:var(--blue)}.cap.u{background:var(--tint-orange);color:var(--orange)}.cap.warn{background:var(--tint-orange);color:var(--orange)}
-.detail{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:12px;padding:6px 16px 16px;background:var(--cell)}
+.cap.gag{background:var(--tint-purple);color:var(--purple)}
+.detail{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;padding:6px 16px 16px;background:var(--cell)}
 .qcard{background:var(--cell2);border-radius:12px;padding:10px}
 [data-theme="dark"] .qcard{background:#2C2C2E}
 .qcard img,.qcard .noimg{width:100%;aspect-ratio:3/2;border-radius:8px;display:block}
@@ -207,18 +217,18 @@ select option{background:var(--cell);color:var(--label)}
 .qcard .noimg{display:flex;align-items:center;justify-content:center;background:var(--fill3);color:var(--label2);font-size:13px}
 .qcard .op{font-family:var(--round);font-size:19px;font-weight:700;margin:8px 2px 2px}
 .qcard .m{font-size:13px;color:var(--label2);line-height:1.45;margin:0 2px}
-.verdict{margin-top:10px}
+.verdict{margin-top:8px}
 .verdict.seg button.on.ok{background:var(--green);color:#fff}
 .verdict.seg button.on.no{background:var(--red);color:#fff}
 .edited{display:block;font-size:12px;color:var(--orange);margin:6px 2px 0}
 
-.chart-card{background:var(--cell);border-radius:10px;padding:16px 14px 10px}
+.chart-card{background:var(--cell);border-radius:10px;padding:16px 14px 10px;margin-top:10px}
 .chart-box{position:relative}
 .chart-box svg{width:100%;height:auto;display:block}
 .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--label2);margin:0 4px 4px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .tip{position:absolute;pointer-events:none;background:var(--hud);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.45;white-space:nowrap;
-  transform:translate(-50%,calc(-100% - 12px));opacity:0;transition:opacity .12s;box-shadow:0 8px 30px rgba(0,0,0,.14);letter-spacing:-.08px}
+  transform:translate(-50%,calc(-100% - 12px));opacity:0;transition:opacity .12s;box-shadow:0 8px 30px rgba(0,0,0,.14);letter-spacing:-.08px;z-index:20}
 .tip b{font-size:15px}
 
 /* ---------- öğrenci ---------- */
@@ -252,6 +262,9 @@ select option{background:var(--cell);color:var(--label)}
 .tray .sh.lifted{opacity:.2}
 .tray .sh.used{visibility:hidden}
 .tray .sh.shake{animation:shake .4s}
+/* Görsel İpucu (Prompt) Parlama Animasyonu */
+.tray .sh.prompt-hint{animation:hintPulse 1.1s infinite ease-in-out;box-shadow:0 0 0 6px rgba(0,122,255,.35)}
+@keyframes hintPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 .ghost{position:fixed;z-index:1000;pointer-events:none;transform:translate(-50%,-50%) scale(1.1);filter:drop-shadow(0 12px 16px rgba(0,0,0,.22))}
 
@@ -322,10 +335,12 @@ select option{background:var(--cell);color:var(--label)}
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></symbol>
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M5.5 7l1 12a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></symbol>
   <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
   <symbol id="i-speed" viewBox="0 0 24 24"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l4-5"/></symbol>
   <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 3l3 3-3 3M4 11V9a3 3 0 0 1 3-3h13M7 21l-3-3 3-3M20 13v2a3 3 0 0 1-3 3H4"/></symbol>
   <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M15 5l4 4L8 20H4v-4z"/></symbol>
   <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></symbol>
 </svg>
 
 <!-- ================= GİRİŞ ================= -->
@@ -348,7 +363,7 @@ select option{background:var(--cell);color:var(--label)}
     <div id="studentForm">
       <div class="group-title">Öğrenci girişi</div>
       <div class="group">
-        <div class="row"><input class="field" id="inName" placeholder="Adın" autocomplete="off" autocapitalize="words"></div>
+        <div class="row"><input class="field" id="inName" placeholder="Adın (Öğretmenin kaydettiği ad)" autocomplete="off" autocapitalize="words"></div>
         <div class="row"><input class="field" id="inCode" placeholder="Oturum kodu (6 hane)" maxlength="6" inputmode="numeric" autocomplete="off"></div>
       </div>
     </div>
@@ -407,7 +422,7 @@ select option{background:var(--cell);color:var(--label)}
     <!-- ÖĞRETİMİ DÜZENLE: ÖĞRENCİ SEÇİM EKRANI -->
     <div id="tab-duzenle-secim" class="hidden">
       <div class="large-title">Öğretimi Düzenle</div>
-      <p class="large-sub">İçeriğini ve oturum kodlarını görüntülemek veya düzenlemek istediğiniz öğrenciyi seçin.</p>
+      <p class="large-sub">İçeriğini ve oturum kodlarını görüntülemek, düzenlemek veya silmek istediğiniz öğrenciyi seçin.</p>
       <div class="group" id="savedStudentsList"></div>
     </div>
 
@@ -415,10 +430,13 @@ select option{background:var(--cell);color:var(--label)}
     <div id="tab-olustur" class="tab">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
         <div class="large-title" id="editorMainTitle">Öğretim Oluştur</div>
-        <button class="plain hidden" id="changeStudentBtn" onclick="setTab('duzenle')">← Başka Öğrenci Seç</button>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn tinted-red small hidden" id="deleteCurrentPkgBtn" onclick="deleteStudentTeaching(currentEditingStudent)"><svg class="i" style="width:16px;height:16px"><use href="#i-trash"/></svg>Öğretimi Sil</button>
+          <button class="plain hidden" id="changeStudentBtn" onclick="setTab('duzenle')">← Başka Öğrenci Seç</button>
+        </div>
       </div>
 
-      <div class="group-title">Hedef Öğrenci Bilgisi</div>
+      <div class="group-title">Hedef Öğrenci Bilgisi (Girişte Eşleşmesi Zorunludur)</div>
       <div class="group">
         <div class="row icon-row">
           <span class="ico" style="background:var(--blue)"><svg class="i"><use href="#i-person"/></svg></span>
@@ -453,11 +471,25 @@ select option{background:var(--cell);color:var(--label)}
                 <option value="oto">Otomatik</option><option value="onay">Onayla ile</option>
               </select></span></div>
             <label class="row icon-row" id="sesRow"><span class="ico" style="background:#FF2D55"><svg class="i"><use href="#i-speaker"/></svg></span><span class="k">Sesli sayım <span class="v" style="font-size:13px">· uygulama</span></span>
-              <input type="checkbox" class="switch" id="tSes"></label>
+              <input type="checkbox" class="switch" id="tSes" checked></label>
+            <label class="row icon-row"><span class="ico" style="background:var(--purple)"><svg class="i"><use href="#i-spark"/></svg></span><span class="k">İpucunun giderek azaltılması <span class="v" style="font-size:13px">· 5 sn</span></span>
+              <input type="checkbox" class="switch" id="tIpucu" checked></label>
             <label class="row icon-row"><span class="ico" style="background:#8E8E93"><svg class="i"><use href="#i-timer"/></svg></span><span class="k">Süreyi öğrenciye göster</span>
               <input type="checkbox" class="switch" id="tSureGoster"></label>
           </div>
-          <div class="group-foot">"Otomatik": öğrenci kalemi kaldırdıktan 2 saniye sonra kontrol edilir.</div>
+
+          <div class="group-title">Ölçüt Karşılama Ayarı (Mastery Criterion)</div>
+          <div class="group">
+            <div class="row icon-row"><span class="ico" style="background:var(--green)"><svg class="i"><use href="#i-flag"/></svg></span><span class="k">Hedef başarı ölçütü</span>
+              <span class="menu"><select id="tOlcutYuzde">
+                <option value="70">%70</option><option value="75">%75</option><option value="80" selected>%80</option><option value="90">%90</option><option value="100">%100</option>
+              </select></span></div>
+            <div class="row icon-row"><span class="ico" style="background:var(--blue)"><svg class="i"><use href="#i-repeat"/></svg></span><span class="k">Ardışık oturum sayısı</span>
+              <span class="menu"><select id="tOlcutOturum">
+                <option value="1">En az 1 oturum</option><option value="2">Ardışık 2 oturum</option><option value="3" selected>Ardışık 3 oturum</option><option value="4">Ardışık 4 oturum</option>
+              </select></span></div>
+          </div>
+          <div class="group-foot">İpucu açıkken: uygulama evresinde öğrenci 5 sn hareketsiz kalırsa doğru şekil parlayarak görsel ipucu verir.</div>
         </div>
 
         <div>
@@ -479,7 +511,13 @@ select option{background:var(--cell);color:var(--label)}
             <div class="row"><span class="k">Soru süresi</span><span class="v" id="tSureLbl">30 sn</span>
               <input type="hidden" id="tSure" value="30">
               <div class="stepper"><button onclick="stepSure(-5)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepSure(5)" aria-label="Artır">+</button></div></div>
-            <div class="row" style="padding:10px 12px"><button class="btn tinted block" onclick="addQuestion()">Soruyu Ekle</button></div>
+            <div class="row" style="padding:10px 12px;gap:8px">
+              <button class="btn tinted" style="flex:1" onclick="addQuestion()">Soruyu Ekle</button>
+              <button class="btn tinted-purple" style="flex:1" onclick="fillRandomPhase()"><svg class="i"><use href="#i-spark"/></svg>Rastgele Ata</button>
+            </div>
+            <div class="row" style="padding:0 12px 10px">
+              <button class="btn tinted-orange small block" onclick="fillAllPhasesRandom()">4 Evreyi Birden Rastgele Doldur</button>
+            </div>
           </div>
           <div class="group-foot" id="addMsg" style="color:var(--red)"></div>
 
@@ -502,36 +540,55 @@ select option{background:var(--cell);color:var(--label)}
       </div>
     </div>
 
-    <!-- SONUÇLAR (Öğrenci Adına Tıklamalı + Grafik Dahil) -->
+    <!-- SONUÇLAR (Öğrenci Adına Tıklamalı + Hata Analizi + Ölçüt + GAG + Latency Grafiği) -->
     <div id="tab-sonuclar" class="tab hidden">
       <div class="large-title">Sonuçlar</div>
-      <p class="large-sub">Verilerini, el yazısı cevaplarını ve performans grafiğini görmek istediğiniz öğrencinin adına tıklayın.</p>
+      <p class="large-sub">Verilerini, hata analizini, GAG güvenirliğini ve grafiklerini görmek istediğiniz öğrencinin adına tıklayın.</p>
 
       <div class="student-pills" id="studentResultPills"></div>
+
+      <!-- ÖLÇÜT KARŞILAMA DURUM KUTUSU -->
+      <div id="criterionBanner" class="criterion-banner hidden"></div>
+
+      <!-- GAG ÖZET KUTUSU -->
+      <div id="gagBanner" class="gag-banner hidden"></div>
 
       <div class="toolbar">
         <span class="chip"><select id="rType" onchange="renderResults(); renderChart();">
           <option value="">Tüm oturumlar (Yoklama + Uygulama)</option><option value="yoklama">Sadece Yoklama</option><option value="uygulama">Sadece Uygulama</option>
         </select></span>
+        <button class="btn tinted small" id="errAnalyzeBtn" onclick="toggleErrorAnalysis()">Hataları Analiz Et</button>
+        <button class="btn tinted-purple small" id="gagModeBtn" onclick="toggleGagMode()">GAG (2. Gözlemci) Modu</button>
         <span class="grow"></span>
         <button class="plain" onclick="refreshResults()"><svg class="i"><use href="#i-refresh"/></svg>Yenile</button>
         <button class="plain" onclick="exportCSV()"><svg class="i"><use href="#i-share"/></svg>CSV İndir</button>
       </div>
       <div class="group-foot" id="rNote" style="margin:4px 4px 10px"></div>
       <div class="group" id="rBody"></div>
-      <div class="group-foot">Bir oturuma dokunun: her sorunun el yazısı görüntüsü açılır. Okuma hatalıysa Doğru / Yanlış ile düzeltebilirsiniz.</div>
+      <div class="group-foot">Bir oturuma dokunun: her sorunun el yazısı görüntüsü açılır. "Hataları Analiz Et" ile hata türlerini (sıralama, sürükleme, sembol yazımı) ayrıştırabilirsiniz.</div>
 
       <!-- SEÇİLEN ÖĞRENCİNİN GRAFİĞİ -->
       <div id="studentChartSection" style="margin-top:32px">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
           <div class="group-title" style="margin:0 0 8px 4px">Performans Grafiği · <span id="chartStudentTitle">Seçili Öğrenci</span></div>
-          <button class="plain" onclick="downloadChart()"><svg class="i"><use href="#i-share"/></svg>Grafik SVG İndir</button>
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <label style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:500;cursor:pointer">
+              <input type="checkbox" id="showLatencyChk" onchange="renderChart()" style="width:17px;height:17px;accent-color:var(--blue)">
+              <span>Tepki bekleme süresi (Latency) grafiğini göster</span>
+            </label>
+            <button class="plain" onclick="downloadChart()"><svg class="i"><use href="#i-share"/></svg>SVG İndir</button>
+          </div>
         </div>
         <div class="chart-card">
           <div class="legend" id="gLegend"></div>
           <div class="chart-box" id="chartBox"></div>
         </div>
-        <div class="group-foot">Her nokta bir oturumdaki doğru yüzdesidir. Kesikli dikey çizgiler evre değişimini gösterir.</div>
+        <!-- İSTEĞE BAĞLI TEPKİ BEKLEME SÜRESİ GRAFİĞİ -->
+        <div id="latencyChartWrap" class="chart-card hidden" style="margin-top:14px">
+          <div style="font-size:13px;font-weight:600;color:var(--label2);margin:0 4px 6px">Ortalama Tepki Bekleme Süresi (Latency · Saniye)</div>
+          <div class="chart-box" id="latencyChartBox"></div>
+        </div>
+        <div class="group-foot">Her nokta bir oturumdaki doğru yüzdesidir. Kesikli dikey çizgiler evre değişimini, yatay yeşil çizgi hedef ölçütü gösterir.</div>
       </div>
     </div>
   </div></main>
@@ -593,10 +650,12 @@ const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const cleanName = s => String(s || "").trim().replace(/\s+/g, " ").toLocaleLowerCase("tr-TR");
 
 const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
   raw(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 };
 
@@ -643,7 +702,11 @@ function speak(text) {
    OTURUM VERİSİ
    ============================================================ */
 function defaultAyarlar(mod) {
-  return { hiz: 900, ses: mod === "uygulama", sureGoster: false, deneme: mod === "uygulama" ? 3 : 1, otoKontrol: mod === "uygulama" };
+  return {
+    hiz: 900, ses: mod === "uygulama", ipucu: mod === "uygulama",
+    sureGoster: false, deneme: mod === "uygulama" ? 3 : 1,
+    otoKontrol: mod === "uygulama", olcutYuzde: 80, olcutOturum: 3
+  };
 }
 
 function normalizeSession(raw, kod, oldMeta) {
@@ -665,7 +728,7 @@ function normalizeSession(raw, kod, oldMeta) {
   }).filter(q => Number.isFinite(q.num1) && Number.isFinite(q.num2));
   if (!sorular.length) return null;
   const ayarlar = Object.assign(defaultAyarlar(mod), meta.ayarlar || {});
-  if (mod === "yoklama") { ayarlar.ses = false; ayarlar.deneme = 1; }
+  if (mod === "yoklama") { ayarlar.ses = false; ayarlar.ipucu = false; ayarlar.deneme = 1; }
   return {
     kod: String(meta.kod || meta.oturumKodu || kod || ""),
     ogretmen: meta.ogretmen || meta.ogretmenAdi || "",
@@ -691,7 +754,8 @@ let teacherName = "";
 let teacherCode = "";
 let adminPassMemory = "";
 let isAdminViewing = false;
-let teacherPackages = {}; // { "Öğrenci Adı": { ogrenciAdi, tPhases, tCount, ayarlar, tCodes, tarih } }
+let teacherPackages = {};
+let currentEditingStudent = "";
 
 $$("#roleSeg button").forEach(b => b.addEventListener("click", () => {
   role = b.dataset.role;
@@ -757,13 +821,10 @@ async function login() {
     return;
   }
 
- // 3. ÖĞRENCİ GİRİŞİ (İsim + Kod Zorunlu Eşleşmesi)
+  // 3. ÖĞRENCİ GİRİŞİ (İsim + Kod Zorunlu Eşleşme Kilidi)
   const name = $("#inName").value.trim();
   const kod = $("#inCode").value.trim();
-  if (!name || !/^\d{6}$/.test(kod)) { 
-    msg.innerText = "Öğrenci adını ve 6 haneli kodu yazın."; 
-    return; 
-  }
+  if (!name || !/^\d{6}$/.test(kod)) { msg.innerText = "Öğrenci adını ve 6 haneli kodu yazın."; return; }
   btn.disabled = true; btn.innerText = "Oturum aranıyor…";
   let session = null;
   if (SHEETS_ON) {
@@ -771,21 +832,16 @@ async function login() {
   }
   if (!session) session = loadLocalSession(kod);
   btn.disabled = false; btn.innerText = "Başla";
-  
-  if (!session) { 
-    msg.innerText = "Bu kodla eşleşen oturum bulunamadı."; 
-    return; 
-  }
+  if (!session) { msg.innerText = "Bu kodla eşleşen oturum bulunamadı."; return; }
 
-  // KİLİT KONTROLÜ: Öğretmenin tanımladığı öğrenci adı ile giriş yapılan ad aynı mı?
-  const cleanName = s => String(s || "").trim().replace(/\s+/g, " ").toLocaleLowerCase("tr-TR");
+  // Öğretmenin tanımladığı öğrenci adı ile giriş yapılan ad birebir örtüşmeli
   if (session.hedefOgrenci && cleanName(session.hedefOgrenci) !== cleanName(name)) {
-    msg.innerText = "Bu oturum kodu girdiğiniz öğrenci adına tanımlanmamış! Lütfen adınızı öğretmenin kaydettiği şekilde yazın.";
+    msg.innerText = "Bu oturum kodu girdiğiniz öğrenci adına tanımlanmamış! Lütfen öğretmenin kaydettiği öğrenci adını yazın.";
     return;
   }
 
-  // Veri bütünlüğü için öğrencinin adını öğretmenin yazdığı orijinal formatla başlat
   startStudent(session, session.hedefOgrenci || name);
+}
 
 async function openTeacherWorkspace(n, tKod, adminBypass) {
   const msg = $("#loginMsg");
@@ -812,7 +868,7 @@ async function openTeacherWorkspace(n, tKod, adminBypass) {
     }
   } else {
     const localTeachers = store.get("sayiizi_ogretmenler", {});
-    if (!adminBypass && (!localTeachers[tKod] || localTeachers[tKod].toLocaleLowerCase("tr-TR") !== n.toLocaleLowerCase("tr-TR"))) {
+    if (!adminBypass && (!localTeachers[tKod] || cleanName(localTeachers[tKod]) !== cleanName(n))) {
       btn.disabled = false; btn.innerText = "Başla";
       msg.innerText = "Öğretmen adı veya kodu hatalı! (Önce Yönetici sekmesinden kod üretin)";
       return;
@@ -850,18 +906,10 @@ function createTeacherCode() {
   const name = nameInput.value.trim();
   if (!name) return;
   const newCode = String(Math.floor(100000 + Math.random() * 900000));
-  
   const localTeachers = store.get("sayiizi_ogretmenler", {});
   localTeachers[newCode] = name;
   store.set("sayiizi_ogretmenler", localTeachers);
-
-  post({
-    islemTipi: "ogretmen_ekle",
-    adminSifre: adminPassMemory,
-    ogretmenAdi: name,
-    ogretmenKodu: newCode
-  });
-
+  post({ islemTipi: "ogretmen_ekle", adminSifre: adminPassMemory, ogretmenAdi: name, ogretmenKodu: newCode });
   nameInput.value = "";
   renderAdminTeacherList(localTeachers);
 }
@@ -888,7 +936,7 @@ function adminInspectTeacher(kod, ad) {
 }
 
 /* ============================================================
-   ÖĞRETMEN — MENÜ VE ÖĞRETİM OLUŞTUR / DÜZENLE
+   ÖĞRETMEN — MENÜ, OLUŞTUR, RASTGELE ATA, DÜZENLE VE SİL
    ============================================================ */
 const PHASES = [
   { k: "A", ad: "Başlama düzeyi", mod: "yoklama" },
@@ -912,9 +960,11 @@ function setTab(name) {
   $("#tab-sonuclar").classList.add("hidden");
 
   if (name === "olustur") {
+    currentEditingStudent = "";
     resetEditorForNewStudent();
     $("#editorMainTitle").innerText = "Öğretim Oluştur";
     $("#changeStudentBtn").classList.add("hidden");
+    $("#deleteCurrentPkgBtn").classList.add("hidden");
     $("#tab-olustur").classList.remove("hidden");
   } else if (name === "duzenle") {
     renderSavedStudentsForEdit();
@@ -953,15 +1003,43 @@ function renderSavedStudentsForEdit() {
         <div class="who">${esc(pkg.ogrenciAdi)}</div>
         <div class="sub">Evre Başına ${pkg.tCount || 5} Soru · Kodlar: ${esc(codesStr)}</div>
       </div>
-      <span class="btn tinted small">Düzenle / Kodları Gör</span>
+      <button class="btn tinted small" onclick="event.stopPropagation(); selectStudentToEdit('${esc(pkg.ogrenciAdi)}')">Düzenle</button>
+      <button class="btn tinted-red small" onclick="event.stopPropagation(); deleteStudentTeaching('${esc(pkg.ogrenciAdi)}')"><svg class="i" style="width:16px;height:16px"><use href="#i-trash"/></svg>Öğretimi Sil</button>
     </div>`;
   }).join("");
+}
+
+// 1. ÖZELLİK: Çift Onaylı Öğretim Silme
+function deleteStudentTeaching(studentName) {
+  if (!studentName || !teacherPackages[studentName]) return;
+  if (!confirm("Oturumu silmek istiyor musun?")) return;
+  if (!confirm("Oturum silinecek. Emin misin?")) return;
+
+  const pkg = teacherPackages[studentName];
+  const deletedCodes = (pkg.tCodes || []).map(c => c.kod);
+  deletedCodes.forEach(k => store.del("sayiizi_oturum_" + k));
+
+  delete teacherPackages[studentName];
+  store.set("sayiizi_ogretmen_paketler_" + teacherCode, teacherPackages);
+
+  post({
+    islemTipi: "oturum_sil",
+    ogretmenAdi: teacherName,
+    ogretmenKodu: teacherCode,
+    silinenOgrenci: studentName,
+    silinenKodlar: deletedCodes,
+    ogrenciPaketleri: JSON.stringify(teacherPackages)
+  });
+
+  currentEditingStudent = "";
+  setTab("duzenle");
 }
 
 function selectStudentToEdit(studentName) {
   const pkg = teacherPackages[studentName];
   if (!pkg) return;
-  $("#tTargetStudent").value = pkg.ogrenciAdi || studentName;
+  currentEditingStudent = pkg.ogrenciAdi || studentName;
+  $("#tTargetStudent").value = currentEditingStudent;
   tPhases = JSON.parse(JSON.stringify(pkg.tPhases || { A: [], B: [], C: [], D: [] }));
   tCount = pkg.tCount || 5;
   $("#tCountLbl").innerText = tCount;
@@ -969,18 +1047,22 @@ function selectStudentToEdit(studentName) {
     $("#tHiz").value = pkg.ayarlar.hiz || 900;
     $("#tDeneme").value = pkg.ayarlar.deneme || 3;
     $("#tOto").value = pkg.ayarlar.otoKontrol ? "oto" : "onay";
-    $("#tSes").checked = !!pkg.ayarlar.ses;
+    $("#tSes").checked = pkg.ayarlar.ses !== false;
+    $("#tIpucu").checked = pkg.ayarlar.ipucu !== false;
     $("#tSureGoster").checked = !!pkg.ayarlar.sureGoster;
+    $("#tOlcutYuzde").value = pkg.ayarlar.olcutYuzde || 80;
+    $("#tOlcutOturum").value = pkg.ayarlar.olcutOturum || 3;
   }
   setPhase("A");
   if (pkg.tCodes && pkg.tCodes.length) {
     tCodes = pkg.tCodes;
     tDirty = false;
     tCode = tCodes[0].kod;
-    renderCodeBox(pkg.ogrenciAdi || studentName);
+    renderCodeBox(currentEditingStudent);
   }
-  $("#editorMainTitle").innerText = `Öğretimi Düzenle · ${pkg.ogrenciAdi || studentName}`;
+  $("#editorMainTitle").innerText = `Öğretimi Düzenle · ${currentEditingStudent}`;
   $("#changeStudentBtn").classList.remove("hidden");
+  $("#deleteCurrentPkgBtn").classList.remove("hidden");
   $("#tab-duzenle-secim").classList.add("hidden");
   $("#tab-olustur").classList.remove("hidden");
 }
@@ -991,8 +1073,8 @@ function setPhase(k) {
   const ph = PH[k];
   $$("#phaseSeg button").forEach(b => b.classList.toggle("on", b.dataset.ph === k));
   $("#modHint").innerText = ph.mod === "yoklama"
-    ? `${ph.ad}: yoklama oturumu. Sorular sırayla gelir; tek deneme, doğru/yanlış geri bildirimi ve sesli sayım yok.`
-    : `${ph.ad}: öğretim oturumu. Sorular karışık gelir; sesli sayım, "Aferin" / "Dikkat et" geri bildirimi ve deneme hakkı var.`;
+    ? `${ph.ad}: yoklama oturumu. Sorular sırayla gelir; tek deneme, doğru/yanlış geri bildirimi, ipucu ve sesli sayım yok.`
+    : `${ph.ad}: öğretim oturumu. Sorular karışık gelir; sesli üzerine sayım, görsel ipucu, "Aferin" / "Dikkat et" geri bildirimi ve deneme hakkı var.`;
   $("#newTitle").innerText = `${ph.ad} · yeni soru`;
   $("#listTitle").innerText = `${ph.ad} soruları`;
   $("#addMsg").innerText = "";
@@ -1023,7 +1105,7 @@ function updatePhaseUI() {
   $("#saveHint").innerText = missing.length ? missing.join(" · ") : `Öğrenci (${targetSt}) için dört evre de hazır.`;
 }
 
-["#tHiz", "#tDeneme", "#tOto", "#tSes", "#tSureGoster"].forEach(s => $(s).addEventListener("change", markDirty));
+["#tHiz", "#tDeneme", "#tOto", "#tSes", "#tIpucu", "#tSureGoster", "#tOlcutYuzde", "#tOlcutOturum"].forEach(s => $(s).addEventListener("change", markDirty));
 ["#tN1", "#tN2"].forEach(s => $(s).addEventListener("input", calcAnswer));
 $$("#opSeg button").forEach(b => b.addEventListener("click", () => setOp(b.dataset.op)));
 function setOp(op) {
@@ -1067,6 +1149,59 @@ function addQuestion() {
   tQuestions.push({ num1: n1, num2: n2, op, sureSiniri: sure });
   markDirty(); renderQuestions();
 }
+
+// 8. ÖZELLİK: Belirlenen Soru Sayısı Kadar Rastgele Soru Atama
+function generateRandomQuestionPool(op, sure) {
+  const pool = [];
+  if (op === "+") {
+    for (let a = 1; a <= 9; a++) for (let b = 1; a + b <= 10; b++) pool.push({ num1: a, num2: b, op: "+", sureSiniri: sure });
+  } else {
+    for (let a = 2; a <= 10; a++) for (let b = 1; b < a; b++) pool.push({ num1: a, num2: b, op: "-", sureSiniri: sure });
+  }
+  return shuffle(pool);
+}
+
+function fillRandomPhase() {
+  const op = $("#tOp").value;
+  const sure = Math.max(5, parseInt($("#tSure").value) || 30);
+  const pool = generateRandomQuestionPool(op, sure);
+  const usedKeys = new Set(tQuestions.map(q => `${q.num1}${q.op}${q.num2}`));
+  while (tQuestions.length < tCount && pool.length) {
+    const cand = pool.pop();
+    const key = `${cand.num1}${cand.op}${cand.num2}`;
+    if (!usedKeys.has(key) || tQuestions.length + pool.length < tCount) {
+      tQuestions.push(cand);
+      usedKeys.add(key);
+    }
+  }
+  if (tQuestions.length > tCount) tQuestions.length = tCount;
+  $("#addMsg").innerText = "";
+  markDirty();
+  renderQuestions();
+}
+
+function fillAllPhasesRandom() {
+  const op = $("#tOp").value;
+  const sure = Math.max(5, parseInt($("#tSure").value) || 30);
+  PHASES.forEach(p => {
+    const pool = generateRandomQuestionPool(op, sure);
+    const arr = tPhases[p.k];
+    const usedKeys = new Set(arr.map(q => `${q.num1}${q.op}${q.num2}`));
+    while (arr.length < tCount && pool.length) {
+      const cand = pool.pop();
+      const key = `${cand.num1}${cand.op}${cand.num2}`;
+      if (!usedKeys.has(key) || arr.length + pool.length < tCount) {
+        arr.push(cand);
+        usedKeys.add(key);
+      }
+    }
+    if (arr.length > tCount) arr.length = tCount;
+  });
+  $("#addMsg").innerText = "";
+  markDirty();
+  renderQuestions();
+}
+
 function removeQuestion(i) { tQuestions.splice(i, 1); markDirty(); renderQuestions(); }
 function moveQuestion(i, d) {
   const j = i + d; if (j < 0 || j >= tQuestions.length) return;
@@ -1077,7 +1212,7 @@ function renderQuestions() {
   $("#qCount").innerText = tQuestions.length + "/" + tCount;
   updatePhaseUI();
   const box = $("#qList");
-  if (!tQuestions.length) { box.innerHTML = '<div class="empty">Henüz soru eklenmedi.</div>'; return; }
+  if (!tQuestions.length) { box.innerHTML = '<div class="empty">Henüz soru eklenmedi. "Soruyu Ekle" veya "Rastgele Ata" butonunu kullanabilirsiniz.</div>'; return; }
   box.innerHTML = tQuestions.map((q, i) => `
     <div class="row qrow">
       <button class="minus-btn" onclick="removeQuestion(${i})" aria-label="Sil"></button>
@@ -1093,9 +1228,12 @@ function readSettings() {
   return {
     hiz: parseInt($("#tHiz").value) || 900,
     ses: $("#tSes").checked,
+    ipucu: $("#tIpucu").checked,
     sureGoster: $("#tSureGoster").checked,
     deneme: parseInt($("#tDeneme").value) || 3,
-    otoKontrol: $("#tOto").value === "oto"
+    otoKontrol: $("#tOto").value === "oto",
+    olcutYuzde: parseInt($("#tOlcutYuzde").value) || 80,
+    olcutOturum: parseInt($("#tOlcutOturum").value) || 3
   };
 }
 
@@ -1111,7 +1249,7 @@ function renderCodeBox(studentName) {
       <button class="btn tinted small" onclick="copyCode('${c.kod}', this)">Kopyala</button>
       <button class="btn small" onclick="openStudentHere('${c.kod}', '${esc(stName)}')">Aç</button>
     </div>`).join("");
-  $("#codeMeta").innerText = `Yukarıdaki kodlar ${stName} adlı öğrenciye tanımlanmıştır.`;
+  $("#codeMeta").innerText = `Bu kodlar yalnızca "${stName}" öğrenci adıyla eşleştiğinde açılır.`;
   $("#codeBox").classList.remove("hidden");
 }
 
@@ -1133,6 +1271,7 @@ function publishSession() {
     return { kod, ph: p };
   });
 
+  currentEditingStudent = stName;
   teacherPackages[stName] = {
     ogrenciAdi: stName,
     tPhases: JSON.parse(JSON.stringify(tPhases)),
@@ -1148,7 +1287,7 @@ function publishSession() {
   tCodes.forEach((c, idx) => {
     const p = c.ph;
     const ayarlar = Object.assign({}, ayar);
-    if (p.mod === "yoklama") { ayarlar.ses = false; ayarlar.deneme = 1; }
+    if (p.mod === "yoklama") { ayarlar.ses = false; ayarlar.ipucu = false; ayarlar.deneme = 1; }
     const s = {
       kod: c.kod, ogretimId, ogretmen: teacherName, ogretmenKodu: teacherCode,
       hedefOgrenci: stName, olusturma: new Date().toISOString(),
@@ -1165,6 +1304,7 @@ function publishSession() {
 
   tDirty = false;
   tCode = tCodes[0].kod;
+  $("#deleteCurrentPkgBtn").classList.remove("hidden");
   renderCodeBox(stName);
 }
 
@@ -1181,12 +1321,14 @@ function openStudentHere(kod, stName) {
 }
 
 /* ============================================================
-   ÖĞRENCİ ÇALIŞMASI
+   ÖĞRENCİ ÇALIŞMASI (Latency + Hata Türleri + İpucu + Üzerine Sayma)
    ============================================================ */
 const S = {
   session: null, name: "", queue: [], idx: 0, results: [], q: null,
   pos: 0, placed: 0, remaining: [], animating: false, token: 0,
-  hata: 0, attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false,
+  hata: 0, errTypes: { siralama: 0, surukleme: 0, sembol: 0, sure: 0 },
+  firstTouchTime: null, promptCount: 0, promptTimer: null,
+  attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false,
   start: 0, timer: null, autoTimer: null
 };
 const isUyg = () => S.session && S.session.mod === "uygulama";
@@ -1206,7 +1348,7 @@ function startStudent(session, name) {
 }
 
 function exitStudent() {
-  stopTimer(); clearTimeout(S.autoTimer); S.token++; S.q = null;
+  stopTimer(); clearTimeout(S.autoTimer); clearPromptTimer(); S.token++; S.q = null;
   showScreen(teacherName ? "#teacher" : "#login");
 }
 
@@ -1225,12 +1367,17 @@ function toast(html, cls, ms) {
 }
 
 function nextQuestion() {
-  stopTimer(); clearTimeout(S.autoTimer);
+  stopTimer(); clearTimeout(S.autoTimer); clearPromptTimer();
   S.token++; S.animating = false;
   S.idx++;
   if (S.idx > S.queue.length) return finishSession();
   const q = S.queue[S.idx - 1];
-  Object.assign(S, { q, pos: 0, placed: 0, remaining: [q.num1, q.num2], hata: 0, attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false, start: Date.now() });
+  Object.assign(S, {
+    q, pos: 0, placed: 0, remaining: [q.num1, q.num2],
+    hata: 0, errTypes: { siralama: 0, surukleme: 0, sembol: 0, sure: 0 },
+    firstTouchTime: null, promptCount: 0,
+    attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false, start: Date.now()
+  });
   $$(".mk").forEach(e => e.remove());
   $("#prompt").innerText = `${S.idx}. sorudaki işlemi yap`;
   $("#equation").innerHTML = `${q.num1} ${q.op === "-" ? "−" : "+"} ${q.num2} = <span class="qm">?</span>`;
@@ -1239,6 +1386,27 @@ function nextQuestion() {
   lockAnswer(true);
   clearPad(true);
   startTimer(q.sureSiniri);
+  schedulePromptHint();
+}
+
+// 6. ÖZELLİK: İpucunun Giderek Azaltılması (Görsel İpucu)
+function clearPromptTimer() {
+  if (S.promptTimer) clearTimeout(S.promptTimer);
+  S.promptTimer = null;
+  $$("#tray .sh").forEach(el => el.classList.remove("prompt-hint"));
+}
+function schedulePromptHint() {
+  clearPromptTimer();
+  if (!isUyg() || !S.session.ayarlar.ipucu || S.placed >= 2 || !S.q) return;
+  S.promptTimer = setTimeout(() => {
+    if (!S.q || S.placed >= 2 || S.animating) return;
+    const needVal = S.q.op === "-" ? (S.placed === 0 ? S.q.num1 : S.q.num2) : S.remaining[0];
+    const targetEl = $$("#tray .sh:not(.used)").find(el => parseInt(el.dataset.val) === needVal) || $$("#tray .sh:not(.used)")[0];
+    if (targetEl) {
+      targetEl.classList.add("prompt-hint");
+      S.promptCount++;
+    }
+  }, 5000);
 }
 
 function startTimer(sec) {
@@ -1256,7 +1424,7 @@ function startTimer(sec) {
     if (left <= 5) el.classList.add("low");
     if (left <= 0) {
       stopTimer();
-      S.timeout = true; S.hata++;
+      S.timeout = true; S.hata++; S.errTypes.sure++;
       if (show && isUyg()) setMsg("Süre doldu, yine de bitirebilirsin.", "warn");
     }
   }, 1000);
@@ -1291,6 +1459,11 @@ function startDrag(e) {
   const el = e.currentTarget;
   if (S.animating || S.placed >= 2 || el.classList.contains("used")) return;
   e.preventDefault();
+  // 2. ÖZELLİK: Tepki Bekleme Süresi (Latency) Kaydı (İlk dokunuş anı)
+  if (S.firstTouchTime === null && S.start) {
+    S.firstTouchTime = +((Date.now() - S.start) / 1000).toFixed(2);
+  }
+  clearPromptTimer();
   const ghost = el.cloneNode(true);
   const r = el.getBoundingClientRect();
   ghost.classList.add("ghost");
@@ -1317,7 +1490,15 @@ function endDrag(e) {
   ghost.remove();
   el.classList.remove("lifted");
   $("#numline").classList.remove("over");
-  if (e.type === "pointerup" && overLine(e.clientX, e.clientY)) tryPlace(parseInt(el.dataset.val), el);
+  if (e.type === "pointerup") {
+    if (overLine(e.clientX, e.clientY)) {
+      tryPlace(parseInt(el.dataset.val), el);
+    } else {
+      // 3. ÖZELLİK: Sürükleme / Motor Hatası
+      S.hata++; S.errTypes.surukleme++;
+      schedulePromptHint();
+    }
+  }
 }
 window.addEventListener("pointerup", endDrag);
 window.addEventListener("pointercancel", endDrag);
@@ -1333,9 +1514,11 @@ function tryPlace(val, el) {
     msg = "Sorudaki sayıları kullanmalısın!";
   }
   if (msg) {
-    S.hata++;
+    // 3. ÖZELLİK: Sıralama / Kavram Hatası
+    S.hata++; S.errTypes.siralama++;
     el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
     if (isUyg()) setMsg(msg, "warn");
+    schedulePromptHint();
     return false;
   }
   const k = S.remaining.indexOf(val); if (k > -1) S.remaining.splice(k, 1);
@@ -1345,13 +1528,14 @@ function tryPlace(val, el) {
   return true;
 }
 
+// Üzerine Sayma (Counting On) ve Geriye Sayma (Counting Back)
 async function animateMove(val, dir, lane) {
   const token = ++S.token;
   S.animating = true;
   const start = S.pos;
   for (let s = 1; s <= val; s++) {
     if (token !== S.token) return;
-    const currentPos = start + s * dir; // Sayı doğrusunda o an basılan nokta
+    const currentPos = start + s * dir;
     dropMarker(currentPos, val, s, s === val, lane);
     if (S.session.ayarlar.ses && isUyg()) {
       speak(NUM_WORDS[currentPos] || String(currentPos));
@@ -1365,6 +1549,8 @@ async function animateMove(val, dir, lane) {
   if (S.placed >= 2) {
     lockAnswer(false);
     setMsg("Şimdi cevabını yaz", "info");
+  } else {
+    schedulePromptHint();
   }
 }
 
@@ -1549,6 +1735,7 @@ async function submitAnswer() {
   const correct = read === expected;
 
   if (!isUyg()) {
+    if (!correct) { S.hata++; S.errTypes.sembol++; }
     record(correct, read, thumb);
     setMsg("");
     toast("✓", "neutral", 900);
@@ -1562,7 +1749,8 @@ async function submitAnswer() {
     if (S.session.ayarlar.ses) speak("Aferin! Cevap " + (NUM_WORDS[+expected] || expected));
     return setTimeout(nextQuestion, 2100);
   }
-  S.hata++;
+  // 3. ÖZELLİK: Yazım / Sembol Hatası
+  S.hata++; S.errTypes.sembol++;
   if (S.attempts >= S.session.ayarlar.deneme) {
     record(false, read, thumb);
     setMsg("");
@@ -1587,27 +1775,32 @@ function retryQuestion() {
   lockAnswer(true);
   setMsg("");
   startTimer(q.sureSiniri);
+  schedulePromptHint();
 }
 
 function record(dogru, read, thumb) {
   if (S.answered) return;
   S.answered = true;
-  stopTimer();
+  stopTimer(); clearPromptTimer();
   lockAnswer(true);
   const q = S.q;
+  const totalSec = +((Date.now() - S.start) / 1000).toFixed(2);
   S.results.push({
     no: S.idx, num1: q.num1, num2: q.num2, op: q.op,
     soru: `${q.num1}${q.op}${q.num2}`,
     beklenen: q.op === "+" ? q.num1 + q.num2 : q.num1 - q.num2,
     okunan: read, okunanlar: S.reads.slice(), dogru,
     deneme: S.attempts, hata: S.hata,
-    sure: +((Date.now() - S.start) / 1000).toFixed(2),
+    hataDetay: Object.assign({}, S.errTypes),
+    ilkTepki: S.firstTouchTime != null ? S.firstTouchTime : totalSec,
+    ipucuSayisi: S.promptCount,
+    sure: totalSec,
     sureAsimi: S.timeout, resim: thumb
   });
 }
 
 function finishSession() {
-  stopTimer();
+  stopTimer(); clearPromptTimer();
   S.q = null;
   const s = S.session;
   const res = {
@@ -1639,12 +1832,30 @@ function finishSession() {
 }
 
 /* ============================================================
-   ÖĞRETMEN / YÖNETİCİ — SONUÇLAR VE TEK DENEKLİ GRAFİK
+   ÖĞRETMEN / YÖNETİCİ — SONUÇLAR, HATA ANALİZİ, ÖLÇÜT, GAG VE GRAFİKLER
    ============================================================ */
 let RESULTS = [];
 let FIX = {};
+let GAG_FIX = {};
 let openRow = null;
 let selectedResultStudent = "";
+let showErrorAnalysis = false;
+let gagModeActive = false;
+
+function toggleErrorAnalysis() {
+  showErrorAnalysis = !showErrorAnalysis;
+  const b = $("#errAnalyzeBtn");
+  b.classList.toggle("on", showErrorAnalysis);
+  b.innerText = showErrorAnalysis ? "Hata Analizini Gizle" : "Hataları Analiz Et";
+  renderResults();
+}
+
+function toggleGagMode() {
+  gagModeActive = !gagModeActive;
+  const b = $("#gagModeBtn");
+  b.innerText = gagModeActive ? "GAG Modunu Kapat" : "GAG (2. Gözlemci) Modu";
+  renderResults();
+}
 
 function normalizeResult(r) {
   r = parseMaybe(r);
@@ -1657,9 +1868,12 @@ function normalizeResult(r) {
     const num1 = q.num1 != null ? +q.num1 : (m ? +m[1] : null);
     const op = q.op || (m ? m[2] : "+");
     const num2 = q.num2 != null ? +q.num2 : (m ? +m[3] : null);
-    return Object.assign({ no: i + 1, num1, num2, op, beklenen: num1 != null ? (op === "+" ? num1 + num2 : num1 - num2) : null,
-      okunan: "", dogru: null, deneme: 0, hata: 0, sure: 0, sureAsimi: false, resim: null }, q,
-      { resim: q.resim || (Array.isArray(imgs) ? imgs[i] || null : null) });
+    return Object.assign({
+      no: i + 1, num1, num2, op, beklenen: num1 != null ? (op === "+" ? num1 + num2 : num1 - num2) : null,
+      okunan: "", dogru: null, deneme: 0, hata: 0,
+      hataDetay: { siralama: 0, surukleme: 0, sembol: 0, sure: 0 },
+      ilkTepki: null, ipucuSayisi: 0, sure: 0, sureAsimi: false, resim: null
+    }, q, { resim: q.resim || (Array.isArray(imgs) ? imgs[i] || null : null) });
   });
   const ogrenci = r.ogrenci || r.ogrenciAdi || "?";
   const kod = String(r.kod || r.oturumKodu || "");
@@ -1678,9 +1892,10 @@ async function refreshResults() {
   const note = $("#rNote");
   const local = store.get("sayiizi_sonuclar", [])
     .map(normalizeResult)
-    .filter(r => r && (!teacherCode || !r.ogretmenKodu || r.ogretmenKodu === teacherCode || r.ogretmen.toLocaleLowerCase("tr-TR") === teacherName.toLocaleLowerCase("tr-TR")));
+    .filter(r => r && (!teacherCode || !r.ogretmenKodu || r.ogretmenKodu === teacherCode || cleanName(r.ogretmen) === cleanName(teacherName)));
   const map = new Map(local.map(r => [r.id, r]));
   FIX = store.get("sayiizi_duzeltmeler", {});
+  GAG_FIX = store.get("sayiizi_gag_puanlar", {});
   note.innerText = SHEETS_ON ? "Sheets'ten alınıyor…" : "Bu cihazdaki sonuçlar (Sheets bağlı değil)";
   render();
   if (SHEETS_ON) {
@@ -1692,10 +1907,18 @@ async function refreshResults() {
         else l.sorular.forEach((q, i) => { if (!q.resim && r.sorular[i]) q.resim = r.sorular[i].resim; });
       });
       const localFix = store.get("sayiizi_duzeltmeler", {});
+      const localGag = store.get("sayiizi_gag_puanlar", {});
       (j.duzeltmeler || []).forEach(d => {
-        if (localFix[d.id] && localFix[d.id][d.no] !== undefined) return;
-        FIX[d.id] = FIX[d.id] || {};
-        FIX[d.id][d.no] = d.dogru === true || d.dogru === "true";
+        const val = d.dogru === true || d.dogru === "true";
+        if (String(d.gozlemci) === "2") {
+          if (localGag[d.id] && localGag[d.id][d.no] !== undefined) return;
+          GAG_FIX[d.id] = GAG_FIX[d.id] || {};
+          GAG_FIX[d.id][d.no] = val;
+        } else {
+          if (localFix[d.id] && localFix[d.id][d.no] !== undefined) return;
+          FIX[d.id] = FIX[d.id] || {};
+          FIX[d.id][d.no] = val;
+        }
       });
       note.innerText = "Sheets ile güncel · " + new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
     } catch (e) {
@@ -1715,12 +1938,36 @@ function scoreOf(r, q) {
   const f = FIX[r.id] && FIX[r.id][q.no];
   return f !== undefined ? f : q.dogru;
 }
+function gagScoreOf(r, q) {
+  return GAG_FIX[r.id] ? GAG_FIX[r.id][q.no] : undefined;
+}
 function summary(r) {
   const n = r.sorular.length;
   const d = r.sorular.filter(q => scoreOf(r, q) === true).length;
   const unscored = r.sorular.filter(q => scoreOf(r, q) == null).length;
   const avg = n ? r.sorular.reduce((s, q) => s + (+q.sure || 0), 0) / n : 0;
-  return { n, d, unscored, pct: n ? Math.round(d / n * 100) : 0, avg };
+  const avgLat = n ? r.sorular.reduce((s, q) => s + (+(q.ilkTepki != null ? q.ilkTepki : q.sure) || 0), 0) / n : 0;
+  const errSum = { siralama: 0, surukleme: 0, sembol: 0, sure: 0, toplam: 0 };
+  r.sorular.forEach(q => {
+    errSum.toplam += (+q.hata || 0);
+    if (q.hataDetay) {
+      errSum.siralama += (+q.hataDetay.siralama || 0);
+      errSum.surukleme += (+q.hataDetay.surukleme || 0);
+      errSum.sembol += (+q.hataDetay.sembol || 0);
+      errSum.sure += (+q.hataDetay.sure || 0);
+    }
+  });
+  // GAG (IOA) hesaplama
+  let gagScored = 0, gagAgree = 0;
+  r.sorular.forEach(q => {
+    const s1 = scoreOf(r, q), s2 = gagScoreOf(r, q);
+    if (s1 != null && s2 !== undefined) {
+      gagScored++;
+      if (s1 === s2) gagAgree++;
+    }
+  });
+  const gagPct = gagScored ? Math.round(gagAgree / gagScored * 100) : null;
+  return { n, d, unscored, pct: n ? Math.round(d / n * 100) : 0, avg, avgLat, errSum, gagPct, gagScored };
 }
 
 function renderStudentPills() {
@@ -1761,9 +2008,60 @@ function filtered() {
   return RESULTS.filter(r => (!selectedResultStudent || r.ogrenci === selectedResultStudent) && (!ty || r.mod === ty));
 }
 
+// 4. ÖZELLİK: Ölçüt Karşılama Kontrolü
+function getStudentCriterion(studentName) {
+  const pkg = teacherPackages && teacherPackages[studentName];
+  const yuzde = (pkg && pkg.ayarlar && pkg.ayarlar.olcutYuzde) ? +pkg.ayarlar.olcutYuzde : (+$("#tOlcutYuzde").value || 80);
+  const oturum = (pkg && pkg.ayarlar && pkg.ayarlar.olcutOturum) ? +pkg.ayarlar.olcutOturum : (+$("#tOlcutOturum").value || 3);
+  return { yuzde, oturum };
+}
+
+function renderCriterionAndGagBanners(rows) {
+  const critEl = $("#criterionBanner");
+  const gagEl = $("#gagBanner");
+  if (!selectedResultStudent || !rows.length) {
+    critEl.classList.add("hidden");
+    gagEl.classList.add("hidden");
+    return;
+  }
+  const { yuzde, oturum } = getStudentCriterion(selectedResultStudent);
+  const chronological = rows.slice().reverse();
+  const lastPhase = chronological[chronological.length - 1].evre;
+  const phaseSessions = chronological.filter(r => r.evre === lastPhase);
+  const recent = phaseSessions.slice(-oturum);
+  const met = recent.length >= oturum && recent.every(r => summary(r).pct >= yuzde);
+
+  critEl.classList.remove("hidden", "met", "wait");
+  critEl.classList.add(met ? "met" : "wait");
+  critEl.innerHTML = met
+    ? `<span><b>✓ Ölçüt Karşılandı (${esc(EVRE[lastPhase] || lastPhase)}):</b> Öğrenci son ${oturum} ardışık oturumda <b>%${yuzde}</b> ve üzeri başarı gösterdi. Bir sonraki evreye geçebilirsiniz.</span>`
+    : `<span><b>Ölçüt Takibi (${esc(EVRE[lastPhase] || lastPhase)}):</b> Hedef ardışık ${oturum} oturumda en az <b>%${yuzde}</b> başarı (${phaseSessions.length} oturum tamamlandı).</span>`;
+
+  // GAG Genel Özeti
+  let totalGagScored = 0, totalGagAgree = 0;
+  rows.forEach(r => {
+    r.sorular.forEach(q => {
+      const s1 = scoreOf(r, q), s2 = gagScoreOf(r, q);
+      if (s1 != null && s2 !== undefined) {
+        totalGagScored++;
+        if (s1 === s2) totalGagAgree++;
+      }
+    });
+  });
+  if (gagModeActive || totalGagScored > 0) {
+    const overallGag = totalGagScored ? Math.round(totalGagAgree / totalGagScored * 100) : null;
+    gagEl.classList.remove("hidden");
+    gagEl.innerHTML = `<span><b>Gözlemciler Arası Güvenirlik (GAG / IOA):</b> ${overallGag != null ? `%${overallGag} (${totalGagAgree}/${totalGagScored} soru görüş birliği)` : "Henüz 2. gözlemci puanlaması yapılmadı"}</span>
+      <span style="font-size:13px">Formül: Görüş Birliği / (Görüş Birliği + Görüş Ayrılığı) × 100</span>`;
+  } else {
+    gagEl.classList.add("hidden");
+  }
+}
+
 function renderResults() {
   const body = $("#rBody");
   const rows = filtered().slice().reverse();
+  renderCriterionAndGagBanners(rows);
   if (!rows.length) {
     body.innerHTML = `<div class="empty">${selectedResultStudent ? `${esc(selectedResultStudent)} için henüz tamamlanmış oturum sonucu yok.` : "Henüz sonuç yok."}</div>`;
     return;
@@ -1771,10 +2069,15 @@ function renderResults() {
   body.innerHTML = rows.map(r => {
     const s = summary(r);
     const open = openRow === r.id;
+    const errHtml = showErrorAnalysis ? `<div class="err-breakdown">
+      <b>Hata Analizi (Toplam ${s.errSum.toplam} Hata):</b>
+      Sıralama/Kavram: <b>${s.errSum.siralama}</b> · Sürükleme/Motor: <b>${s.errSum.surukleme}</b> · Yazım/Sembol: <b>${s.errSum.sembol}</b> · Süre Aşımı: <b>${s.errSum.sure}</b>
+    </div>` : "";
     return `<div class="row res-row ${open ? "open" : ""}" onclick="toggleRow('${esc(r.id)}')">
       <div class="k">
-        <div class="who">${esc(r.ogrenci)} <span class="cap ${r.mod === "yoklama" ? "y" : "u"}">${r.mod === "yoklama" ? "Yoklama" : "Uygulama"}</span>${s.unscored ? ` <span class="cap warn">${s.unscored} puansız</span>` : ""}</div>
-        <div class="sub">${fmtDate(r.tarih)} · ${esc(EVRE[r.evre] || r.evre)} · Kod ${esc(r.kod)} · Ort. ${s.avg.toFixed(1)} sn</div>
+        <div class="who">${esc(r.ogrenci)} <span class="cap ${r.mod === "yoklama" ? "y" : "u"}">${r.mod === "yoklama" ? "Yoklama" : "Uygulama"}</span>${s.unscored ? ` <span class="cap warn">${s.unscored} puansız</span>` : ""}${s.gagPct != null ? ` <span class="cap gag">GAG %${s.gagPct}</span>` : ""}</div>
+        <div class="sub">${fmtDate(r.tarih)} · ${esc(EVRE[r.evre] || r.evre)} · Kod ${esc(r.kod)} · Ort. Süre ${s.avg.toFixed(1)} sn · Ort. İlk Tepki ${s.avgLat.toFixed(1)} sn</div>
+        ${errHtml}
       </div>
       <div class="score"><b>%${s.pct}</b><div>${s.d}/${s.n} doğru</div></div>
       <span class="chev"><svg class="i"><use href="#i-chev"/></svg></span>
@@ -1786,36 +2089,62 @@ function toggleRow(id) { openRow = openRow === id ? null : id; renderResults(); 
 function detailHTML(r) {
   return `<div class="detail">${r.sorular.map(q => {
     const sc = scoreOf(r, q);
+    const gsc = gagScoreOf(r, q);
     const edited = FIX[r.id] && FIX[r.id][q.no] !== undefined && FIX[r.id][q.no] !== q.dogru;
     const reads = (q.okunanlar && q.okunanlar.length > 1) ? q.okunanlar.map(x => x || "∅").join(" → ") : (q.okunan || "∅");
+    const ed = q.hataDetay || { siralama: 0, surukleme: 0, sembol: 0, sure: 0 };
+    const lat = q.ilkTepki != null ? (+q.ilkTepki).toFixed(1) : (+q.sure).toFixed(1);
     return `<div class="qcard" onclick="event.stopPropagation()">
       ${q.resim ? `<img src="${q.resim}" alt="Öğrencinin yazdığı cevap">` : `<div class="noimg">Görüntü yok</div>`}
       <div class="op">${q.num1} ${opSym(q.op)} ${q.num2} = ${q.beklenen}</div>
-      <div class="m">Okunan: <b>${esc(reads)}</b> · ${q.deneme} deneme<br>${(+q.sure).toFixed(1)} sn${q.sureAsimi ? " (aşıldı)" : ""} · ${q.hata} hata</div>
+      <div class="m">Okunan: <b>${esc(reads)}</b> · ${q.deneme} deneme<br>Süre: ${(+q.sure).toFixed(1)} sn · İlk Tepki: ${lat} sn<br>Toplam Hata: <b>${q.hata}</b>${q.ipucuSayisi ? ` · İpucu: ${q.ipucuSayisi}` : ""}</div>
+      ${showErrorAnalysis ? `<div class="err-breakdown">Sıralama: ${ed.siralama || 0} · Sürükleme: ${ed.surukleme || 0}<br>Sembol: ${ed.sembol || 0} · Süre: ${ed.sure || 0}</div>` : ""}
+      <div style="font-size:11px;color:var(--label2);margin-top:6px">1. Gözlemci (Asıl Puan):</div>
       <div class="seg wide verdict">
-        <button class="ok ${sc === true ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},true)">Doğru</button>
-        <button class="no ${sc === false ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},false)">Yanlış</button>
-      </div>${edited ? '<span class="edited">Öğretmen düzeltti</span>' : ""}${sc == null ? '<span class="edited">Puanlanmadı</span>' : ""}
+        <button class="ok ${sc === true ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},true,1)">Doğru</button>
+        <button class="no ${sc === false ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},false,1)">Yanlış</button>
+      </div>
+      ${gagModeActive ? `
+      <div style="font-size:11px;color:var(--purple);margin-top:8px;font-weight:600">2. Gözlemci (GAG Puanı):</div>
+      <div class="seg wide verdict">
+        <button class="ok ${gsc === true ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},true,2)">Doğru</button>
+        <button class="no ${gsc === false ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},false,2)">Yanlış</button>
+      </div>` : ""}
+      ${edited ? '<span class="edited">Öğretmen düzeltti</span>' : ""}${sc == null ? '<span class="edited">Puanlanmadı</span>' : ""}
     </div>`;
   }).join("")}</div>`;
 }
-function setFix(id, no, val) {
-  FIX[id] = FIX[id] || {};
-  FIX[id][no] = val;
-  store.set("sayiizi_duzeltmeler", FIX);
-  post({ islemTipi: "sonuc_duzeltme", sonucId: id, soruNo: no, dogru: val, ogretmenAdi: teacherName, tarih: new Date().toISOString() });
+
+function setFix(id, no, val, observer) {
+  if (observer === 2) {
+    GAG_FIX[id] = GAG_FIX[id] || {};
+    GAG_FIX[id][no] = val;
+    store.set("sayiizi_gag_puanlar", GAG_FIX);
+  } else {
+    FIX[id] = FIX[id] || {};
+    FIX[id][no] = val;
+    store.set("sayiizi_duzeltmeler", FIX);
+  }
+  post({ islemTipi: "sonuc_duzeltme", sonucId: id, soruNo: no, dogru: val, ogretmenAdi: teacherName, gozlemci: String(observer || 1), tarih: new Date().toISOString() });
   renderResults();
   renderChart();
 }
 
 function exportCSV() {
-  const head = ["Tarih", "Öğretmen", "Öğrenci", "Kod", "Tür", "Evre", "Soru No", "İşlem", "Beklenen", "Okunan", "Doğru", "Öğretmen düzeltti", "Deneme", "Hata", "Süre (sn)", "Süre aşımı"];
+  const head = ["Tarih", "Öğretmen", "Öğrenci", "Kod", "Tür", "Evre", "Soru No", "İşlem", "Beklenen", "Okunan", "Doğru (1.Gözlemci)", "2.Gözlemci (GAG)", "Deneme", "Toplam Hata", "Sıralama Hatası", "Sürükleme Hatası", "Sembol Hatası", "Süre Hatası", "İlk Tepki Süresi (sn)", "Çözüm Süresi (sn)", "İpucu Sayısı"];
   const lines = [head];
   filtered().forEach(r => r.sorular.forEach(q => {
-    const sc = scoreOf(r, q);
-    lines.push([fmtDate(r.tarih), r.ogretmen, r.ogrenci, r.kod, r.mod, EVRE[r.evre] || r.evre, q.no, `${q.num1}${q.op}${q.num2}`, q.beklenen,
-      (q.okunanlar && q.okunanlar.length ? q.okunanlar.join("/") : q.okunan) || "", sc === true ? 1 : sc === false ? 0 : "",
-      (FIX[r.id] && FIX[r.id][q.no] !== undefined && FIX[r.id][q.no] !== q.dogru) ? "evet" : "", q.deneme, q.hata, String(q.sure).replace(".", ","), q.sureAsimi ? "evet" : ""]);
+    const sc = scoreOf(r, q), gsc = gagScoreOf(r, q);
+    const ed = q.hataDetay || {};
+    const lat = q.ilkTepki != null ? q.ilkTepki : q.sure;
+    lines.push([
+      fmtDate(r.tarih), r.ogretmen, r.ogrenci, r.kod, r.mod, EVRE[r.evre] || r.evre, q.no, `${q.num1}${q.op}${q.num2}`, q.beklenen,
+      (q.okunanlar && q.okunanlar.length ? q.okunanlar.join("/") : q.okunan) || "",
+      sc === true ? 1 : sc === false ? 0 : "",
+      gsc === true ? 1 : gsc === false ? 0 : "",
+      q.deneme, q.hata, ed.siralama || 0, ed.surukleme || 0, ed.sembol || 0, ed.sure || 0,
+      String(lat).replace(".", ","), String(q.sure).replace(".", ","), q.ipucuSayisi || 0
+    ]);
   }));
   const csv = "\uFEFF" + lines.map(l => l.map(v => `"${String(v).replace(/"/g, '""')}"`).join(";")).join("\r\n");
   download(new Blob([csv], { type: "text/csv;charset=utf-8" }), `sayi-izi-sonuclar-${selectedResultStudent || "tum"}-${new Date().toISOString().slice(0, 10)}.csv`);
@@ -1831,20 +2160,29 @@ function cssVar(n) { return getComputedStyle(document.documentElement).getProper
 
 function renderChart() {
   const box = $("#chartBox");
+  const latWrap = $("#latencyChartWrap");
+  const latBox = $("#latencyChartBox");
+  const showLatency = $("#showLatencyChk") && $("#showLatencyChk").checked;
   const name = selectedResultStudent;
   const ty = $("#rType").value;
   $("#chartStudentTitle").innerText = name || "Öğrenci Seçilmedi";
   const data = RESULTS.filter(r => r.ogrenci === name && (!ty || r.mod === ty));
-  const C = { text: cssVar("--text"), muted: cssVar("--muted"), faint: cssVar("--faint"), line: cssVar("--line"), surface: cssVar("--surface"), blue: cssVar("--blue") };
+  const C = { text: cssVar("--text"), muted: cssVar("--muted"), faint: cssVar("--faint"), line: cssVar("--line"), surface: cssVar("--surface"), blue: cssVar("--blue"), green: cssVar("--green"), orange: cssVar("--orange") };
 
+  const { yuzde: critPct } = getStudentCriterion(name);
   const types = Array.from(new Set(data.map(r => r.mod)));
   $("#gLegend").innerHTML = types.map(t => t === "yoklama"
     ? `<span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="${C.blue}"/></svg>Yoklama</span>`
-    : `<span><svg width="14" height="14"><rect x="2" y="2" width="10" height="10" rx="1.5" fill="${C.surface}" stroke="${C.blue}" stroke-width="2"/></svg>Uygulama</span>`).join("");
+    : `<span><svg width="14" height="14"><rect x="2" y="2" width="10" height="10" rx="1.5" fill="${C.surface}" stroke="${C.blue}" stroke-width="2"/></svg>Uygulama</span>`).join("") +
+    `<span><svg width="18" height="10"><line x1="0" x2="18" y1="5" y2="5" stroke="${C.green}" stroke-width="2" stroke-dasharray="4 3"/></svg>Hedef Ölçüt (%${critPct})</span>`;
 
-  if (!name || !data.length) { box.innerHTML = `<div class="empty">${name ? "Bu öğrenci için grafik çizilecek oturum verisi yok." : "Henüz sonuç yok."}</div>`; return; }
+  if (!name || !data.length) {
+    box.innerHTML = `<div class="empty">${name ? "Bu öğrenci için grafik çizilecek oturum verisi yok." : "Henüz sonuç yok."}</div>`;
+    latWrap.classList.add("hidden");
+    return;
+  }
 
-  const W = 820, H = 380, L = 56, R = 20, T = 40, B = 48;
+  const W = 820, H = 360, L = 56, R = 20, T = 40, B = 48;
   const iw = W - L - R, ih = H - T - B;
   const n = data.length;
   const step = iw / Math.max(n, 1);
@@ -1857,6 +2195,8 @@ function renderChart() {
     g += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${C.line}" stroke-width="1"/>`;
     g += `<text x="${L - 10}" y="${Y(v) + 4}" text-anchor="end" font-size="12" fill="${C.muted}">${v}</text>`;
   });
+  // Ölçüt çizgisi
+  g += `<line x1="${L}" x2="${W - R}" y1="${Y(critPct)}" y2="${Y(critPct)}" stroke="${C.green}" stroke-width="1.5" stroke-dasharray="5 4"/>`;
   g += `<text transform="translate(16 ${T + ih / 2}) rotate(-90)" text-anchor="middle" font-size="12" font-weight="600" fill="${C.muted}">Doğru yüzdesi (%)</text>`;
   const every = Math.ceil(n / 20);
   pts.forEach(p => { if (p.i % every === 0 || p.i === n - 1) g += `<text x="${p.x}" y="${T + ih + 20}" text-anchor="middle" font-size="12" fill="${C.muted}">${p.i + 1}</text>`; });
@@ -1880,7 +2220,7 @@ function renderChart() {
     g += `<circle class="hit" data-i="${p.i}" cx="${p.x}" cy="${p.y}" r="16" fill="transparent"/>`;
   });
 
-  box.innerHTML = `<svg id="chartSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,sans-serif" role="img" aria-label="${esc(name)} için oturumlara göre doğru yüzdesi">
+  box.innerHTML = `<svg id="chartSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,sans-serif" role="img">
     <rect width="${W}" height="${H}" fill="${C.surface}"/>${g}</svg><div class="tip" id="tip"></div>`;
 
   const tip = $("#tip");
@@ -1888,7 +2228,7 @@ function renderChart() {
     const show = () => {
       const p = pts[+c.dataset.i];
       const sv = $("#chartSvg").getBoundingClientRect(), bx = box.getBoundingClientRect();
-      tip.innerHTML = `<b>%${p.pct}</b> · ${p.d}/${p.n} doğru<br>Oturum ${p.i + 1} · ${p.r.mod === "yoklama" ? "Yoklama" : "Uygulama"} · ${esc(EVRE[p.r.evre] || p.r.evre)}<br><span style="color:${C.muted}">${fmtDate(p.r.tarih)} · kod ${esc(p.r.kod)}</span>`;
+      tip.innerHTML = `<b>%${p.pct}</b> · ${p.d}/${p.n} doğru<br>Oturum ${p.i + 1} · ${p.r.mod === "yoklama" ? "Yoklama" : "Uygulama"} · ${esc(EVRE[p.r.evre] || p.r.evre)}<br>Ort. İlk Tepki: ${p.avgLat.toFixed(1)} sn · Ort. Süre: ${p.avg.toFixed(1)} sn`;
       tip.style.left = (sv.left - bx.left + p.x / W * sv.width) + "px";
       tip.style.top = (sv.top - bx.top + p.y / H * sv.height) + "px";
       tip.style.opacity = 1;
@@ -1897,7 +2237,42 @@ function renderChart() {
     c.addEventListener("pointerdown", show);
     c.addEventListener("pointerleave", () => tip.style.opacity = 0);
   });
+
+  // 2. ÖZELLİK: İsteğe Bağlı Tepki Bekleme Süresi (Latency) Grafiği
+  if (!showLatency) {
+    latWrap.classList.add("hidden");
+    return;
+  }
+  latWrap.classList.remove("hidden");
+  const maxLat = Math.max(5, Math.ceil(Math.max(...pts.map(p => p.avgLat)) * 1.2));
+  const LH = 260, LT = 32, LB = 42, lih = LH - LT - LB;
+  const YL = v => LT + lih - (Math.min(v, maxLat) / maxLat) * lih;
+  let lg = "";
+  [0, 0.25, 0.5, 0.75, 1].forEach(f => {
+    const v = +(maxLat * f).toFixed(1);
+    lg += `<line x1="${L}" x2="${W - R}" y1="${YL(v)}" y2="${YL(v)}" stroke="${C.line}" stroke-width="1"/>`;
+    lg += `<text x="${L - 10}" y="${YL(v) + 4}" text-anchor="end" font-size="12" fill="${C.muted}">${v}</text>`;
+  });
+  lg += `<text transform="translate(16 ${LT + lih / 2}) rotate(-90)" text-anchor="middle" font-size="12" font-weight="600" fill="${C.muted}">İlk Tepki (sn)</text>`;
+  pts.forEach(p => { if (p.i % every === 0 || p.i === n - 1) lg += `<text x="${p.x}" y="${LT + lih + 20}" text-anchor="middle" font-size="12" fill="${C.muted}">${p.i + 1}</text>`; });
+  runs.forEach((run, k) => {
+    const x0 = run.pts[0].x - step / 2, x1 = run.pts[run.pts.length - 1].x + step / 2;
+    lg += `<text x="${(x0 + x1) / 2}" y="${LT - 10}" text-anchor="middle" font-size="12" font-weight="700" fill="${C.text}">${esc(EVRE[run.evre] || run.evre)}</text>`;
+    if (k > 0) lg += `<line x1="${x0}" x2="${x0}" y1="${LT - 4}" y2="${LT + lih}" stroke="${C.faint}" stroke-width="1.5" stroke-dasharray="6 5"/>`;
+    ["yoklama", "uygulama"].forEach(t => {
+      const seg = run.pts.filter(p => p.r.mod === t);
+      if (seg.length > 1) lg += `<polyline points="${seg.map(p => `${p.x},${YL(p.avgLat)}`).join(" ")}" fill="none" stroke="${C.orange}" stroke-width="2" stroke-linejoin="round"/>`;
+    });
+  });
+  pts.forEach(p => {
+    const ly = YL(p.avgLat);
+    lg += `<circle cx="${p.x}" cy="${ly}" r="5" fill="${C.orange}" stroke="${C.surface}" stroke-width="2"/>`;
+    lg += `<text x="${p.x}" y="${ly - 9}" text-anchor="middle" font-size="11" font-weight="600" fill="${C.text}">${p.avgLat.toFixed(1)}</text>`;
+  });
+  latBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${LH}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,sans-serif">
+    <rect width="${W}" height="${LH}" fill="${C.surface}"/>${lg}</svg>`;
 }
+
 function downloadChart() {
   const svg = $("#chartSvg");
   if (!svg) return;
