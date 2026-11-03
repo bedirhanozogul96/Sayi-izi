@@ -22,6 +22,7 @@
   --round:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 [data-theme="dark"]{
+  color-scheme:dark;
   --bg:#000000; --cell:#1C1C1E; --cell2:#2C2C2E;
   --label:#FFFFFF; --label2:rgba(235,235,245,.6); --label3:rgba(235,235,245,.3);
   --sep:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill3:rgba(118,118,128,.24);
@@ -80,6 +81,7 @@ svg.i{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-widt
   background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath d='M2.5 6 6 2.5 9.5 6M2.5 10 6 13.5 9.5 10' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath d='M2.5 6 6 2.5 9.5 6M2.5 10 6 13.5 9.5 10' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
 .menu select:disabled{cursor:default}
+select option{background:var(--cell);color:var(--label)}
 .switch{appearance:none;-webkit-appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;transition:background .25s;flex:none;margin:0;cursor:pointer}
 .switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 3px 1px rgba(0,0,0,.06);transition:transform .25s cubic-bezier(.3,.7,.4,1)}
 .switch:checked{background:var(--green)}.switch:checked::after{transform:translateX(20px)}
@@ -145,8 +147,7 @@ svg.i{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-widt
 .numbox{display:flex;flex-direction:column;align-items:center;gap:8px}
 .numbox .val{font-family:var(--round);font-size:44px;font-weight:700;line-height:52px;height:52px;width:72px;text-align:center;border:none;background:none;outline:none;padding:0;color:var(--label);-moz-appearance:textfield}
 .numbox .val::-webkit-outer-spin-button,.numbox .val::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.opseg{margin-top:10px}
-.opseg button{width:40px;padding:0;font-size:20px;font-weight:600;height:32px}
+.opsign{font-family:var(--round);font-size:44px;font-weight:700;color:var(--blue);line-height:52px;min-width:30px;text-align:center}
 .eqsign{font-family:var(--round);font-size:40px;font-weight:600;color:var(--label2);line-height:52px}
 .ans{font-family:var(--round);font-size:44px;font-weight:700;min-width:56px;text-align:center;color:var(--green);line-height:52px}
 .ans.bad{color:var(--red)}
@@ -418,10 +419,13 @@ svg.i{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-widt
         <div>
           <div class="group-title">Yeni soru</div>
           <div class="group">
+            <div class="row" style="padding:12px 12px 0">
+              <div class="seg wide big" id="opSeg" style="flex:1"><button data-op="+" class="on">Toplama  +</button><button data-op="-">Çıkarma  −</button></div>
+            </div>
             <div class="builder">
               <div class="numbox"><input type="number" class="val" id="tN1" value="4" min="1" max="10">
                 <div class="stepper"><button onclick="stepNum('#tN1',-1,1,10)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepNum('#tN1',1,1,10)" aria-label="Artır">+</button></div></div>
-              <div class="seg opseg" id="opSeg"><button data-op="+" class="on">+</button><button data-op="-">−</button></div>
+              <span class="opsign" id="opSign">+</span>
               <input type="hidden" id="tOp" value="+">
               <div class="numbox"><input type="number" class="val" id="tN2" value="3" min="1" max="10">
                 <div class="stepper"><button onclick="stepNum('#tN2',-1,1,10)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepNum('#tN2',1,1,10)" aria-label="Artır">+</button></div></div>
@@ -725,6 +729,7 @@ $$("#opSeg button").forEach(b => b.addEventListener("click", () => setOp(b.datas
 function setOp(op) {
   $("#tOp").value = op;
   $$("#opSeg button").forEach(x => x.classList.toggle("on", x.dataset.op === op));
+  $("#opSign").innerText = op === "-" ? "−" : "+";
   calcAnswer();
 }
 function stepNum(sel, d, min, max) {
