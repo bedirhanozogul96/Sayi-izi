@@ -85,7 +85,7 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 380px;
+            max-width: 400px;
             transition: background 0.3s;
         }
 
@@ -125,7 +125,7 @@
         }
         [data-theme="dark"] .role-btn.active { background-color: #3A3A3C; color: #fff; }
         
-        .apple-input { 
+        .apple-input, .apple-select { 
             width: 100%;
             padding: 14px 16px; 
             font-size: 17px; 
@@ -138,7 +138,7 @@
             box-sizing: border-box;
             outline: none;
         }
-        .apple-input:focus { border-color: var(--apple-blue); }
+        .apple-input:focus, .apple-select:focus { border-color: var(--apple-blue); }
 
         .apple-btn { 
             width: 100%;
@@ -297,22 +297,11 @@
 
         .shape[data-val="1"] { background: #FF3B30; border-radius: 50%; } 
         .shape[data-val="2"] { background: #FF9500; border-radius: 50% 0 50% 0; } 
-        
-        /* 3 Numaralı Şekil Görünürlük Düzeltmesi (Sabitlendi) */
         .shape[data-val="3"] { 
-            background: #FFCC00 !important; 
-            width: 60px !important; 
-            height: 60px !important; 
-            clip-path: polygon(50% 0%, 0% 100%, 100% 100%) !important; 
-            color: #1D1D1F !important; 
-            border: none !important;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 8px;
-            box-sizing: border-box;
+            background: #FFCC00 !important; width: 60px !important; height: 60px !important; 
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%) !important; color: #1D1D1F !important; 
+            border: none !important; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 8px; box-sizing: border-box;
         }
-
         .shape[data-val="4"] { background: #34C759; border-radius: 12px; } 
         .shape[data-val="5"] { background: #30B0C7; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); } 
         .shape[data-val="6"] { background: #007AFF; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); } 
@@ -363,13 +352,23 @@
                 <button id="btnOgretmen" class="role-btn" onclick="switchRole('ogretmen')">Öğretmen Girişi</button>
             </div>
 
+            <!-- Öğrenci Giriş Formu -->
             <div id="studentForm" style="width:100%;">
                 <input type="text" id="ogrenciAdiInput" class="apple-input" placeholder="Öğrenci Adı...">
                 <input type="text" id="oturumKoduInput" class="apple-input" placeholder="6 Haneli Oturum Kodu..." maxlength="6">
+                <select id="ogrenciCalismaTuru" class="apple-select">
+                    <option value="yoklama">📝 Yoklama Modu (Sistematik/Sıralı)</option>
+                    <option value="uygulama">🎮 Uygulama Modu (Karışık/Dinamik)</option>
+                </select>
             </div>
 
+            <!-- Öğretmen Giriş Formu -->
             <div id="teacherForm" style="width:100%; display:none;">
                 <input type="text" id="ogretmenAdiInput" class="apple-input" placeholder="Öğretmen Adı...">
+                <select id="ogretmenCalismaTuru" class="apple-select">
+                    <option value="yoklama">📝 Yoklama Oturumu (Sistematik/Sıralı)</option>
+                    <option value="uygulama">🎮 Uygulama Oturumu (Karışık/Dinamik)</option>
+                </select>
             </div>
 
             <button id="baslaBtn" class="apple-btn" onclick="sistemeGirisYap()">Devam Et</button>
@@ -429,7 +428,7 @@
     <div id="studentPanel">
         <div class="header">
             <button class="mode-btn active" onclick="setMode('serbest', event)">Serbest Mod</button>
-            <button class="mode-btn" onclick="setMode('oturum_sorulari', event)">Öğretmen Oturumu</button>
+            <button class="mode-btn" onclick="setMode('oturum_sorulari', event)" id="studentModeBtn">Öğretmen Oturumu</button>
         </div>
 
         <div id="timerDisplay">
@@ -461,6 +460,8 @@
     let aktifOgrenciAdi = "";
     let aktifOgretmenAdi = "";
     let girilenOturumKodu = "";
+    let ogrenciSecilenMod = "yoklama"; // yoklama veya uygulama
+    let oturumKayitliMod = "yoklama";
 
     let sessionQuestionsQueue = [];
     let activeSessionIndex = 0;
@@ -512,6 +513,7 @@
         if(aktifRol === 'ogrenci') {
             const ogrc = document.getElementById("ogrenciAdiInput").value.trim();
             const kod = document.getElementById("oturumKoduInput").value.trim();
+            ogrenciSecilenMod = document.getElementById("ogrenciCalismaTuru").value;
 
             if(ogrc === "" || kod.length !== 6) {
                 alert("Lütfen öğrenci adını ve 6 haneli oturum kodunu eksiksiz girin!");
@@ -542,9 +544,11 @@
                 return;
             }
             aktifOgretmenAdi = ogrt;
+            oturumKayitliMod = document.getElementById("ogretmenCalismaTuru").value;
+
             document.getElementById("loginOverlay").style.display = "none";
             document.getElementById("matchInfoBar").style.display = "block";
-            document.getElementById("matchInfoBar").innerText = `Öğretmen: ${aktifOgretmenAdi}`;
+            document.getElementById("matchInfoBar").innerText = `Öğretmen: ${aktifOgretmenAdi} (${oturumKayitliMod === 'yoklama' ? 'Yoklama Modu' : 'Uygulama Modu'})`;
             
             document.getElementById("teacherPanel").style.display = "block";
             document.getElementById("studentPanel").style.display = "none";
@@ -554,8 +558,10 @@
 
     function fallbackLocalOturum(kod) {
         const localData = localStorage.getItem("oturum_kod_" + kod);
+        const localMeta = localStorage.getItem("oturum_meta_" + kod);
         if(localData) {
             sessionQuestionsQueue = JSON.parse(localData);
+            if(localMeta) oturumKayitliMod = localMeta;
             basariliGirisUI();
         } else {
             alert("Bu kodla eşleşen oturum bulunamadı!");
@@ -565,9 +571,18 @@
     function basariliGirisUI() {
         document.getElementById("loginOverlay").style.display = "none";
         document.getElementById("matchInfoBar").style.display = "block";
-        document.getElementById("matchInfoBar").innerText = `Öğrenci: ${aktifOgrenciAdi} | Oturum Kodu: ${girilenOturumKodu}`;
+        document.getElementById("matchInfoBar").innerText = `Öğrenci: ${aktifOgrenciAdi} | Oturum: ${girilenOturumKodu} (${ogrenciSecilenMod === 'yoklama' ? 'Yoklama' : 'Uygulama'})`;
         document.getElementById("teacherPanel").style.display = "none";
         document.getElementById("studentPanel").style.display = "flex";
+        
+        // Buton metnini seçilen moda göre güncelle
+        document.getElementById("studentModeBtn").innerText = ogrenciSecilenMod === 'yoklama' ? "📝 Yoklama Oturumu" : "🎮 Uygulama Oturumu";
+
+        // Eğer öğrenci uygulama (karışık) seçtiyse soruları karıştır
+        if(ogrenciSecilenMod === 'uygulama') {
+            sessionQuestionsQueue.sort(() => Math.random() - 0.5);
+        }
+
         initStudentApp();
     }
 
@@ -680,6 +695,7 @@
         veriDegistiMi = false;
 
         localStorage.setItem("oturum_kod_" + mevcutKod, JSON.stringify(sessionQuestionsQueue));
+        localStorage.setItem("oturum_meta_" + mevcutKod, oturumKayitliMod);
 
         fetch(GOOGLE_SCRIPT_URL, {
             method: "POST",
@@ -689,6 +705,7 @@
                 islemTipi: "oturum_olusturma",
                 ogretmenAdi: aktifOgretmenAdi,
                 oturumKodu: mevcutKod,
+                calismaTuru: oturumKayitliMod,
                 toplamSoruSayisi: sessionQuestionsQueue.length,
                 detay: JSON.stringify(sessionQuestionsQueue)
             })
@@ -783,7 +800,6 @@
         warning.innerText = "";
         let activeOp = (currentMode === 'cikarma' || (currentMode === 'oturum_sorulari' && currentQ.op === '-')) ? '-' : '+';
 
-        // Serbest modda veya yeni eklemede 2 sayı doldurulmuşsa 3. sayfa hamlesinde ekranı sıfırla yenisini başlat
         if (currentMode === 'serbest' && placedNumbers >= 2) {
             resetBoard();
         }
@@ -800,7 +816,6 @@
         animateTrail(val, activeOp);
     }
 
-    // Animasyonlu Akış (Adım Adım İz Bırakma)
     function animateTrail(val, activeOp) {
         let step = 0;
         let direction = (activeOp === '-' && placedNumbers === 1) ? -1 : 1;
@@ -850,7 +865,7 @@
 
     function checkCompletion() {
         if (currentMode !== 'serbest' && placedNumbers < 2) {
-            return; // Sorulardayken mutlaka 2 sayı da yerleştirilene kadar cevaplama alanına izin verme
+            return;
         }
 
         if (currentMode !== 'serbest' && placedNumbers === 2) {
@@ -919,7 +934,7 @@
         }
 
         resetBoard();
-        buildShapes(); // Sorular arası şekilleri yenile
+        buildShapes();
         baslangicZamani = new Date().getTime();
         hataSayisi = 0;
         clearCanvas();
@@ -930,8 +945,9 @@
                 activeSessionIndex++;
                 currentQ = { num1: q.num1, num2: q.num2, op: q.op };
                 zamanSiniri = q.sureSiniri || 20;
-                document.getElementById('questionDisplay').innerText = `Oturum Soru (${activeSessionIndex}/${sessionQuestionsQueue.length}): ${currentQ.num1} ${currentQ.op} ${currentQ.num2} = ?`;
-                buildShapes([currentQ.num1, currentQ.num2]); // Sadece sorudaki sayıları göster
+                let modEtiketi = ogrenciSecilenMod === 'yoklama' ? 'Yoklama' : 'Uygulama (Karışık)';
+                document.getElementById('questionDisplay').innerText = `[${modEtiketi}] Soru (${activeSessionIndex}/${sessionQuestionsQueue.length}): ${currentQ.num1} ${currentQ.op} ${currentQ.num2} = ?`;
+                buildShapes([currentQ.num1, currentQ.num2]);
                 startTimer();
             } else {
                 document.getElementById('questionDisplay').innerText = "Oturum Tamamlandı! Tebrikler 🎉";
@@ -945,6 +961,7 @@
                         islemTipi: "oturum_sonuc_ozeti",
                         ogrenciAdi: aktifOgrenciAdi,
                         oturumKodu: girilenOturumKodu,
+                        calismaTuru: ogrenciSecilenMod,
                         toplamSoru: sessionResultsSummary.length,
                         detaylar: JSON.stringify(sessionResultsSummary)
                     })
