@@ -1590,11 +1590,6 @@ window.addEventListener("pointercancel", endDrag);
 function tryPlace(val, el) {
   if (!S.q || S.animating || S.placed >= 2) return false;
 
-  // ÖĞRENCİ SAYIYI SAYI DOĞRUSUNA SÜRÜKLEDİĞİ AN GERİ SAYIM BAŞLAR
-  if (!S.timerStarted) {
-    startTimer(S.q.sureSiniri);
-  }
-
   const minus = S.q.op === "-";
   let msg = "";
   if (minus) {
@@ -1645,7 +1640,6 @@ async function animateMove(val, dir, lane) {
   const nl = $("#numline");
   const zones = $$("#numline .zone");
 
-  // Başlangıç noktasında zıplayacak canlı gezgin şekli oluştur
   const hopper = document.createElement("div");
   hopper.className = "sh hero-hopper";
   hopper.dataset.val = val;
@@ -1665,7 +1659,6 @@ async function animateMove(val, dir, lane) {
     const prevPos = start + (s - 1) * dir;
     const currentPos = start + s * dir;
 
-    // Zıplama animasyonu ve kavis çizimi
     hopper.classList.remove("jumping"); void hopper.offsetWidth; hopper.classList.add("jumping");
     setHopperPos(currentPos);
     drawJumpArc(prevPos, currentPos, val, lane);
@@ -1681,6 +1674,17 @@ async function animateMove(val, dir, lane) {
   S.pos = start + val * dir;
   S.placed++;
   S.animating = false;
+  if (S.placed >= 2) {
+    lockAnswer(false);
+    setMsg("Şimdi cevabını yaz ✨", "info");
+    // 2. SAYI SAYI DOĞRUSUNDA SAYILIP BİTTİĞİ AN GERİ SAYIM BAŞLAR
+    if (!S.timerStarted && S.q) {
+      startTimer(S.q.sureSiniri);
+    }
+  } else {
+    schedulePromptHint();
+  }
+}
   if (S.placed >= 2) {
     lockAnswer(false);
     setMsg("Şimdi cevabını yaz ✨", "info");
