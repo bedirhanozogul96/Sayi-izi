@@ -186,18 +186,54 @@
         #assignedQuestionsList { border-top: 1px solid var(--apple-light-gray); padding-top: 16px; }
         .assigned-item { display: flex; justify-content: space-between; padding: 10px 14px; background: var(--apple-bg); border-radius: 10px; margin-bottom: 8px; font-weight: 600; }
 
-        /* 6 Haneli Kod Gösterge Kutusu */
+        /* 6 Haneli Kod Gösterge Kutusu (Kopyalanabilir) */
         #codeDisplayBox {
             display: none;
             margin-top: 20px;
             padding: 20px;
-            background: rgba(0, 122, 255, 0.1);
+            background: rgba(0, 122, 255, 0.08);
             border: 2px dashed var(--apple-blue);
             border-radius: 16px;
             text-align: center;
         }
-        #codeDisplayBox h3 { margin: 0 0 10px 0; color: var(--apple-blue); font-size: 18px; }
-        #generatedCodeText { font-size: 36px; font-weight: 800; letter-spacing: 4px; color: var(--apple-text); }
+        #codeDisplayBox h3 { margin: 0 0 8px 0; color: var(--apple-blue); font-size: 17px; }
+        
+        .code-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 10px 0;
+        }
+
+        #generatedCodeText { 
+            font-size: 34px; 
+            font-weight: 800; 
+            letter-spacing: 3px; 
+            color: var(--apple-text); 
+            background: var(--apple-white);
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--apple-light-gray);
+            cursor: pointer;
+        }
+
+        .copy-btn {
+            padding: 12px 18px;
+            background: var(--apple-blue);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .copy-btn:active { opacity: 0.7; }
+
+        #switchToStudentBtn {
+            margin-top: 14px;
+            background: var(--apple-green);
+        }
 
         /* ÖĞRENCİ ARAYÜZÜ */
         #studentPanel {
@@ -279,7 +315,7 @@
 </head>
 <body>
 
-    <!-- GİRİŞ EKRANI (DİNAMİK FORM) -->
+    <!-- GİRİŞ EKRANI -->
     <div id="loginOverlay">
         <div class="login-box">
             <h1>Sayı İzi</h1>
@@ -289,13 +325,11 @@
                 <button id="btnOgretmen" class="role-btn" onclick="switchRole('ogretmen')">Öğretmen Girişi</button>
             </div>
 
-            <!-- Öğrenci Modu Alanı -->
             <div id="studentForm" style="width:100%;">
                 <input type="text" id="ogrenciAdiInput" class="apple-input" placeholder="Öğrenci Adı...">
                 <input type="text" id="oturumKoduInput" class="apple-input" placeholder="6 Haneli Oturum Kodu..." maxlength="6">
             </div>
 
-            <!-- Öğretmen Modu Alanı -->
             <div id="teacherForm" style="width:100%; display:none;">
                 <input type="text" id="ogretmenAdiInput" class="apple-input" placeholder="Öğretmen Adı...">
             </div>
@@ -306,24 +340,24 @@
 
     <div id="matchInfoBar"></div>
 
-    <!-- ÖĞRETMEN OTURUM PANELİ -->
+    <!-- ÖĞRETMEN PANELİ -->
     <div id="teacherPanel">
         <h2>Oturum ve Soru Seti Oluşturucu</h2>
         
         <div class="question-builder">
-            <input type="number" id="tNum1" class="q-num-input" value="4" min="1" max="10" oninput="autoCalcAnswer()">
-            <select id="tOp" class="q-op-select" onchange="autoCalcAnswer()">
+            <input type="number" id="tNum1" class="q-num-input" value="4" min="1" max="10" oninput="markAsModified(); autoCalcAnswer()">
+            <select id="tOp" class="q-op-select" onchange="markAsModified(); autoCalcAnswer()">
                 <option value="+">+</option>
                 <option value="-">-</option>
             </select>
-            <input type="number" id="tNum2" class="q-num-input" value="3" min="1" max="10" oninput="autoCalcAnswer()">
+            <input type="number" id="tNum2" class="q-num-input" value="3" min="1" max="10" oninput="markAsModified(); autoCalcAnswer()">
             <span style="font-size: 28px; font-weight: bold;">=</span>
             <div class="auto-answer-box" id="tAutoAnswer">7</div>
         </div>
 
         <div class="time-setting-row">
             <span>Soru Süresi:</span>
-            <input type="number" id="tTimeLimit" class="time-inline-input" value="20" min="5" max="300">
+            <input type="number" id="tTimeLimit" class="time-inline-input" value="20" min="5" max="300" oninput="markAsModified()">
             <span>saniye</span>
         </div>
 
@@ -336,11 +370,18 @@
             </button>
         </div>
 
-        <!-- 6 Haneli Üretilen Kod Kutusu -->
+        <!-- 6 Haneli Üretilen Kod Kutusu (Kopyalanabilir) -->
         <div id="codeDisplayBox">
-            <h3>Oturum 6 Haneli Kodu Üretildi!</h3>
-            <div id="generatedCodeText">------</div>
-            <p style="font-size:13px; color:var(--apple-gray); margin:8px 0 0 0;">Bu kodu öğrencilerinize vererek sisteme girmelerini sağlayın.</p>
+            <h3>Oturum 6 Haneli Kodu</h3>
+            <div class="code-row">
+                <div id="generatedCodeText" onclick="koduKopyala()" title="Kopyalamak için tıkla">------</div>
+                <button class="copy-btn" onclick="koduKopyala()">Kopyala</button>
+            </div>
+            <p id="copyFeedback" style="font-size:13px; color:var(--apple-green); margin:4px 0 0 0; font-weight:650; display:none;">Panoya kopyalandı!</p>
+            
+            <button id="switchToStudentBtn" class="apple-btn" onclick="ogrenciGirisnineGec()">
+                Öğrenci Girişine Geç ➔
+            </button>
         </div>
 
         <div id="assignedQuestionsList">
@@ -390,6 +431,9 @@
     let activeSessionIndex = 0;
     let sessionResultsSummary = [];
 
+    let mevcutKod = "";
+    let veriDegistiMi = true; // Soru ekleme/çıkarma veya süre değiştiğinde true olur
+
     let zamanSiniri = 20;
     let kalanZaman = 0;
     let zamanSayaci = null;
@@ -415,6 +459,10 @@
         }
     }
 
+    function markAsModified() {
+        veriDegistiMi = true; // Öğretmen süre veya soru parametrelerini değiştirdi
+    }
+
     function sistemeGirisYap() {
         if(aktifRol === 'ogrenci') {
             const ogrc = document.getElementById("ogrenciAdiInput").value.trim();
@@ -428,37 +476,18 @@
             aktifOgrenciAdi = ogrc;
             girilenOturumKodu = kod;
 
-            // Google'dan 6 haneli kodla oturum sorularını çek
             fetch(`${GOOGLE_SCRIPT_URL}?kod=${kod}`)
                 .then(res => res.json())
                 .then(data => {
                     if(data && data.length > 0) {
                         sessionQuestionsQueue = data;
-                        document.getElementById("loginOverlay").style.display = "none";
-                        document.getElementById("matchInfoBar").style.display = "block";
-                        document.getElementById("matchInfoBar").innerText = `Öğrenci: ${aktifOgrenciAdi} | Oturum Kodu: ${girilenOturumKodu}`;
-                        
-                        document.getElementById("teacherPanel").style.display = "none";
-                        document.getElementById("studentPanel").style.display = "flex";
-                        initStudentApp();
+                        basariliGirisUI();
                     } else {
-                        alert("Bu kodla eşleşen bir oturum bulunamadı! Lütfen kodu kontrol edin.");
+                        fallbackLocalOturum(kod);
                     }
                 })
                 .catch(err => {
-                    // İnternet veya CORS durumunda localStorage fallback
-                    const localData = localStorage.getItem("oturum_kod_" + kod);
-                    if(localData) {
-                        sessionQuestionsQueue = JSON.parse(localData);
-                        document.getElementById("loginOverlay").style.display = "none";
-                        document.getElementById("matchInfoBar").style.display = "block";
-                        document.getElementById("matchInfoBar").innerText = `Öğrenci: ${aktifOgrenciAdi} | Oturum Kodu: ${girilenOturumKodu}`;
-                        document.getElementById("teacherPanel").style.display = "none";
-                        document.getElementById("studentPanel").style.display = "flex";
-                        initStudentApp();
-                    } else {
-                        alert("Oturum yüklenemedi. Lütfen internet bağlantınızı veya kodu kontrol edin.");
-                    }
+                    fallbackLocalOturum(kod);
                 });
 
         } else {
@@ -476,6 +505,44 @@
             document.getElementById("studentPanel").style.display = "none";
             autoCalcAnswer();
         }
+    }
+
+    function fallbackLocalOturum(kod) {
+        const localData = localStorage.getItem("oturum_kod_" + kod);
+        if(localData) {
+            sessionQuestionsQueue = JSON.parse(localData);
+            basariliGirisUI();
+        } else {
+            alert("Bu kodla eşleşen oturum bulunamadı!");
+        }
+    }
+
+    function basariliGirisUI() {
+        document.getElementById("loginOverlay").style.display = "none";
+        document.getElementById("matchInfoBar").style.display = "block";
+        document.getElementById("matchInfoBar").innerText = `Öğrenci: ${aktifOgrenciAdi} | Oturum Kodu: ${girilenOturumKodu}`;
+        document.getElementById("teacherPanel").style.display = "none";
+        document.getElementById("studentPanel").style.display = "flex";
+        initStudentApp();
+    }
+
+    function ogrenciGirisnineGec() {
+        // Öğretmen ekranından çıkıp doğrudan öğrenci giriş paneline geçiş (test kolaylığı için)
+        document.getElementById("teacherPanel").style.display = "none";
+        document.getElementById("loginOverlay").style.display = "flex";
+        switchRole('ogrenci');
+        if(mevcutKod) {
+            document.getElementById("oturumKoduInput").value = mevcutKod;
+        }
+    }
+
+    function koduKopyala() {
+        const codeText = document.getElementById("generatedCodeText").innerText;
+        navigator.clipboard.writeText(codeText).then(() => {
+            const fb = document.getElementById("copyFeedback");
+            fb.style.display = "block";
+            setTimeout(() => fb.style.display = "none", 2000);
+        });
     }
 
     function autoCalcAnswer() {
@@ -512,6 +579,7 @@
         }
 
         sessionQuestionsQueue.push({ num1: n1, num2: n2, op: op, ans: ans, sureSiniri: sure });
+        markAsModified();
         renderSessionList();
     }
 
@@ -533,13 +601,18 @@
             return;
         }
 
-        // 6 haneli rastgele kod üret
-        const rastgeleKod = Math.floor(100000 + Math.random() * 900000).toString();
-        
-        // Tarayıcı hafızasına da yedekle
-        localStorage.setItem("oturum_kod_" + rastgeleKod, JSON.stringify(sessionQuestionsQueue));
+        // Eğer veriler değişmediyse yeni kod üretme, mevcut kodu koru
+        if(!veriDegistiMi && mevcutKod) {
+            document.getElementById('codeDisplayBox').style.display = 'block';
+            return;
+        }
 
-        // Google E-Tabloya gönder
+        // Yeni 6 haneli rastgele kod üret
+        mevcutKod = Math.floor(100000 + Math.random() * 900000).toString();
+        veriDegistiMi = false; // Güncellendi olarak işaretle
+
+        localStorage.setItem("oturum_kod_" + mevcutKod, JSON.stringify(sessionQuestionsQueue));
+
         fetch(GOOGLE_SCRIPT_URL, {
             method: "POST",
             mode: "no-cors",
@@ -547,15 +620,14 @@
             body: JSON.stringify({
                 islemTipi: "oturum_olusturma",
                 ogretmenAdi: aktifOgretmenAdi,
-                oturumKodu: rastgeleKod,
+                oturumKodu: mevcutKod,
                 toplamSoruSayisi: sessionQuestionsQueue.length,
                 detay: JSON.stringify(sessionQuestionsQueue)
             })
         }).catch(err => console.error(err));
 
-        // Ekranda 6 haneli kodu göster
         document.getElementById('codeDisplayBox').style.display = 'block';
-        document.getElementById('generatedCodeText').innerText = rastgeleKod;
+        document.getElementById('generatedCodeText').innerText = mevcutKod;
     }
 
     // --- ÖĞRENCİ OYUN MOTORU ---
