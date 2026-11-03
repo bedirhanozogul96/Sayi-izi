@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sayı İzi</title>
     <style>
-        /* Apple Tasarım Dili & Dinamik Tema Değişkenleri */
         :root {
             --apple-bg: #F2F2F7;
             --apple-white: #FFFFFF;
@@ -46,7 +45,6 @@
             transition: background 0.3s, color 0.3s;
         }
         
-        /* Tema Değiştirme Butonu (Sağ Üst) */
         .theme-toggle-btn {
             position: fixed;
             top: 20px;
@@ -234,104 +232,35 @@
             gap: 10px;
         }
 
-        .item-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .drag-handle {
-            font-size: 18px;
-            color: var(--apple-gray);
-            cursor: grab;
-            font-weight: bold;
-        }
-
-        .order-btns {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .order-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 12px;
-            color: var(--apple-blue);
-            padding: 0;
-        }
+        .item-left { display: flex; align-items: center; gap: 10px; }
+        .drag-handle { font-size: 18px; color: var(--apple-gray); cursor: grab; font-weight: bold; }
+        .order-btns { display: flex; flex-direction: column; gap: 2px; }
+        .order-btn { background: none; border: none; cursor: pointer; font-size: 12px; color: var(--apple-blue); padding: 0; }
         .order-btn:hover { opacity: 0.7; }
 
         .delete-btn {
-            background: rgba(255, 59, 48, 0.15);
-            color: var(--apple-red);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
+            background: rgba(255, 59, 48, 0.15); color: var(--apple-red); border: none; width: 32px; height: 32px;
+            border-radius: 50%; font-weight: bold; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s;
         }
         .delete-btn:hover { background: var(--apple-red); color: #fff; }
 
         #codeDisplayBox {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(0, 122, 255, 0.08);
-            border: 2px dashed var(--apple-blue);
-            border-radius: 16px;
-            text-align: center;
+            display: none; margin-top: 20px; padding: 20px; background: rgba(0, 122, 255, 0.08);
+            border: 2px dashed var(--apple-blue); border-radius: 16px; text-align: center;
         }
         #codeDisplayBox h3 { margin: 0 0 8px 0; color: var(--apple-blue); font-size: 17px; }
         
-        .code-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin: 10px 0;
-        }
-
+        .code-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 10px 0; }
         #generatedCodeText { 
-            font-size: 34px; 
-            font-weight: 800; 
-            letter-spacing: 3px; 
-            color: var(--apple-text); 
-            background: var(--apple-white);
-            padding: 8px 16px;
-            border-radius: 10px;
-            border: 1px solid var(--apple-light-gray);
-            cursor: pointer;
+            font-size: 34px; font-weight: 800; letter-spacing: 3px; color: var(--apple-text); 
+            background: var(--apple-white); padding: 8px 16px; border-radius: 10px; border: 1px solid var(--apple-light-gray); cursor: pointer;
         }
-
-        .copy-btn {
-            padding: 12px 18px;
-            background: var(--apple-blue);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        #switchToStudentBtn {
-            margin-top: 14px;
-            background: var(--apple-green);
-        }
+        .copy-btn { padding: 12px 18px; background: var(--apple-blue); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 15px; }
+        #switchToStudentBtn { margin-top: 14px; background: var(--apple-green); }
 
         /* ÖĞRENCİ ARAYÜZÜ */
         #studentPanel {
-            display: none;
-            width: 100%;
-            flex-direction: column;
-            align-items: center;
+            display: none; width: 100%; flex-direction: column; align-items: center;
         }
 
         .header {
@@ -368,8 +297,22 @@
 
         .shape[data-val="1"] { background: #FF3B30; border-radius: 50%; } 
         .shape[data-val="2"] { background: #FF9500; border-radius: 50% 0 50% 0; } 
-        .shape[data-val="3"] { background: transparent; width: 0; height: 0; border-left: 35px solid transparent; border-right: 35px solid transparent; border-bottom: 60px solid #FFCC00; color: #1D1D1F; box-shadow: none; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
-        .shape[data-val="3"] span { position: absolute; top: 25px; left: -8px;}
+        
+        /* 3 Numaralı Şekil Görünürlük Düzeltmesi (Sabitlendi) */
+        .shape[data-val="3"] { 
+            background: #FFCC00 !important; 
+            width: 60px !important; 
+            height: 60px !important; 
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%) !important; 
+            color: #1D1D1F !important; 
+            border: none !important;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 8px;
+            box-sizing: border-box;
+        }
+
         .shape[data-val="4"] { background: #34C759; border-radius: 12px; } 
         .shape[data-val="5"] { background: #30B0C7; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); } 
         .shape[data-val="6"] { background: #007AFF; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); } 
@@ -409,10 +352,8 @@
 </head>
 <body>
 
-    <!-- Karanlık/Aydınlık Mod Butonu -->
     <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 Karanlık Mod</button>
 
-    <!-- GİRİŞ EKRANI -->
     <div id="loginOverlay">
         <div class="login-box">
             <h1>Sayı İzi</h1>
@@ -437,7 +378,6 @@
 
     <div id="matchInfoBar"></div>
 
-    <!-- ÖĞRETMEN PANELİ -->
     <div id="teacherPanel">
         <h2>Oturum ve Soru Seti Oluşturucu</h2>
         
@@ -486,7 +426,6 @@
         </div>
     </div>
 
-    <!-- ÖĞRENCİ ARAYÜZÜ -->
     <div id="studentPanel">
         <div class="header">
             <button class="mode-btn active" onclick="setMode('serbest', event)">Serbest Mod</button>
@@ -541,7 +480,6 @@
     let currentPosition = 0; 
     let placedNumbers = 0;
 
-    // --- KARANLIK / AYDINLIK MOD ---
     function toggleTheme() {
         const html = document.documentElement;
         const btn = document.querySelector('.theme-toggle-btn');
@@ -689,7 +627,6 @@
         renderSessionList();
     }
 
-    // --- SORU ÇIKARMA VE YUKARI/AŞAĞI TAŞIMA (SÜRÜKLE TUTAMACI) ---
     function removeQuestion(index) {
         sessionQuestionsQueue.splice(index, 1);
         markAsModified();
@@ -713,7 +650,6 @@
         sessionQuestionsQueue.forEach((item, idx) => {
             const div = document.createElement('div');
             div.className = 'assigned-item';
-            
             div.innerHTML = `
                 <div class="item-left">
                     <span class="drag-handle" title="Sıralama Tutamacı">≡</span>
@@ -762,7 +698,6 @@
         document.getElementById('generatedCodeText').innerText = mevcutKod;
     }
 
-    // --- ÖĞRENCİ OYUN MOTORU ---
     function initStudentApp() {
         buildNumberLine();
         buildShapes();
@@ -795,6 +730,7 @@
             if (num === 3) {
                 const span = document.createElement('span');
                 span.innerText = num;
+                span.style.marginTop = "15px";
                 shape.appendChild(span);
             } else {
                 shape.innerText = num;
@@ -847,6 +783,11 @@
         warning.innerText = "";
         let activeOp = (currentMode === 'cikarma' || (currentMode === 'oturum_sorulari' && currentQ.op === '-')) ? '-' : '+';
 
+        // Serbest modda veya yeni eklemede 2 sayı doldurulmuşsa 3. sayfa hamlesinde ekranı sıfırla yenisini başlat
+        if (currentMode === 'serbest' && placedNumbers >= 2) {
+            resetBoard();
+        }
+
         if (activeOp === '-') {
             if (placedNumbers === 0 && val !== currentQ.num1) { hataSayisi++; warning.innerText = "Önce BÜYÜK sayıyı koymalısın!"; return; }
             if (placedNumbers === 1 && val !== currentQ.num2) { hataSayisi++; warning.innerText = "Şimdi küçük sayıyı koymalısın!"; return; }
@@ -859,13 +800,18 @@
         animateTrail(val, activeOp);
     }
 
+    // Animasyonlu Akış (Adım Adım İz Bırakma)
     function animateTrail(val, activeOp) {
         let step = 0;
         let direction = (activeOp === '-' && placedNumbers === 1) ? -1 : 1;
         let startPos = currentPosition;
+        
         let interval = setInterval(() => {
-            if (step > 0) placeTrailMarker(startPos + (step * direction), val, false);
+            if (step > 0) {
+                placeTrailMarker(startPos + (step * direction), val, false);
+            }
             step++;
+            
             if (step >= val) {
                 clearInterval(interval);
                 currentPosition = startPos + (val * direction);
@@ -903,6 +849,10 @@
     }
 
     function checkCompletion() {
+        if (currentMode !== 'serbest' && placedNumbers < 2) {
+            return; // Sorulardayken mutlaka 2 sayı da yerleştirilene kadar cevaplama alanına izin verme
+        }
+
         if (currentMode !== 'serbest' && placedNumbers === 2) {
             const warning = document.getElementById('warningMsg');
             warning.style.color = "var(--apple-green)";
@@ -969,6 +919,7 @@
         }
 
         resetBoard();
+        buildShapes(); // Sorular arası şekilleri yenile
         baslangicZamani = new Date().getTime();
         hataSayisi = 0;
         clearCanvas();
@@ -980,7 +931,7 @@
                 currentQ = { num1: q.num1, num2: q.num2, op: q.op };
                 zamanSiniri = q.sureSiniri || 20;
                 document.getElementById('questionDisplay').innerText = `Oturum Soru (${activeSessionIndex}/${sessionQuestionsQueue.length}): ${currentQ.num1} ${currentQ.op} ${currentQ.num2} = ?`;
-                buildShapes([currentQ.num1, currentQ.num2]);
+                buildShapes([currentQ.num1, currentQ.num2]); // Sadece sorudaki sayıları göster
                 startTimer();
             } else {
                 document.getElementById('questionDisplay').innerText = "Oturum Tamamlandı! Tebrikler 🎉";
