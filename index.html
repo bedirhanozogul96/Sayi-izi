@@ -757,10 +757,13 @@ async function login() {
     return;
   }
 
-  // 3. ÖĞRENCİ GİRİŞİ
+ // 3. ÖĞRENCİ GİRİŞİ (İsim + Kod Zorunlu Eşleşmesi)
   const name = $("#inName").value.trim();
   const kod = $("#inCode").value.trim();
-  if (!name || !/^\d{6}$/.test(kod)) { msg.innerText = "Öğrenci adını ve 6 haneli kodu yazın."; return; }
+  if (!name || !/^\d{6}$/.test(kod)) { 
+    msg.innerText = "Öğrenci adını ve 6 haneli kodu yazın."; 
+    return; 
+  }
   btn.disabled = true; btn.innerText = "Oturum aranıyor…";
   let session = null;
   if (SHEETS_ON) {
@@ -768,9 +771,21 @@ async function login() {
   }
   if (!session) session = loadLocalSession(kod);
   btn.disabled = false; btn.innerText = "Başla";
-  if (!session) { msg.innerText = "Bu kodla eşleşen oturum bulunamadı."; return; }
-  startStudent(session, name);
-}
+  
+  if (!session) { 
+    msg.innerText = "Bu kodla eşleşen oturum bulunamadı."; 
+    return; 
+  }
+
+  // KİLİT KONTROLÜ: Öğretmenin tanımladığı öğrenci adı ile giriş yapılan ad aynı mı?
+  const cleanName = s => String(s || "").trim().replace(/\s+/g, " ").toLocaleLowerCase("tr-TR");
+  if (session.hedefOgrenci && cleanName(session.hedefOgrenci) !== cleanName(name)) {
+    msg.innerText = "Bu oturum kodu girdiğiniz öğrenci adına tanımlanmamış! Lütfen adınızı öğretmenin kaydettiği şekilde yazın.";
+    return;
+  }
+
+  // Veri bütünlüğü için öğrencinin adını öğretmenin yazdığı orijinal formatla başlat
+  startStudent(session, session.hedefOgrenci || name);
 
 async function openTeacherWorkspace(n, tKod, adminBypass) {
   const msg = $("#loginMsg");
