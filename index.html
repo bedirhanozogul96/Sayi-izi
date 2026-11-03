@@ -582,7 +582,7 @@ select option{background:var(--cell);color:var(--label)}
 /* ============================================================
    AYARLAR
    ============================================================ */
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxNKQve_8mGeKxKHL3dpF2_KhjNWZ-lji5S3zbK6Qhgf6RCX9la_wCkInCvKvQe4RoQNQ/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby.../exec";
 const SHEETS_ON = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(GOOGLE_SCRIPT_URL);
 const TESSERACT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
 const NUM_WORDS = ["sıfır","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz","on"];
@@ -909,4 +909,987 @@ function setTab(name) {
     refreshResults();
   }
 }
-$$("#tabSeg button").forEach(b => b.addEventListener("click
+$$("#tabSeg button").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
+
+function resetEditorForNewStudent() {
+  $("#tTargetStudent").value = "";
+  tPhases = { A: [], B: [], C: [], D: [] };
+  tCount = 5;
+  $("#tCountLbl").innerText = 5;
+  tCodes = null;
+  tDirty = true;
+  $("#codeBox").classList.add("hidden");
+  setPhase("A");
+}
+
+function renderSavedStudentsForEdit() {
+  const box = $("#savedStudentsList");
+  teacherPackages = store.get("sayiizi_ogretmen_paketler_" + teacherCode, teacherPackages || {});
+  const list = Object.values(teacherPackages || {});
+  if (!list.length) {
+    box.innerHTML = `<div class="empty">Henüz kaydedilmiş bir öğrenci öğretimi bulunmuyor. "Öğretim Oluştur" sekmesinden yeni bir öğrenci ekleyebilirsiniz.</div>`;
+    return;
+  }
+  box.innerHTML = list.map(pkg => {
+    const codesStr = (pkg.tCodes || []).map(c => `${c.ph.k}: ${c.kod}`).join(" · ");
+    return `<div class="row res-row" onclick="selectStudentToEdit('${esc(pkg.ogrenciAdi)}')">
+      <span class="ico" style="background:var(--blue)"><svg class="i"><use href="#i-person"/></svg></span>
+      <div class="k">
+        <div class="who">${esc(pkg.ogrenciAdi)}</div>
+        <div class="sub">Evre Başına ${pkg.tCount || 5} Soru · Kodlar: ${esc(codesStr)}</div>
+      </div>
+      <span class="btn tinted small">Düzenle / Kodları Gör</span>
+    </div>`;
+  }).join("");
+}
+
+function selectStudentToEdit(studentName) {
+  const pkg = teacherPackages[studentName];
+  if (!pkg) return;
+  $("#tTargetStudent").value = pkg.ogrenciAdi || studentName;
+  tPhases = JSON.parse(JSON.stringify(pkg.tPhases || { A: [], B: [], C: [], D: [] }));
+  tCount = pkg.tCount || 5;
+  $("#tCountLbl").innerText = tCount;
+  if (pkg.ayarlar) {
+    $("#tHiz").value = pkg.ayarlar.hiz || 900;
+    $("#tDeneme").value = pkg.ayarlar.deneme || 3;
+    $("#tOto").value = pkg.ayarlar.otoKontrol ? "oto" : "onay";
+    $("#tSes").checked = !!pkg.ayarlar.ses;
+    $("#tSureGoster").checked = !!pkg.ayarlar.sureGoster;
+  }
+  setPhase("A");
+  if (pkg.tCodes && pkg.tCodes.length) {
+    tCodes = pkg.tCodes;
+    tDirty = false;
+    tCode = tCodes[0].kod;
+    renderCodeBox(pkg.ogrenciAdi || studentName);
+  }
+  $("#editorMainTitle").innerText = `Öğretimi Düzenle · ${pkg.ogrenciAdi || studentName}`;
+  $("#changeStudentBtn").classList.remove("hidden");
+  $("#tab-duzenle-secim").classList.add("hidden");
+  $("#tab-olustur").classList.remove("hidden");
+}
+
+function setPhase(k) {
+  tPhase = k;
+  tQuestions = tPhases[k];
+  const ph = PH[k];
+  $$("#phaseSeg button").forEach(b => b.classList.toggle("on", b.dataset.ph === k));
+  $("#modHint").innerText = ph.mod === "yoklama"
+    ? `${ph.ad}: yoklama oturumu. Sorular sırayla gelir; tek deneme, doğru/yanlış geri bildirimi ve sesli sayım yok.`
+    : `${ph.ad}: öğretim oturumu. Sorular karışık gelir; sesli sayım, "Aferin" / "Dikkat et" geri bildirimi ve deneme hakkı var.`;
+  $("#newTitle").innerText = `${ph.ad} · yeni soru`;
+  $("#listTitle").innerText = `${ph.ad} soruları`;
+  $("#addMsg").innerText = "";
+  renderQuestions();
+}
+$$("#phaseSeg button").forEach(b => b.addEventListener("click", () => setPhase(b.dataset.ph)));
+
+function stepCount(d) {
+  tCount = Math.min(20, Math.max(1, tCount + d));
+  $("#tCountLbl").innerText = tCount;
+  markDirty();
+  renderQuestions();
+}
+
+function updatePhaseUI() {
+  let missing = [];
+  const targetSt = ($("#tTargetStudent") ? $("#tTargetStudent").value.trim() : "");
+  if (!targetSt) missing.push("Öğrenci adı yazılmalı");
+  PHASES.forEach(p => {
+    const n = tPhases[p.k].length;
+    const pc = document.querySelector(`#phaseSeg button[data-ph="${p.k}"] .pc`);
+    pc.innerText = `${n}/${tCount}`;
+    pc.className = "pc" + (n === tCount ? " full" : n > tCount ? " over" : "");
+    if (n < tCount) missing.push(`${p.ad} ${tCount - n} soru eksik`);
+    if (n > tCount) missing.push(`${p.ad} ${n - tCount} soru fazla`);
+  });
+  $("#saveBtn").disabled = missing.length > 0;
+  $("#saveHint").innerText = missing.length ? missing.join(" · ") : `Öğrenci (${targetSt}) için dört evre de hazır.`;
+}
+
+["#tHiz", "#tDeneme", "#tOto", "#tSes", "#tSureGoster"].forEach(s => $(s).addEventListener("change", markDirty));
+["#tN1", "#tN2"].forEach(s => $(s).addEventListener("input", calcAnswer));
+$$("#opSeg button").forEach(b => b.addEventListener("click", () => setOp(b.dataset.op)));
+function setOp(op) {
+  $("#tOp").value = op;
+  $$("#opSeg button").forEach(x => x.classList.toggle("on", x.dataset.op === op));
+  $("#opSign").innerText = op === "-" ? "−" : "+";
+  calcAnswer();
+}
+function stepNum(sel, d, min, max) {
+  const el = $(sel);
+  el.value = Math.min(max, Math.max(min, (parseInt(el.value) || 0) + d));
+  calcAnswer();
+}
+function stepSure(d) {
+  const v = Math.min(600, Math.max(5, (parseInt($("#tSure").value) || 30) + d));
+  $("#tSure").value = v; $("#tSureLbl").innerText = v + " sn";
+}
+
+function markDirty() { tDirty = true; $("#codeBox").classList.add("hidden"); updatePhaseUI(); }
+
+function calcAnswer() {
+  const n1 = parseInt($("#tN1").value), n2 = parseInt($("#tN2").value), op = $("#tOp").value;
+  const box = $("#tAns");
+  if (!Number.isFinite(n1) || !Number.isFinite(n2)) { box.innerText = "?"; box.classList.add("bad"); return null; }
+  const a = op === "+" ? n1 + n2 : n1 - n2;
+  box.innerText = a;
+  const bad = a < 0 || a > 10 || n1 < 0 || n1 > 10 || n2 < 1 || n2 > 10;
+  box.classList.toggle("bad", bad);
+  return bad ? null : a;
+}
+
+function addQuestion() {
+  const n1 = parseInt($("#tN1").value), n2 = parseInt($("#tN2").value), op = $("#tOp").value;
+  const sure = Math.max(5, parseInt($("#tSure").value) || 30);
+  const m = $("#addMsg");
+  m.innerText = "";
+  if (tQuestions.length >= tCount) { m.innerText = `Bu evre dolu (${tCount} soru). Soru sayısını artırın ya da bir soruyu silin.`; return; }
+  if (!Number.isFinite(n1) || !Number.isFinite(n2) || n2 < 1 || n2 > 10 || n1 < 1 || n1 > 10) { m.innerText = "Sayılar 1 ile 10 arasında olmalı."; return; }
+  if (op === "+" && n1 + n2 > 10) { m.innerText = "Toplam en fazla 10 olabilir."; return; }
+  if (op === "-" && n1 - n2 < 0) { m.innerText = "Çıkarmada ilk sayı büyük olmalı."; return; }
+  tQuestions.push({ num1: n1, num2: n2, op, sureSiniri: sure });
+  markDirty(); renderQuestions();
+}
+function removeQuestion(i) { tQuestions.splice(i, 1); markDirty(); renderQuestions(); }
+function moveQuestion(i, d) {
+  const j = i + d; if (j < 0 || j >= tQuestions.length) return;
+  [tQuestions[i], tQuestions[j]] = [tQuestions[j], tQuestions[i]];
+  markDirty(); renderQuestions();
+}
+function renderQuestions() {
+  $("#qCount").innerText = tQuestions.length + "/" + tCount;
+  updatePhaseUI();
+  const box = $("#qList");
+  if (!tQuestions.length) { box.innerHTML = '<div class="empty">Henüz soru eklenmedi.</div>'; return; }
+  box.innerHTML = tQuestions.map((q, i) => `
+    <div class="row qrow">
+      <button class="minus-btn" onclick="removeQuestion(${i})" aria-label="Sil"></button>
+      <span class="no">${i + 1}</span>
+      <span class="k"><span class="txt">${q.num1} ${q.op === "-" ? "−" : "+"} ${q.num2} = ${q.op === "+" ? q.num1 + q.num2 : q.num1 - q.num2}</span></span>
+      <span class="meta">${q.sureSiniri} sn</span>
+      <button class="reorder" onclick="moveQuestion(${i},-1)" aria-label="Yukarı"><svg class="i"><use href="#i-up"/></svg></button>
+      <button class="reorder" onclick="moveQuestion(${i},1)" aria-label="Aşağı"><svg class="i"><use href="#i-down"/></svg></button>
+    </div>`).join("");
+}
+
+function readSettings() {
+  return {
+    hiz: parseInt($("#tHiz").value) || 900,
+    ses: $("#tSes").checked,
+    sureGoster: $("#tSureGoster").checked,
+    deneme: parseInt($("#tDeneme").value) || 3,
+    otoKontrol: $("#tOto").value === "oto"
+  };
+}
+
+function renderCodeBox(studentName) {
+  if (!tCodes) return;
+  const stName = studentName || $("#tTargetStudent").value.trim();
+  $("#linkedStudentName").innerText = stName;
+  $("#linkedTeacherName").innerText = teacherName;
+  $("#codeList").innerHTML = tCodes.map(c => `
+    <div class="row">
+      <span class="k ph">${c.ph.ad}<small>${esc(stName)} · ${c.ph.mod === "yoklama" ? "Yoklama" : "Öğretim"} · ${tCount} soru</small></span>
+      <span class="code">${c.kod}</span>
+      <button class="btn tinted small" onclick="copyCode('${c.kod}', this)">Kopyala</button>
+      <button class="btn small" onclick="openStudentHere('${c.kod}', '${esc(stName)}')">Aç</button>
+    </div>`).join("");
+  $("#codeMeta").innerText = `Yukarıdaki kodlar ${stName} adlı öğrenciye tanımlanmıştır.`;
+  $("#codeBox").classList.remove("hidden");
+}
+
+function publishSession() {
+  updatePhaseUI();
+  if ($("#saveBtn").disabled) return;
+  const stName = $("#tTargetStudent").value.trim();
+  if (!stName) return;
+
+  if (!tDirty && tCodes) { renderCodeBox(stName); return; }
+  const ogretimId = "o" + Date.now().toString(36);
+  const ayar = readSettings();
+  const used = new Set();
+
+  tCodes = PHASES.map(p => {
+    let kod;
+    do { kod = String(Math.floor(100000 + Math.random() * 900000)); } while (used.has(kod));
+    used.add(kod);
+    return { kod, ph: p };
+  });
+
+  teacherPackages[stName] = {
+    ogrenciAdi: stName,
+    tPhases: JSON.parse(JSON.stringify(tPhases)),
+    tCount,
+    ayarlar: ayar,
+    tCodes,
+    tarih: new Date().toISOString()
+  };
+  store.set("sayiizi_ogretmen_paketler_" + teacherCode, teacherPackages);
+
+  const allPkgsStr = JSON.stringify(teacherPackages);
+
+  tCodes.forEach((c, idx) => {
+    const p = c.ph;
+    const ayarlar = Object.assign({}, ayar);
+    if (p.mod === "yoklama") { ayarlar.ses = false; ayarlar.deneme = 1; }
+    const s = {
+      kod: c.kod, ogretimId, ogretmen: teacherName, ogretmenKodu: teacherCode,
+      hedefOgrenci: stName, olusturma: new Date().toISOString(),
+      mod: p.mod, evre: p.k, ayarlar, sorular: tPhases[p.k].slice()
+    };
+    store.set("sayiizi_oturum_" + c.kod, s);
+    post({
+      islemTipi: "oturum_olusturma", ogretmenAdi: teacherName, ogretmenKodu: teacherCode,
+      hedefOgrenci: stName, oturumKodu: c.kod, calismaTuru: p.mod, evre: p.k,
+      toplamSoruSayisi: s.sorular.length, detay: JSON.stringify(s),
+      ogrenciPaketleri: idx === 0 ? allPkgsStr : undefined
+    });
+  });
+
+  tDirty = false;
+  tCode = tCodes[0].kod;
+  renderCodeBox(stName);
+}
+
+function copyCode(kod, b) {
+  const done = t => { if (b) { b.innerText = t; setTimeout(() => b.innerText = "Kopyala", 1600); } };
+  (navigator.clipboard ? navigator.clipboard.writeText(kod) : Promise.reject()).then(() => done("Kopyalandı"), () => done("Olmadı"));
+}
+function openStudentHere(kod, stName) {
+  showScreen("#login");
+  $$("#roleSeg button")[0].click();
+  $("#inCode").value = kod || tCode;
+  if (stName) $("#inName").value = stName;
+  $("#inName").focus();
+}
+
+/* ============================================================
+   ÖĞRENCİ ÇALIŞMASI
+   ============================================================ */
+const S = {
+  session: null, name: "", queue: [], idx: 0, results: [], q: null,
+  pos: 0, placed: 0, remaining: [], animating: false, token: 0,
+  hata: 0, attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false,
+  start: 0, timer: null, autoTimer: null
+};
+const isUyg = () => S.session && S.session.mod === "uygulama";
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startStudent(session, name) {
+  S.session = session; S.name = name; S.idx = 0; S.results = [];
+  S.queue = session.sorular.slice();
+  if (session.mod === "uygulama") shuffle(S.queue);
+  showScreen("#student");
+  $("#workArea").style.display = "contents";
+  $("#doneArea").classList.add("hidden");
+  buildNumberLine();
+  sizePad();
+  initOCR().catch(() => {});
+  nextQuestion();
+}
+
+function exitStudent() {
+  stopTimer(); clearTimeout(S.autoTimer); S.token++; S.q = null;
+  showScreen(teacherName ? "#teacher" : "#login");
+}
+
+function setMsg(text, cls) { const m = $("#msg"); m.innerText = text || ""; m.className = "msg " + (cls || ""); }
+
+function toast(html, cls, ms) {
+  const t = $("#toast");
+  const icon = { ok: "i-check", retry: "i-excl", bad: "i-x", neutral: "i-check" }[cls] || "i-check";
+  const parts = String(html).split("<small>");
+  t.innerHTML = `<div class="badge"><svg class="i"><use href="#${icon}"/></svg></div>` + (cls === "neutral" ? "" :
+    `<div class="t1">${parts[0]}</div>` + (parts[1] ? `<div class="t2">${parts[1].replace("</small>", "")}</div>` : ""));
+  t.className = "toast " + cls;
+  requestAnimationFrame(() => t.classList.add("show"));
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), ms || 1500);
+}
+
+function nextQuestion() {
+  stopTimer(); clearTimeout(S.autoTimer);
+  S.token++; S.animating = false;
+  S.idx++;
+  if (S.idx > S.queue.length) return finishSession();
+  const q = S.queue[S.idx - 1];
+  Object.assign(S, { q, pos: 0, placed: 0, remaining: [q.num1, q.num2], hata: 0, attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false, start: Date.now() });
+  $$(".mk").forEach(e => e.remove());
+  $("#prompt").innerText = `${S.idx}. sorudaki işlemi yap`;
+  $("#equation").innerHTML = `${q.num1} ${q.op === "-" ? "−" : "+"} ${q.num2} = <span class="qm">?</span>`;
+  setMsg("");
+  buildTray([q.num1, q.num2]);
+  lockAnswer(true);
+  clearPad(true);
+  startTimer(q.sureSiniri);
+}
+
+function startTimer(sec) {
+  stopTimer();
+  let left = sec;
+  const el = $("#timer");
+  const show = S.session.ayarlar.sureGoster;
+  el.classList.toggle("hidden", !show);
+  el.classList.remove("low");
+  const draw = v => el.innerHTML = '<svg class="i"><use href="#i-timer"/></svg>' + Math.max(v, 0);
+  draw(left);
+  S.timer = setInterval(() => {
+    left--;
+    draw(left);
+    if (left <= 5) el.classList.add("low");
+    if (left <= 0) {
+      stopTimer();
+      S.timeout = true; S.hata++;
+      if (show && isUyg()) setMsg("Süre doldu, yine de bitirebilirsin.", "warn");
+    }
+  }, 1000);
+}
+function stopTimer() { if (S.timer) clearInterval(S.timer); S.timer = null; }
+
+function buildNumberLine() {
+  const nl = $("#numline");
+  nl.innerHTML = "";
+  for (let i = 0; i <= 10; i++) {
+    const z = document.createElement("div");
+    z.className = "zone"; z.dataset.i = i;
+    z.innerHTML = `<div class="zlabel">${i}</div>`;
+    nl.appendChild(z);
+  }
+}
+
+function buildTray(vals) {
+  const tray = $("#tray");
+  tray.innerHTML = "";
+  vals.forEach(v => {
+    const el = document.createElement("div");
+    el.className = "sh"; el.dataset.val = v;
+    el.innerHTML = `<span>${v}</span>`;
+    el.addEventListener("pointerdown", startDrag);
+    tray.appendChild(el);
+  });
+}
+
+let drag = null;
+function startDrag(e) {
+  const el = e.currentTarget;
+  if (S.animating || S.placed >= 2 || el.classList.contains("used")) return;
+  e.preventDefault();
+  const ghost = el.cloneNode(true);
+  const r = el.getBoundingClientRect();
+  ghost.classList.add("ghost");
+  ghost.style.width = r.width + "px"; ghost.style.height = r.height + "px";
+  ghost.style.fontSize = getComputedStyle(el).fontSize;
+  ghost.style.left = e.clientX + "px"; ghost.style.top = e.clientY + "px";
+  document.body.appendChild(ghost);
+  el.classList.add("lifted");
+  drag = { el, ghost, id: e.pointerId };
+}
+function overLine(x, y) {
+  const r = $("#numline").getBoundingClientRect();
+  return x >= r.left && x <= r.right && y >= r.top - 30 && y <= r.bottom + 10;
+}
+window.addEventListener("pointermove", e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  drag.ghost.style.left = e.clientX + "px"; drag.ghost.style.top = e.clientY + "px";
+  $("#numline").classList.toggle("over", overLine(e.clientX, e.clientY));
+});
+function endDrag(e) {
+  if (!drag || e.pointerId !== drag.id) return;
+  const { el, ghost } = drag;
+  drag = null;
+  ghost.remove();
+  el.classList.remove("lifted");
+  $("#numline").classList.remove("over");
+  if (e.type === "pointerup" && overLine(e.clientX, e.clientY)) tryPlace(parseInt(el.dataset.val), el);
+}
+window.addEventListener("pointerup", endDrag);
+window.addEventListener("pointercancel", endDrag);
+
+function tryPlace(val, el) {
+  if (!S.q || S.animating || S.placed >= 2) return false;
+  const minus = S.q.op === "-";
+  let msg = "";
+  if (minus) {
+    const need = S.placed === 0 ? S.q.num1 : S.q.num2;
+    if (val !== need) msg = S.placed === 0 ? "Önce büyük sayıyı koymalısın!" : "Şimdi küçük sayıyı koymalısın!";
+  } else if (S.remaining.indexOf(val) === -1) {
+    msg = "Sorudaki sayıları kullanmalısın!";
+  }
+  if (msg) {
+    S.hata++;
+    el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
+    if (isUyg()) setMsg(msg, "warn");
+    return false;
+  }
+  const k = S.remaining.indexOf(val); if (k > -1) S.remaining.splice(k, 1);
+  el.classList.add("used");
+  setMsg("");
+  animateMove(val, (minus && S.placed === 1) ? -1 : 1, S.placed);
+  return true;
+}
+
+async function animateMove(val, dir, lane) {
+  const token = ++S.token;
+  S.animating = true;
+  const start = S.pos;
+  for (let s = 1; s <= val; s++) {
+    if (token !== S.token) return;
+    dropMarker(start + s * dir, val, s, s === val, lane);
+    if (S.session.ayarlar.ses && isUyg()) speak(NUM_WORDS[s] || String(s));
+    await sleep(S.session.ayarlar.hiz);
+  }
+  if (token !== S.token) return;
+  S.pos = start + val * dir;
+  S.placed++;
+  S.animating = false;
+  if (S.placed >= 2) {
+    lockAnswer(false);
+    setMsg("Şimdi cevabını yaz", "info");
+  }
+}
+
+function dropMarker(i, val, count, final, lane) {
+  if (i < 0 || i > 10) return;
+  const zone = $$("#numline .zone")[i];
+  const lbl = zone.querySelector(".zlabel");
+  lbl.classList.remove("hit"); void lbl.offsetWidth; lbl.classList.add("hit");
+  const m = document.createElement("div");
+  m.className = `sh mk lane${lane}` + (final ? " final" : "");
+  m.dataset.val = val;
+  m.innerHTML = `<span>${count}</span>`;
+  zone.appendChild(m);
+}
+
+const pad = $("#pad");
+const pctx = pad.getContext("2d", { willReadFrequently: true });
+let drawing = false, hasInk = false;
+
+function sizePad() {
+  const r = pad.getBoundingClientRect();
+  if (!r.width) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
+  if (pad.width !== w || pad.height !== h) { pad.width = w; pad.height = h; hasInk = false; }
+}
+window.addEventListener("resize", () => { if (!$("#student").classList.contains("hidden") && !hasInk) sizePad(); });
+
+function lockAnswer(locked) {
+  $("#answer").classList.toggle("locked", locked);
+  document.querySelector(".pad-lock").style.visibility = (locked && S.placed < 2) ? "visible" : "hidden";
+  $("#okBtn").disabled = locked; $("#clearBtn").disabled = locked;
+}
+const canWrite = () => S.q && S.placed >= 2 && !S.answered && !S.checking;
+function padXY(e) { const r = pad.getBoundingClientRect(), k = pad.width / r.width; return [(e.clientX - r.left) * k, (e.clientY - r.top) * k]; }
+
+pad.addEventListener("pointerdown", e => {
+  if (!canWrite()) {
+    if (S.q && S.placed < 2) setMsg(S.animating ? "Sayma bitince yazabilirsin." : "Önce sayıları sayı doğrusuna taşı.", "warn");
+    return;
+  }
+  e.preventDefault();
+  try { pad.setPointerCapture(e.pointerId); } catch (_) {}
+  clearTimeout(S.autoTimer);
+  drawing = true;
+  const k = pad.width / pad.getBoundingClientRect().width;
+  pctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim() || "#1D1D1F";
+  pctx.lineWidth = 9 * k; pctx.lineCap = "round"; pctx.lineJoin = "round";
+  const [x, y] = padXY(e);
+  pctx.beginPath(); pctx.moveTo(x, y); pctx.lineTo(x + 0.1, y + 0.1); pctx.stroke();
+  hasInk = true;
+});
+pad.addEventListener("pointermove", e => {
+  if (!drawing) return;
+  const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+  (evs.length ? evs : [e]).forEach(ev => { const [x, y] = padXY(ev); pctx.lineTo(x, y); });
+  pctx.stroke();
+});
+function penUp() {
+  if (!drawing) return;
+  drawing = false;
+  if (hasInk && S.session && S.session.ayarlar.otoKontrol && canWrite()) {
+    clearTimeout(S.autoTimer);
+    S.autoTimer = setTimeout(submitAnswer, 2000);
+  }
+}
+pad.addEventListener("pointerup", penUp);
+pad.addEventListener("pointercancel", penUp);
+
+function clearPad(force) {
+  if (S.checking && !force) return;
+  clearTimeout(S.autoTimer);
+  pctx.clearRect(0, 0, pad.width, pad.height);
+  pctx.beginPath();
+  hasInk = false;
+}
+
+let ocrPromise = null;
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    const s = document.createElement("script");
+    s.src = src; s.onload = res; s.onerror = () => rej(new Error("yüklenemedi"));
+    document.head.appendChild(s);
+  });
+}
+function initOCR() {
+  if (ocrPromise) return ocrPromise;
+  ocrPromise = (async () => {
+    if (!window.Tesseract) await loadScript(TESSERACT_URL);
+    const w = await Tesseract.createWorker("eng");
+    await w.setParameters({ tessedit_char_whitelist: "0123456789" });
+    return w;
+  })();
+  ocrPromise.catch(() => { ocrPromise = null; });
+  return ocrPromise;
+}
+
+function inkBox() {
+  const w = pad.width, h = pad.height, d = pctx.getImageData(0, 0, w, h).data;
+  let x0 = w, y0 = h, x1 = -1, y1 = -1;
+  for (let y = 0; y < h; y += 2) for (let x = 0; x < w; x += 2) {
+    if (d[(y * w + x) * 4 + 3] > 40) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  }
+  if (x1 < 0) return null;
+  const p = 4;
+  x0 = Math.max(0, x0 - p); y0 = Math.max(0, y0 - p); x1 = Math.min(w - 1, x1 + p); y1 = Math.min(h - 1, y1 + p);
+  return { x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1 };
+}
+function renderInk(box, targetH, pad_, outW, outH) {
+  const ink = document.createElement("canvas");
+  ink.width = box.w; ink.height = box.h;
+  const ic = ink.getContext("2d");
+  ic.drawImage(pad, box.x, box.y, box.w, box.h, 0, 0, box.w, box.h);
+  ic.globalCompositeOperation = "source-in"; ic.fillStyle = "#000"; ic.fillRect(0, 0, box.w, box.h);
+  const sc = targetH / box.h;
+  const sw = Math.max(1, Math.round(box.w * sc));
+  const out = document.createElement("canvas");
+  out.width = outW || sw + pad_ * 2; out.height = outH || targetH + pad_ * 2;
+  const oc = out.getContext("2d");
+  oc.fillStyle = "#fff"; oc.fillRect(0, 0, out.width, out.height);
+  oc.drawImage(ink, 0, 0, box.w, box.h, (out.width - sw) / 2, (out.height - targetH) / 2, sw, targetH);
+  return out;
+}
+function thumbnail(box) {
+  const fit = Math.min(130 / box.w, 80 / box.h, 1e9);
+  return renderInk(box, Math.max(1, Math.round(box.h * fit)), 0, 150, 100).toDataURL("image/png");
+}
+async function readDigits(img, expected) {
+  const w = await initOCR();
+  const tries = expected.length === 1 ? ["10", "7", "8"] : ["7", "8", "13"];
+  let first = "";
+  for (const psm of tries) {
+    await w.setParameters({ tessedit_pageseg_mode: psm });
+    const r = await w.recognize(img);
+    const t = (r.data.text || "").replace(/\D/g, "");
+    if (t === expected) return t;
+    if (!first && t) first = t;
+  }
+  return first;
+}
+
+async function submitAnswer() {
+  clearTimeout(S.autoTimer);
+  if (!canWrite()) return;
+  if (!hasInk) { setMsg("Önce cevabını yaz", "info"); return; }
+  const box = inkBox();
+  if (!box) { setMsg("Önce cevabını yaz", "info"); return; }
+  const q = S.q;
+  const expected = String(q.op === "+" ? q.num1 + q.num2 : q.num1 - q.num2);
+  const img = renderInk(box, 110, 60);
+  const thumb = thumbnail(box);
+
+  S.checking = true;
+  $("#okBtn").disabled = true; $("#clearBtn").disabled = true;
+  setMsg("Bakıyorum…", "info");
+
+  let read = null, ocrError = false;
+  try { read = await readDigits(img, expected); }
+  catch (err) { ocrError = true; }
+  S.checking = false;
+  if (S.q !== q) return;
+
+  if (ocrError) {
+    S.attempts++;
+    record(null, "", thumb);
+    setMsg("");
+    toast("✓", "neutral", 900);
+    return setTimeout(nextQuestion, 1100);
+  }
+
+  if (!read) {
+    S.empties++;
+    if (S.empties < 3) {
+      setMsg("Rakamı biraz daha büyük yaz", "info");
+      clearPad(true); lockAnswer(false);
+      return;
+    }
+  }
+
+  S.attempts++;
+  S.reads.push(read);
+  const correct = read === expected;
+
+  if (!isUyg()) {
+    record(correct, read, thumb);
+    setMsg("");
+    toast("✓", "neutral", 900);
+    return setTimeout(nextQuestion, 1100);
+  }
+
+  if (correct) {
+    record(true, read, thumb);
+    setMsg("");
+    toast(`Aferin! 🎉<small>Cevap ${expected}</small>`, "ok", 1800);
+    if (S.session.ayarlar.ses) speak("Aferin! Cevap " + (NUM_WORDS[+expected] || expected));
+    return setTimeout(nextQuestion, 2100);
+  }
+  S.hata++;
+  if (S.attempts >= S.session.ayarlar.deneme) {
+    record(false, read, thumb);
+    setMsg("");
+    toast(`Doğru cevap: ${expected}<small>Bir sonrakinde başaracaksın</small>`, "bad", 2400);
+    if (S.session.ayarlar.ses) speak("Doğru cevap " + (NUM_WORDS[+expected] || expected));
+    return setTimeout(nextQuestion, 2700);
+  }
+  toast("Dikkat et.<small>İşlemi yap</small>", "retry", 1600);
+  if (S.session.ayarlar.ses) speak("Dikkat et. İşlemi yap.");
+  setMsg("");
+  lockAnswer(true);
+  setTimeout(() => { if (S.q === q && !S.answered) retryQuestion(); }, 1700);
+}
+
+function retryQuestion() {
+  const q = S.q;
+  S.token++; S.animating = false;
+  Object.assign(S, { pos: 0, placed: 0, remaining: [q.num1, q.num2], empties: 0, timeout: false });
+  $$(".mk").forEach(e => e.remove());
+  buildTray([q.num1, q.num2]);
+  clearPad(true);
+  lockAnswer(true);
+  setMsg("");
+  startTimer(q.sureSiniri);
+}
+
+function record(dogru, read, thumb) {
+  if (S.answered) return;
+  S.answered = true;
+  stopTimer();
+  lockAnswer(true);
+  const q = S.q;
+  S.results.push({
+    no: S.idx, num1: q.num1, num2: q.num2, op: q.op,
+    soru: `${q.num1}${q.op}${q.num2}`,
+    beklenen: q.op === "+" ? q.num1 + q.num2 : q.num1 - q.num2,
+    okunan: read, okunanlar: S.reads.slice(), dogru,
+    deneme: S.attempts, hata: S.hata,
+    sure: +((Date.now() - S.start) / 1000).toFixed(2),
+    sureAsimi: S.timeout, resim: thumb
+  });
+}
+
+function finishSession() {
+  stopTimer();
+  S.q = null;
+  const s = S.session;
+  const res = {
+    id: `${s.kod}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    ogrenci: S.name, kod: s.kod, ogretmen: s.ogretmen, ogretmenKodu: s.ogretmenKodu || "",
+    mod: s.mod, evre: s.evre, tarih: new Date().toISOString(), sorular: S.results
+  };
+  const all = store.get("sayiizi_sonuclar", []);
+  all.push(res);
+  if (!store.set("sayiizi_sonuclar", all)) {
+    all[all.length - 1] = Object.assign({}, res, { sorular: res.sorular.map(q => Object.assign({}, q, { resim: null })) });
+    store.set("sayiizi_sonuclar", all);
+  }
+  const dogru = res.sorular.filter(q => q.dogru === true).length;
+  post({
+    islemTipi: "oturum_sonuc_ozeti", sonucId: res.id, ogrenciAdi: res.ogrenci, oturumKodu: res.kod,
+    ogretmenAdi: res.ogretmen, ogretmenKodu: res.ogretmenKodu || "", calismaTuru: res.mod, evre: res.evre, tarih: res.tarih,
+    toplamSoru: res.sorular.length, dogruSayisi: dogru,
+    detaylar: JSON.stringify(res.sorular.map(q => Object.assign({}, q, { resim: undefined }))),
+    resimler: JSON.stringify(res.sorular.map(q => q.resim || ""))
+  });
+
+  $("#workArea").style.display = "none";
+  $("#timer").classList.add("hidden");
+  $("#doneArea").classList.remove("hidden");
+  $("#doneTitle").innerText = `Bitti! Aferin ${S.name}`;
+  $("#doneSub").innerText = s.mod === "uygulama" ? `${res.sorular.length} sorudan ${dogru} tanesini doğru yaptın.` : "Tüm soruları tamamladın.";
+  if (s.mod === "uygulama" && s.ayarlar.ses) speak("Bitti! Aferin " + S.name);
+}
+
+/* ============================================================
+   ÖĞRETMEN / YÖNETİCİ — SONUÇLAR VE TEK DENEKLİ GRAFİK
+   ============================================================ */
+let RESULTS = [];
+let FIX = {};
+let openRow = null;
+let selectedResultStudent = "";
+
+function normalizeResult(r) {
+  r = parseMaybe(r);
+  if (!r) return null;
+  let sorular = r.sorular || parseMaybe(r.detaylar) || [];
+  if (!Array.isArray(sorular)) sorular = [];
+  const imgs = parseMaybe(r.resimler);
+  sorular = sorular.map((q, i) => {
+    const m = /^(\d+)\s*([+-])\s*(\d+)$/.exec(q.soru || "");
+    const num1 = q.num1 != null ? +q.num1 : (m ? +m[1] : null);
+    const op = q.op || (m ? m[2] : "+");
+    const num2 = q.num2 != null ? +q.num2 : (m ? +m[3] : null);
+    return Object.assign({ no: i + 1, num1, num2, op, beklenen: num1 != null ? (op === "+" ? num1 + num2 : num1 - num2) : null,
+      okunan: "", dogru: null, deneme: 0, hata: 0, sure: 0, sureAsimi: false, resim: null }, q,
+      { resim: q.resim || (Array.isArray(imgs) ? imgs[i] || null : null) });
+  });
+  const ogrenci = r.ogrenci || r.ogrenciAdi || "?";
+  const kod = String(r.kod || r.oturumKodu || "");
+  const tarih = r.tarih || new Date(0).toISOString();
+  return {
+    id: r.id || r.sonucId || `${kod}-${ogrenci}-${tarih}`,
+    ogrenci, kod, ogretmen: r.ogretmen || r.ogretmenAdi || "",
+    ogretmenKodu: String(r.ogretmenKodu || ""),
+    mod: (r.mod || r.calismaTuru) === "uygulama" ? "uygulama" : "yoklama",
+    evre: r.evre || ((r.mod || r.calismaTuru) === "uygulama" ? "B" : "A"),
+    tarih, sorular
+  };
+}
+
+async function refreshResults() {
+  const note = $("#rNote");
+  const local = store.get("sayiizi_sonuclar", [])
+    .map(normalizeResult)
+    .filter(r => r && (!teacherCode || !r.ogretmenKodu || r.ogretmenKodu === teacherCode || r.ogretmen.toLocaleLowerCase("tr-TR") === teacherName.toLocaleLowerCase("tr-TR")));
+  const map = new Map(local.map(r => [r.id, r]));
+  FIX = store.get("sayiizi_duzeltmeler", {});
+  note.innerText = SHEETS_ON ? "Sheets'ten alınıyor…" : "Bu cihazdaki sonuçlar (Sheets bağlı değil)";
+  render();
+  if (SHEETS_ON) {
+    try {
+      const j = await fetchJSON(`${GOOGLE_SCRIPT_URL}?islem=sonuclar&ogretmenKodu=${encodeURIComponent(teacherCode)}&ogretmenAdi=${encodeURIComponent(teacherName)}`, 10000);
+      (j.sonuclar || []).map(normalizeResult).filter(Boolean).forEach(r => {
+        const l = map.get(r.id);
+        if (!l) map.set(r.id, r);
+        else l.sorular.forEach((q, i) => { if (!q.resim && r.sorular[i]) q.resim = r.sorular[i].resim; });
+      });
+      const localFix = store.get("sayiizi_duzeltmeler", {});
+      (j.duzeltmeler || []).forEach(d => {
+        if (localFix[d.id] && localFix[d.id][d.no] !== undefined) return;
+        FIX[d.id] = FIX[d.id] || {};
+        FIX[d.id][d.no] = d.dogru === true || d.dogru === "true";
+      });
+      note.innerText = "Sheets ile güncel · " + new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+    } catch (e) {
+      note.innerText = "Sheets'e ulaşılamadı; bu cihazdaki sonuçlar gösteriliyor";
+    }
+  }
+  render();
+  function render() {
+    RESULTS = Array.from(map.values()).sort((a, b) => a.tarih.localeCompare(b.tarih));
+    renderStudentPills();
+    renderResults();
+    renderChart();
+  }
+}
+
+function scoreOf(r, q) {
+  const f = FIX[r.id] && FIX[r.id][q.no];
+  return f !== undefined ? f : q.dogru;
+}
+function summary(r) {
+  const n = r.sorular.length;
+  const d = r.sorular.filter(q => scoreOf(r, q) === true).length;
+  const unscored = r.sorular.filter(q => scoreOf(r, q) == null).length;
+  const avg = n ? r.sorular.reduce((s, q) => s + (+q.sure || 0), 0) / n : 0;
+  return { n, d, unscored, pct: n ? Math.round(d / n * 100) : 0, avg };
+}
+
+function renderStudentPills() {
+  const box = $("#studentResultPills");
+  const counts = {};
+  Object.keys(teacherPackages || {}).forEach(st => { counts[st] = 0; });
+  RESULTS.forEach(r => { counts[r.ogrenci] = (counts[r.ogrenci] || 0) + 1; });
+
+  const names = Object.keys(counts).sort((a, b) => a.localeCompare(b, "tr"));
+  if (!names.length) {
+    box.innerHTML = "";
+    selectedResultStudent = "";
+    return;
+  }
+  if (!selectedResultStudent || !names.includes(selectedResultStudent)) {
+    selectedResultStudent = names[0];
+  }
+  box.innerHTML = names.map(n => `
+    <button class="st-pill ${selectedResultStudent === n ? "on" : ""}" onclick="selectStudentForResult('${esc(n)}')">
+      <span>${esc(n)}</span>
+      <span class="cnt">${counts[n]} oturum</span>
+    </button>`).join("");
+}
+
+function selectStudentForResult(name) {
+  selectedResultStudent = name;
+  openRow = null;
+  renderStudentPills();
+  renderResults();
+  renderChart();
+}
+
+const fmtDate = iso => { const d = new Date(iso); return isNaN(d) ? "—" : d.toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }); };
+const opSym = op => op === "-" ? "−" : "+";
+
+function filtered() {
+  const ty = $("#rType").value;
+  return RESULTS.filter(r => (!selectedResultStudent || r.ogrenci === selectedResultStudent) && (!ty || r.mod === ty));
+}
+
+function renderResults() {
+  const body = $("#rBody");
+  const rows = filtered().slice().reverse();
+  if (!rows.length) {
+    body.innerHTML = `<div class="empty">${selectedResultStudent ? `${esc(selectedResultStudent)} için henüz tamamlanmış oturum sonucu yok.` : "Henüz sonuç yok."}</div>`;
+    return;
+  }
+  body.innerHTML = rows.map(r => {
+    const s = summary(r);
+    const open = openRow === r.id;
+    return `<div class="row res-row ${open ? "open" : ""}" onclick="toggleRow('${esc(r.id)}')">
+      <div class="k">
+        <div class="who">${esc(r.ogrenci)} <span class="cap ${r.mod === "yoklama" ? "y" : "u"}">${r.mod === "yoklama" ? "Yoklama" : "Uygulama"}</span>${s.unscored ? ` <span class="cap warn">${s.unscored} puansız</span>` : ""}</div>
+        <div class="sub">${fmtDate(r.tarih)} · ${esc(EVRE[r.evre] || r.evre)} · Kod ${esc(r.kod)} · Ort. ${s.avg.toFixed(1)} sn</div>
+      </div>
+      <div class="score"><b>%${s.pct}</b><div>${s.d}/${s.n} doğru</div></div>
+      <span class="chev"><svg class="i"><use href="#i-chev"/></svg></span>
+    </div>` + (open ? detailHTML(r) : "");
+  }).join("");
+}
+function toggleRow(id) { openRow = openRow === id ? null : id; renderResults(); }
+
+function detailHTML(r) {
+  return `<div class="detail">${r.sorular.map(q => {
+    const sc = scoreOf(r, q);
+    const edited = FIX[r.id] && FIX[r.id][q.no] !== undefined && FIX[r.id][q.no] !== q.dogru;
+    const reads = (q.okunanlar && q.okunanlar.length > 1) ? q.okunanlar.map(x => x || "∅").join(" → ") : (q.okunan || "∅");
+    return `<div class="qcard" onclick="event.stopPropagation()">
+      ${q.resim ? `<img src="${q.resim}" alt="Öğrencinin yazdığı cevap">` : `<div class="noimg">Görüntü yok</div>`}
+      <div class="op">${q.num1} ${opSym(q.op)} ${q.num2} = ${q.beklenen}</div>
+      <div class="m">Okunan: <b>${esc(reads)}</b> · ${q.deneme} deneme<br>${(+q.sure).toFixed(1)} sn${q.sureAsimi ? " (aşıldı)" : ""} · ${q.hata} hata</div>
+      <div class="seg wide verdict">
+        <button class="ok ${sc === true ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},true)">Doğru</button>
+        <button class="no ${sc === false ? "on" : ""}" onclick="setFix('${esc(r.id)}',${q.no},false)">Yanlış</button>
+      </div>${edited ? '<span class="edited">Öğretmen düzeltti</span>' : ""}${sc == null ? '<span class="edited">Puanlanmadı</span>' : ""}
+    </div>`;
+  }).join("")}</div>`;
+}
+function setFix(id, no, val) {
+  FIX[id] = FIX[id] || {};
+  FIX[id][no] = val;
+  store.set("sayiizi_duzeltmeler", FIX);
+  post({ islemTipi: "sonuc_duzeltme", sonucId: id, soruNo: no, dogru: val, ogretmenAdi: teacherName, tarih: new Date().toISOString() });
+  renderResults();
+  renderChart();
+}
+
+function exportCSV() {
+  const head = ["Tarih", "Öğretmen", "Öğrenci", "Kod", "Tür", "Evre", "Soru No", "İşlem", "Beklenen", "Okunan", "Doğru", "Öğretmen düzeltti", "Deneme", "Hata", "Süre (sn)", "Süre aşımı"];
+  const lines = [head];
+  filtered().forEach(r => r.sorular.forEach(q => {
+    const sc = scoreOf(r, q);
+    lines.push([fmtDate(r.tarih), r.ogretmen, r.ogrenci, r.kod, r.mod, EVRE[r.evre] || r.evre, q.no, `${q.num1}${q.op}${q.num2}`, q.beklenen,
+      (q.okunanlar && q.okunanlar.length ? q.okunanlar.join("/") : q.okunan) || "", sc === true ? 1 : sc === false ? 0 : "",
+      (FIX[r.id] && FIX[r.id][q.no] !== undefined && FIX[r.id][q.no] !== q.dogru) ? "evet" : "", q.deneme, q.hata, String(q.sure).replace(".", ","), q.sureAsimi ? "evet" : ""]);
+  }));
+  const csv = "\uFEFF" + lines.map(l => l.map(v => `"${String(v).replace(/"/g, '""')}"`).join(";")).join("\r\n");
+  download(new Blob([csv], { type: "text/csv;charset=utf-8" }), `sayi-izi-sonuclar-${selectedResultStudent || "tum"}-${new Date().toISOString().slice(0, 10)}.csv`);
+}
+function download(blob, name) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+function renderChart() {
+  const box = $("#chartBox");
+  const name = selectedResultStudent;
+  const ty = $("#rType").value;
+  $("#chartStudentTitle").innerText = name || "Öğrenci Seçilmedi";
+  const data = RESULTS.filter(r => r.ogrenci === name && (!ty || r.mod === ty));
+  const C = { text: cssVar("--text"), muted: cssVar("--muted"), faint: cssVar("--faint"), line: cssVar("--line"), surface: cssVar("--surface"), blue: cssVar("--blue") };
+
+  const types = Array.from(new Set(data.map(r => r.mod)));
+  $("#gLegend").innerHTML = types.map(t => t === "yoklama"
+    ? `<span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="${C.blue}"/></svg>Yoklama</span>`
+    : `<span><svg width="14" height="14"><rect x="2" y="2" width="10" height="10" rx="1.5" fill="${C.surface}" stroke="${C.blue}" stroke-width="2"/></svg>Uygulama</span>`).join("");
+
+  if (!name || !data.length) { box.innerHTML = `<div class="empty">${name ? "Bu öğrenci için grafik çizilecek oturum verisi yok." : "Henüz sonuç yok."}</div>`; return; }
+
+  const W = 820, H = 380, L = 56, R = 20, T = 40, B = 48;
+  const iw = W - L - R, ih = H - T - B;
+  const n = data.length;
+  const step = iw / Math.max(n, 1);
+  const X = i => L + step * (i + 0.5);
+  const Y = p => T + ih - (p / 100) * ih;
+  const pts = data.map((r, i) => Object.assign({ r, i, x: X(i) }, summary(r))).map(p => Object.assign(p, { y: Y(p.pct) }));
+
+  let g = "";
+  [0, 25, 50, 75, 100].forEach(v => {
+    g += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${C.line}" stroke-width="1"/>`;
+    g += `<text x="${L - 10}" y="${Y(v) + 4}" text-anchor="end" font-size="12" fill="${C.muted}">${v}</text>`;
+  });
+  g += `<text transform="translate(16 ${T + ih / 2}) rotate(-90)" text-anchor="middle" font-size="12" font-weight="600" fill="${C.muted}">Doğru yüzdesi (%)</text>`;
+  const every = Math.ceil(n / 20);
+  pts.forEach(p => { if (p.i % every === 0 || p.i === n - 1) g += `<text x="${p.x}" y="${T + ih + 20}" text-anchor="middle" font-size="12" fill="${C.muted}">${p.i + 1}</text>`; });
+  g += `<text x="${L + iw / 2}" y="${H - 8}" text-anchor="middle" font-size="12" font-weight="600" fill="${C.muted}">Oturum</text>`;
+
+  const runs = [];
+  pts.forEach(p => { const last = runs[runs.length - 1]; if (last && last.evre === p.r.evre) last.pts.push(p); else runs.push({ evre: p.r.evre, pts: [p] }); });
+  runs.forEach((run, k) => {
+    const x0 = run.pts[0].x - step / 2, x1 = run.pts[run.pts.length - 1].x + step / 2;
+    g += `<text x="${(x0 + x1) / 2}" y="${T - 16}" text-anchor="middle" font-size="13" font-weight="700" fill="${C.text}">${esc(EVRE[run.evre] || run.evre)}</text>`;
+    if (k > 0) g += `<line x1="${x0}" x2="${x0}" y1="${T - 6}" y2="${T + ih}" stroke="${C.faint}" stroke-width="1.5" stroke-dasharray="6 5"/>`;
+    ["yoklama", "uygulama"].forEach(t => {
+      const seg = run.pts.filter(p => p.r.mod === t);
+      if (seg.length > 1) g += `<polyline points="${seg.map(p => `${p.x},${p.y}`).join(" ")}" fill="none" stroke="${C.blue}" stroke-width="2" stroke-linejoin="round" ${t === "uygulama" ? 'stroke-dasharray="2 4" stroke-linecap="round"' : ""}/>`;
+    });
+  });
+  pts.forEach(p => {
+    g += p.r.mod === "yoklama"
+      ? `<circle cx="${p.x}" cy="${p.y}" r="5.5" fill="${C.blue}" stroke="${C.surface}" stroke-width="2"/>`
+      : `<rect x="${p.x - 5.5}" y="${p.y - 5.5}" width="11" height="11" rx="1.5" fill="${C.surface}" stroke="${C.blue}" stroke-width="2"/>`;
+    g += `<circle class="hit" data-i="${p.i}" cx="${p.x}" cy="${p.y}" r="16" fill="transparent"/>`;
+  });
+
+  box.innerHTML = `<svg id="chartSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" font-family="-apple-system,Segoe UI,Roboto,Helvetica,sans-serif" role="img" aria-label="${esc(name)} için oturumlara göre doğru yüzdesi">
+    <rect width="${W}" height="${H}" fill="${C.surface}"/>${g}</svg><div class="tip" id="tip"></div>`;
+
+  const tip = $("#tip");
+  box.querySelectorAll(".hit").forEach(c => {
+    const show = () => {
+      const p = pts[+c.dataset.i];
+      const sv = $("#chartSvg").getBoundingClientRect(), bx = box.getBoundingClientRect();
+      tip.innerHTML = `<b>%${p.pct}</b> · ${p.d}/${p.n} doğru<br>Oturum ${p.i + 1} · ${p.r.mod === "yoklama" ? "Yoklama" : "Uygulama"} · ${esc(EVRE[p.r.evre] || p.r.evre)}<br><span style="color:${C.muted}">${fmtDate(p.r.tarih)} · kod ${esc(p.r.kod)}</span>`;
+      tip.style.left = (sv.left - bx.left + p.x / W * sv.width) + "px";
+      tip.style.top = (sv.top - bx.top + p.y / H * sv.height) + "px";
+      tip.style.opacity = 1;
+    };
+    c.addEventListener("pointerenter", show);
+    c.addEventListener("pointerdown", show);
+    c.addEventListener("pointerleave", () => tip.style.opacity = 0);
+  });
+}
+function downloadChart() {
+  const svg = $("#chartSvg");
+  if (!svg) return;
+  download(new Blob([svg.outerHTML], { type: "image/svg+xml" }), `sayi-izi-grafik-${selectedResultStudent || "ogrenci"}.svg`);
+}
+
+/* ---------- başlangıç ---------- */
+setPhase("A");
+calcAnswer();
+renderQuestions();
+</script>
+</body>
+</html>
