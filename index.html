@@ -42,8 +42,8 @@ svg.i{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-widt
 
 /* ---------- düğmeler ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border:none;border-radius:12px;
-  font-size:17px;font-weight:600;background:var(--blue);color:#fff;transition:opacity .12s}
-.btn:active{opacity:.6}
+  font-size:17px;font-weight:600;background:var(--blue);color:#fff;transition:opacity .12s,transform .15s}
+.btn:active{opacity:.6;transform:scale(.97)}
 .btn:disabled{opacity:.3;cursor:default}
 .btn.tinted{background:var(--tint-blue);color:var(--blue)}
 .btn.tinted-green{background:var(--tint-green);color:var(--green)}
@@ -231,60 +231,114 @@ select option{background:var(--cell);color:var(--label)}
   transform:translate(-50%,calc(-100% - 12px));opacity:0;transition:opacity .12s;box-shadow:0 8px 30px rgba(0,0,0,.14);letter-spacing:-.08px;z-index:20}
 .tip b{font-size:15px}
 
-/* ---------- öğrenci ---------- */
+/* ---------- öğrenci & eğlenceli animasyonlar ---------- */
 #student{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:max(10px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));gap:14px}
 .s-top{width:100%;max-width:1120px;display:flex;align-items:center;justify-content:space-between;min-height:40px}
 .s-exit{color:var(--label3);font-size:15px}
-.timer{display:inline-flex;align-items:center;gap:6px;font-family:var(--round);font-size:17px;font-weight:600;color:var(--label2);background:var(--fill3);height:32px;padding:0 12px;border-radius:16px;font-variant-numeric:tabular-nums}
+.timer{display:inline-flex;align-items:center;gap:6px;font-family:var(--round);font-size:17px;font-weight:600;color:var(--label2);background:var(--fill3);height:32px;padding:0 12px;border-radius:16px;font-variant-numeric:tabular-nums;transition:all .25s}
 .timer svg.i{width:17px;height:17px}
-.timer.low{color:var(--red);background:var(--tint-red)}
+.timer.waiting{color:var(--blue);background:var(--tint-blue)}
+.timer.low{color:var(--red);background:var(--tint-red);animation:timerPulse .6s infinite alternate}
+@keyframes timerPulse{from{transform:scale(1)}to{transform:scale(1.08)}}
 .qhead{text-align:center;margin-top:-6px}
 .prompt{font-size:clamp(17px,2.2vw,22px);font-weight:500;color:var(--label2);letter-spacing:-.3px}
-.equation{font-family:var(--round);font-size:clamp(50px,7.4vw,80px);font-weight:700;letter-spacing:-.5px;line-height:1.08;margin-top:2px}
-.equation .qm{color:var(--blue)}
+.equation{font-family:var(--round);font-size:clamp(50px,7.4vw,80px);font-weight:700;letter-spacing:-.5px;line-height:1.08;margin-top:2px;transition:transform .3s}
+.equation .qm{color:var(--blue);display:inline-block;animation:qmFloat 2s ease-in-out infinite}
+@keyframes qmFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-6px) rotate(6deg)}}
 .msg{min-height:24px;font-size:clamp(16px,1.9vw,19px);font-weight:600;text-align:center;letter-spacing:-.3px}
 .msg.warn{color:var(--red)}.msg.info{color:var(--blue)}
 
-.tray{display:flex;gap:30px;justify-content:center;align-items:center;min-height:clamp(88px,12vh,108px);padding:12px 36px;background:var(--cell);border-radius:20px;min-width:260px}
-.sh{display:flex;justify-content:center;align-items:center;font-family:var(--round);font-weight:700;color:#fff}
-.sh[data-val="1"]{background:#FF3B30;border-radius:50%}
-.sh[data-val="2"]{background:#FF9500;border-radius:50% 0 50% 0}
-.sh[data-val="3"]{background:#FFCC00;color:#1C1C1E;clip-path:polygon(50% 0%,0% 100%,100% 100%);align-items:flex-end;padding-bottom:10%}
-.sh[data-val="4"]{background:#34C759;border-radius:22%}
-.sh[data-val="5"]{background:#30B0C7;clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
-.sh[data-val="6"]{background:#007AFF;clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)}
-.sh[data-val="7"]{background:#5856D6;clip-path:polygon(50% 0%,90% 20%,100% 60%,75% 100%,25% 100%,0% 60%,10% 20%)}
-.sh[data-val="8"]{background:#AF52DE;clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%)}
-.sh[data-val="9"]{background:#FF2D55;clip-path:polygon(50% 0%,83% 12%,100% 43%,94% 78%,68% 100%,32% 100%,6% 78%,0% 43%,17% 12%)}
+.tray{display:flex;gap:30px;justify-content:center;align-items:center;min-height:clamp(88px,12vh,108px);padding:12px 36px;background:var(--cell);border-radius:20px;min-width:260px;box-shadow:0 4px 20px rgba(0,0,0,.04)}
+.sh{display:flex;justify-content:center;align-items:center;font-family:var(--round);font-weight:700;color:#fff;position:relative}
+.sh[data-val="1"]{background:linear-gradient(145deg,#FF5E55,#FF3B30);border-radius:50%}
+.sh[data-val="2"]{background:linear-gradient(145deg,#FFB340,#FF9500);border-radius:50% 0 50% 0}
+.sh[data-val="3"]{background:linear-gradient(145deg,#FFE047,#FFCC00);color:#1C1C1E;clip-path:polygon(50% 0%,0% 100%,100% 100%);align-items:flex-end;padding-bottom:10%}
+.sh[data-val="4"]{background:linear-gradient(145deg,#4AE371,#34C759);border-radius:22%}
+.sh[data-val="5"]{background:linear-gradient(145deg,#4CC8DF,#30B0C7);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
+.sh[data-val="6"]{background:linear-gradient(145deg,#3395FF,#007AFF);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)}
+.sh[data-val="7"]{background:linear-gradient(145deg,#7A78F0,#5856D6);clip-path:polygon(50% 0%,90% 20%,100% 60%,75% 100%,25% 100%,0% 60%,10% 20%)}
+.sh[data-val="8"]{background:linear-gradient(145deg,#C774F0,#AF52DE);clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%)}
+.sh[data-val="9"]{background:linear-gradient(145deg,#FF5C7C,#FF2D55);clip-path:polygon(50% 0%,83% 12%,100% 43%,94% 78%,68% 100%,32% 100%,6% 78%,0% 43%,17% 12%)}
 .sh[data-val="10"]{background:var(--ten);clip-path:polygon(50% 0%,81% 10%,100% 35%,100% 65%,81% 90%,50% 100%,19% 90%,0% 65%,0% 35%,19% 10%)}
-.tray .sh{width:clamp(62px,7vw,80px);height:clamp(62px,7vw,80px);font-size:clamp(27px,3vw,33px);cursor:grab;touch-action:none;transition:transform .2s cubic-bezier(.3,.7,.4,1),opacity .2s}
-.tray .sh:active{transform:scale(.94)}
-.tray .sh.lifted{opacity:.2}
-.tray .sh.used{visibility:hidden}
-.tray .sh.shake{animation:shake .4s}
-/* Görsel İpucu (Prompt) Parlama Animasyonu */
-.tray .sh.prompt-hint{animation:hintPulse 1.1s infinite ease-in-out;box-shadow:0 0 0 6px rgba(0,122,255,.35)}
-@keyframes hintPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-.ghost{position:fixed;z-index:1000;pointer-events:none;transform:translate(-50%,-50%) scale(1.1);filter:drop-shadow(0 12px 16px rgba(0,0,0,.22))}
 
-.numline{position:relative;width:100%;max-width:1120px;height:clamp(150px,22vh,178px);background:var(--cell);border-radius:20px;display:flex;padding:0 8px;transition:box-shadow .2s;--mk:clamp(26px,3.3vw,40px)}
-.numline.over{box-shadow:0 0 0 3px var(--blue)}
-.numline::before{content:"";position:absolute;left:3.5%;right:3.5%;bottom:44px;height:2px;background:var(--fill);border-radius:1px}
-.zone{flex:1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:10px}
-.zone::before{content:"";position:absolute;bottom:38px;width:2px;height:14px;background:var(--fill);border-radius:1px}
-.zlabel{font-family:var(--round);font-size:clamp(17px,2.2vw,22px);font-weight:600;color:var(--label2);font-variant-numeric:tabular-nums}
-.zlabel.hit{animation:hit .7s ease}
-@keyframes hit{0%{transform:scale(1)}35%{transform:scale(1.65);color:var(--blue)}100%{transform:scale(1)}}
-.mk{position:absolute;width:var(--mk);height:var(--mk);font-size:calc(var(--mk)*.45);opacity:.42;animation:pop .5s cubic-bezier(.3,1.5,.5,1)}
-.mk.final{opacity:1}
-.mk.lane0{bottom:60px}.mk.lane1{bottom:calc(68px + var(--mk))}
-@keyframes pop{0%{transform:translateY(-60px) scale(.3);opacity:0}60%{transform:translateY(4px) scale(1.15)}100%{transform:translateY(0) scale(1)}}
+/* Tepsideki şekillerde tatlı nefes alma / yüzme animasyonu */
+.tray .sh{width:clamp(62px,7vw,80px);height:clamp(62px,7vw,80px);font-size:clamp(27px,3vw,33px);cursor:grab;touch-action:none;
+  filter:drop-shadow(0 6px 12px rgba(0,0,0,.15));
+  animation:idleFloat 2.8s ease-in-out infinite;
+  transition:transform .2s cubic-bezier(.3,1.5,.5,1),opacity .2s}
+.tray .sh:nth-child(2){animation-delay:.4s}
+@keyframes idleFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+.tray .sh:hover{transform:scale(1.08) translateY(-4px)}
+.tray .sh:active{transform:scale(.92)}
+.tray .sh.lifted{opacity:.2;animation:none}
+.tray .sh.used{visibility:hidden;animation:none}
+.tray .sh.shake{animation:shake .45s cubic-bezier(.36,.07,.19,.97)}
+.tray .sh.prompt-hint{animation:hintPulse 1s infinite ease-in-out;box-shadow:0 0 0 8px rgba(0,122,255,.35)}
+@keyframes hintPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2) rotate(-4deg)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-11px) rotate(-6deg)}40%{transform:translateX(11px) rotate(6deg)}60%{transform:translateX(-7px) rotate(-3deg)}80%{transform:translateX(7px) rotate(3deg)}}
+.ghost{position:fixed;z-index:1000;pointer-events:none;transform:translate(-50%,-50%) scale(1.18) rotate(-4deg);filter:drop-shadow(0 16px 24px rgba(0,0,0,.28));transition:transform .1s}
+
+/* Sayı Doğrusu ve Zıplama Kemerleri */
+.numline{position:relative;width:100%;max-width:1120px;height:clamp(165px,24vh,195px);background:var(--cell);border-radius:22px;display:flex;padding:0 8px;transition:box-shadow .25s,transform .25s;--mk:clamp(28px,3.5vw,42px);overflow:visible;box-shadow:0 4px 20px rgba(0,0,0,.04)}
+.numline.over{box-shadow:0 0 0 4px var(--blue),0 12px 30px rgba(0,122,255,.18);transform:scale(1.01)}
+.numline::before{content:"";position:absolute;left:3.5%;right:3.5%;bottom:44px;height:3px;background:var(--fill);border-radius:2px}
+.arc-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
+.jump-arc{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:120;stroke-dashoffset:120;animation:drawArc .45s ease-out forwards}
+@keyframes drawArc{to{stroke-dashoffset:0}}
+
+.zone{flex:1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:10px;z-index:3}
+.zone::before{content:"";position:absolute;bottom:37px;width:3px;height:16px;background:var(--fill);border-radius:1.5px;transition:all .25s}
+.zone.active-step::before{background:var(--blue);height:22px;transform:scaleX(1.4)}
+.zlabel{font-family:var(--round);font-size:clamp(18px,2.3vw,23px);font-weight:700;color:var(--label2);font-variant-numeric:tabular-nums;transition:color .2s,transform .2s}
+.zlabel.hit{animation:hitBounce .65s cubic-bezier(.3,1.6,.4,1);color:var(--blue)}
+@keyframes hitBounce{0%{transform:scale(1)}35%{transform:scale(1.85) translateY(-4px);color:var(--blue)}70%{transform:scale(.92)}100%{transform:scale(1.15)}}
+
+/* Adım Dalga Halkası (Ripple) */
+.step-ripple{position:absolute;bottom:36px;width:18px;height:18px;border-radius:50%;border:3px solid var(--blue);pointer-events:none;animation:rippleOut .65s ease-out forwards}
+@keyframes rippleOut{0%{transform:scale(.4);opacity:1}100%{transform:scale(3.2);opacity:0}}
+
+/* Sayı Doğrusundaki İz Şekilleri ve Zıplayan Karakter */
+.mk{position:absolute;width:var(--mk);height:var(--mk);font-size:calc(var(--mk)*.46);opacity:.48;filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));
+  animation:popElastic .55s cubic-bezier(.28,1.75,.45,1) forwards}
+.mk.final{opacity:1;transform:scale(1.14);z-index:5;filter:drop-shadow(0 6px 14px rgba(0,0,0,.25));animation:finalCrown .7s cubic-bezier(.25,1.8,.4,1) forwards}
+.mk.lane0{bottom:60px}.mk.lane1{bottom:calc(70px + var(--mk))}
+@keyframes popElastic{
+  0%{transform:translateY(-55px) scale(.2) rotate(-20deg);opacity:0}
+  55%{transform:translateY(5px) scale(1.25, .82) rotate(6deg);opacity:.85}
+  75%{transform:translateY(-6px) scale(.92, 1.1) rotate(-3deg)}
+  100%{transform:translateY(0) scale(1) rotate(0deg)}
+}
+@keyframes finalCrown{
+  0%{transform:translateY(-65px) scale(.2);opacity:0}
+  50%{transform:translateY(6px) scale(1.38, .78);opacity:1}
+  75%{transform:translateY(-10px) scale(.95, 1.18)}
+  100%{transform:translateY(0) scale(1.14);opacity:1}
+}
+
+/* Zıplayarak İlerleyen Canlı Gezgin Şekil */
+.hero-hopper{position:absolute;width:calc(var(--mk)*1.18);height:calc(var(--mk)*1.18);font-size:calc(var(--mk)*.52);z-index:15;pointer-events:none;
+  filter:drop-shadow(0 10px 16px rgba(0,0,0,.28));transform:translate(-50%,0);transition:left .32s cubic-bezier(.42,0,.58,1), bottom .32s cubic-bezier(.42,0,.58,1)}
+.hero-hopper.jumping{animation:frogHop .38s ease-in-out}
+@keyframes frogHop{
+  0%{transform:translate(-50%,0) scale(1.15,.85)}
+  45%{transform:translate(-50%,-48px) scale(.92,1.15) rotate(8deg)}
+  85%{transform:translate(-50%,4px) scale(1.22,.8) rotate(-4deg)}
+  100%{transform:translate(-50%,0) scale(1,1) rotate(0deg)}
+}
+
+/* Parçacık / Yıldız Patlaması (Sparkle Burst) */
+.particle{position:fixed;pointer-events:none;z-index:1200;border-radius:50%;animation:particleFly .75s cubic-bezier(.15,.85,.35,1) forwards}
+@keyframes particleFly{
+  0%{transform:translate(-50%,-50%) scale(0);opacity:1}
+  70%{opacity:1}
+  100%{transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1) rotate(180deg);opacity:0}
+}
 
 .answer{display:flex;gap:16px;align-items:stretch;justify-content:center;width:100%;max-width:1120px}
 .pad-wrap{position:relative;flex:0 1 500px;min-width:0}
 .pad-title{font-size:13px;color:var(--label2);text-transform:uppercase;letter-spacing:-.08px;margin:0 0 7px 16px}
-.pad-box{position:relative;border-radius:20px;background:var(--cell);overflow:hidden}
+.pad-box{position:relative;border-radius:20px;background:var(--cell);overflow:hidden;transition:box-shadow .3s}
+.answer:not(.locked) .pad-box{box-shadow:0 0 0 2.5px var(--blue), 0 8px 25px rgba(0,122,255,.12)}
 .pad-box::after{content:"";position:absolute;left:28px;right:28px;bottom:26%;height:1.5px;background:var(--fill);pointer-events:none}
 #pad{position:relative;z-index:1;display:block;width:100%;height:clamp(170px,27vh,250px);touch-action:none;cursor:crosshair}
 .answer.locked .pad-box{opacity:.5}
@@ -306,7 +360,7 @@ select option{background:var(--cell);color:var(--label)}
 .toast .t2{font-family:var(--round);font-size:clamp(20px,2.6vw,26px);font-weight:600;color:var(--label2);margin-top:4px}
 
 .done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding-bottom:40px}
-.done .seal{width:110px;height:110px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.done .seal{width:110px;height:110px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:14px;animation:finalCrown .8s cubic-bezier(.25,1.8,.4,1)}
 .done .seal svg.i{width:60px;height:60px;stroke-width:3}
 .done h2{font-size:clamp(30px,4.4vw,40px);font-weight:700;margin:0;letter-spacing:.3px}
 .done p{font-size:19px;color:var(--label2);margin:4px 0 26px}
@@ -489,7 +543,7 @@ select option{background:var(--cell);color:var(--label)}
                 <option value="1">En az 1 oturum</option><option value="2">Ardışık 2 oturum</option><option value="3" selected>Ardışık 3 oturum</option><option value="4">Ardışık 4 oturum</option>
               </select></span></div>
           </div>
-          <div class="group-foot">İpucu açıkken: uygulama evresinde öğrenci 5 sn hareketsiz kalırsa doğru şekil parlayarak görsel ipucu verir.</div>
+          <div class="group-foot">Süre sayacı yalnızca öğrenci ilk sayıyı sayı doğrusuna sürüklediğinde başlar.</div>
         </div>
 
         <div>
@@ -540,17 +594,13 @@ select option{background:var(--cell);color:var(--label)}
       </div>
     </div>
 
-    <!-- SONUÇLAR (Öğrenci Adına Tıklamalı + Hata Analizi + Ölçüt + GAG + Latency Grafiği) -->
+    <!-- SONUÇLAR -->
     <div id="tab-sonuclar" class="tab hidden">
       <div class="large-title">Sonuçlar</div>
       <p class="large-sub">Verilerini, hata analizini, GAG güvenirliğini ve grafiklerini görmek istediğiniz öğrencinin adına tıklayın.</p>
 
       <div class="student-pills" id="studentResultPills"></div>
-
-      <!-- ÖLÇÜT KARŞILAMA DURUM KUTUSU -->
       <div id="criterionBanner" class="criterion-banner hidden"></div>
-
-      <!-- GAG ÖZET KUTUSU -->
       <div id="gagBanner" class="gag-banner hidden"></div>
 
       <div class="toolbar">
@@ -567,7 +617,6 @@ select option{background:var(--cell);color:var(--label)}
       <div class="group" id="rBody"></div>
       <div class="group-foot">Bir oturuma dokunun: her sorunun el yazısı görüntüsü açılır. "Hataları Analiz Et" ile hata türlerini (sıralama, sürükleme, sembol yazımı) ayrıştırabilirsiniz.</div>
 
-      <!-- SEÇİLEN ÖĞRENCİNİN GRAFİĞİ -->
       <div id="studentChartSection" style="margin-top:32px">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
           <div class="group-title" style="margin:0 0 8px 4px">Performans Grafiği · <span id="chartStudentTitle">Seçili Öğrenci</span></div>
@@ -583,7 +632,6 @@ select option{background:var(--cell);color:var(--label)}
           <div class="legend" id="gLegend"></div>
           <div class="chart-box" id="chartBox"></div>
         </div>
-        <!-- İSTEĞE BAĞLI TEPKİ BEKLEME SÜRESİ GRAFİĞİ -->
         <div id="latencyChartWrap" class="chart-card hidden" style="margin-top:14px">
           <div style="font-size:13px;font-weight:600;color:var(--label2);margin:0 4px 6px">Ortalama Tepki Bekleme Süresi (Latency · Saniye)</div>
           <div class="chart-box" id="latencyChartBox"></div>
@@ -643,6 +691,7 @@ const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby.../exec";
 const SHEETS_ON = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(GOOGLE_SCRIPT_URL);
 const TESSERACT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
 const NUM_WORDS = ["sıfır","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz","on"];
+const SHAPE_COLORS = ["","#FF3B30","#FF9500","#FFCC00","#34C759","#30B0C7","#007AFF","#5856D6","#AF52DE","#FF2D55","#1C1C1E"];
 const EVRE = { A: "Başlama düzeyi", B: "Uygulama", C: "İzleme", D: "Genelleme" };
 const ADMIN_SIFRE = "1996";
 
@@ -696,6 +745,27 @@ function speak(text) {
     u.lang = "tr-TR"; u.rate = 0.85;
     speechSynthesis.speak(u);
   } catch (e) {}
+}
+
+/* ---------- eğlenceli yıldız / konfeti parçacık efekti ---------- */
+function burstParticles(x, y, color, count = 14) {
+  const palette = [color || "#007AFF", "#FFCC00", "#34C759", "#FF2D55", "#5856D6", "#FF9500"];
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("div");
+    p.className = "particle";
+    const size = 6 + Math.random() * 8;
+    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4;
+    const dist = 32 + Math.random() * 55;
+    p.style.width = size + "px";
+    p.style.height = size + "px";
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    p.style.background = palette[i % palette.length];
+    p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+    p.style.setProperty("--dy", Math.sin(angle) * dist - 15 + "px");
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 800);
+  }
 }
 
 /* ============================================================
@@ -780,7 +850,6 @@ async function login() {
   const btn = $("#loginBtn");
   msg.innerText = "";
 
-  // 1. YÖNETİCİ GİRİŞİ
   if (role === "yonetici") {
     const pass = $("#inAdminPass").value.trim();
     if (!pass) { msg.innerText = "Lütfen yönetici şifresini girin."; return; }
@@ -808,7 +877,6 @@ async function login() {
     return;
   }
 
-  // 2. ÖĞRETMEN GİRİŞİ
   if (role === "ogretmen") {
     const n = $("#inTeacher").value.trim();
     const tKod = $("#inTeacherCode").value.trim();
@@ -821,7 +889,6 @@ async function login() {
     return;
   }
 
-  // 3. ÖĞRENCİ GİRİŞİ (İsim + Kod Zorunlu Eşleşme Kilidi)
   const name = $("#inName").value.trim();
   const kod = $("#inCode").value.trim();
   if (!name || !/^\d{6}$/.test(kod)) { msg.innerText = "Öğrenci adını ve 6 haneli kodu yazın."; return; }
@@ -834,7 +901,6 @@ async function login() {
   btn.disabled = false; btn.innerText = "Başla";
   if (!session) { msg.innerText = "Bu kodla eşleşen oturum bulunamadı."; return; }
 
-  // Öğretmenin tanımladığı öğrenci adı ile giriş yapılan ad birebir örtüşmeli
   if (session.hedefOgrenci && cleanName(session.hedefOgrenci) !== cleanName(name)) {
     msg.innerText = "Bu oturum kodu girdiğiniz öğrenci adına tanımlanmamış! Lütfen öğretmenin kaydettiği öğrenci adını yazın.";
     return;
@@ -1009,7 +1075,6 @@ function renderSavedStudentsForEdit() {
   }).join("");
 }
 
-// 1. ÖZELLİK: Çift Onaylı Öğretim Silme
 function deleteStudentTeaching(studentName) {
   if (!studentName || !teacherPackages[studentName]) return;
   if (!confirm("Oturumu silmek istiyor musun?")) return;
@@ -1150,7 +1215,6 @@ function addQuestion() {
   markDirty(); renderQuestions();
 }
 
-// 8. ÖZELLİK: Belirlenen Soru Sayısı Kadar Rastgele Soru Atama
 function generateRandomQuestionPool(op, sure) {
   const pool = [];
   if (op === "+") {
@@ -1321,7 +1385,7 @@ function openStudentHere(kod, stName) {
 }
 
 /* ============================================================
-   ÖĞRENCİ ÇALIŞMASI (Latency + Hata Türleri + İpucu + Üzerine Sayma)
+   ÖĞRENCİ ÇALIŞMASI (Sürükleyince Başlayan Sayaç + Zıplama Animasyonları)
    ============================================================ */
 const S = {
   session: null, name: "", queue: [], idx: 0, results: [], q: null,
@@ -1329,7 +1393,7 @@ const S = {
   hata: 0, errTypes: { siralama: 0, surukleme: 0, sembol: 0, sure: 0 },
   firstTouchTime: null, promptCount: 0, promptTimer: null,
   attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false,
-  start: 0, timer: null, autoTimer: null
+  questionShownAt: 0, start: 0, timerStarted: false, timer: null, autoTimer: null
 };
 const isUyg = () => S.session && S.session.mod === "uygulama";
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -1376,20 +1440,29 @@ function nextQuestion() {
     q, pos: 0, placed: 0, remaining: [q.num1, q.num2],
     hata: 0, errTypes: { siralama: 0, surukleme: 0, sembol: 0, sure: 0 },
     firstTouchTime: null, promptCount: 0,
-    attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false, start: Date.now()
+    attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false,
+    questionShownAt: Date.now(), start: 0, timerStarted: false
   });
-  $$(".mk").forEach(e => e.remove());
+  clearNumberLineVisuals();
   $("#prompt").innerText = `${S.idx}. sorudaki işlemi yap`;
   $("#equation").innerHTML = `${q.num1} ${q.op === "-" ? "−" : "+"} ${q.num2} = <span class="qm">?</span>`;
   setMsg("");
   buildTray([q.num1, q.num2]);
   lockAnswer(true);
   clearPad(true);
-  startTimer(q.sureSiniri);
+  // SÜRE BURADA BAŞLAMAZ: Sadece beklemede gösterilir, ilk sayı sayı doğrusuna sürüklendiğinde başlar
+  prepareTimerDisplay(q.sureSiniri);
   schedulePromptHint();
 }
 
-// 6. ÖZELLİK: İpucunun Giderek Azaltılması (Görsel İpucu)
+function clearNumberLineVisuals() {
+  $$(".mk, .hero-hopper, .step-ripple").forEach(e => e.remove());
+  $$("#numline .zone").forEach(z => z.classList.remove("active-step"));
+  $$("#numline .zlabel").forEach(l => l.classList.remove("hit"));
+  const svg = $("#arcSvg");
+  if (svg) svg.innerHTML = "";
+}
+
 function clearPromptTimer() {
   if (S.promptTimer) clearTimeout(S.promptTimer);
   S.promptTimer = null;
@@ -1409,13 +1482,26 @@ function schedulePromptHint() {
   }, 5000);
 }
 
-function startTimer(sec) {
+// Sayı doğrusuna sürüklemeden önce süreyi hazırda bekletir
+function prepareTimerDisplay(sec) {
   stopTimer();
-  let left = sec;
   const el = $("#timer");
   const show = S.session.ayarlar.sureGoster;
   el.classList.toggle("hidden", !show);
   el.classList.remove("low");
+  el.classList.add("waiting");
+  el.innerHTML = '<svg class="i"><use href="#i-timer"/></svg>' + sec + ' sn (Hazır)';
+}
+
+function startTimer(sec) {
+  stopTimer();
+  S.timerStarted = true;
+  S.start = Date.now();
+  let left = sec;
+  const el = $("#timer");
+  const show = S.session.ayarlar.sureGoster;
+  el.classList.toggle("hidden", !show);
+  el.classList.remove("low", "waiting");
   const draw = v => el.innerHTML = '<svg class="i"><use href="#i-timer"/></svg>' + Math.max(v, 0);
   draw(left);
   S.timer = setInterval(() => {
@@ -1433,7 +1519,7 @@ function stopTimer() { if (S.timer) clearInterval(S.timer); S.timer = null; }
 
 function buildNumberLine() {
   const nl = $("#numline");
-  nl.innerHTML = "";
+  nl.innerHTML = `<svg class="arc-svg" id="arcSvg"></svg>`;
   for (let i = 0; i <= 10; i++) {
     const z = document.createElement("div");
     z.className = "zone"; z.dataset.i = i;
@@ -1459,9 +1545,8 @@ function startDrag(e) {
   const el = e.currentTarget;
   if (S.animating || S.placed >= 2 || el.classList.contains("used")) return;
   e.preventDefault();
-  // 2. ÖZELLİK: Tepki Bekleme Süresi (Latency) Kaydı (İlk dokunuş anı)
-  if (S.firstTouchTime === null && S.start) {
-    S.firstTouchTime = +((Date.now() - S.start) / 1000).toFixed(2);
+  if (S.firstTouchTime === null && S.questionShownAt) {
+    S.firstTouchTime = +((Date.now() - S.questionShownAt) / 1000).toFixed(2);
   }
   clearPromptTimer();
   const ghost = el.cloneNode(true);
@@ -1494,7 +1579,6 @@ function endDrag(e) {
     if (overLine(e.clientX, e.clientY)) {
       tryPlace(parseInt(el.dataset.val), el);
     } else {
-      // 3. ÖZELLİK: Sürükleme / Motor Hatası
       S.hata++; S.errTypes.surukleme++;
       schedulePromptHint();
     }
@@ -1505,6 +1589,12 @@ window.addEventListener("pointercancel", endDrag);
 
 function tryPlace(val, el) {
   if (!S.q || S.animating || S.placed >= 2) return false;
+
+  // ÖĞRENCİ SAYIYI SAYI DOĞRUSUNA SÜRÜKLEDİĞİ AN GERİ SAYIM BAŞLAR
+  if (!S.timerStarted) {
+    startTimer(S.q.sureSiniri);
+  }
+
   const minus = S.q.op === "-";
   let msg = "";
   if (minus) {
@@ -1514,7 +1604,6 @@ function tryPlace(val, el) {
     msg = "Sorudaki sayıları kullanmalısın!";
   }
   if (msg) {
-    // 3. ÖZELLİK: Sıralama / Kavram Hatası
     S.hata++; S.errTypes.siralama++;
     el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
     if (isUyg()) setMsg(msg, "warn");
@@ -1528,27 +1617,73 @@ function tryPlace(val, el) {
   return true;
 }
 
-// Üzerine Sayma (Counting On) ve Geriye Sayma (Counting Back)
+// İki sayı doğrusu noktası arasına kavisli zıplama izi (kemer) çizer
+function drawJumpArc(fromIdx, toIdx, val, lane) {
+  const nl = $("#numline");
+  const svg = $("#arcSvg");
+  const zones = $$("#numline .zone");
+  if (!svg || !zones[fromIdx] || !zones[toIdx]) return;
+  const nlRect = nl.getBoundingClientRect();
+  const r1 = zones[fromIdx].getBoundingClientRect();
+  const r2 = zones[toIdx].getBoundingClientRect();
+  const x1 = r1.left + r1.width / 2 - nlRect.left;
+  const x2 = r2.left + r2.width / 2 - nlRect.left;
+  const baseY = nlRect.height - (lane === 0 ? 74 : 114);
+  const peakY = baseY - (lane === 0 ? 44 : 38);
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("d", `M ${x1} ${baseY} Q ${(x1 + x2) / 2} ${peakY} ${x2} ${baseY}`);
+  path.setAttribute("class", "jump-arc");
+  path.setAttribute("stroke", SHAPE_COLORS[val] || "#007AFF");
+  svg.appendChild(path);
+}
+
+// Canlı zıplayan şekil + Kavisli zıplama kemeri + Üzerine/Geriye sesli sayma
 async function animateMove(val, dir, lane) {
   const token = ++S.token;
   S.animating = true;
   const start = S.pos;
+  const nl = $("#numline");
+  const zones = $$("#numline .zone");
+
+  // Başlangıç noktasında zıplayacak canlı gezgin şekli oluştur
+  const hopper = document.createElement("div");
+  hopper.className = "sh hero-hopper";
+  hopper.dataset.val = val;
+  hopper.innerHTML = `<span>${val}</span>`;
+  const setHopperPos = idx => {
+    if (!zones[idx]) return;
+    const nlRect = nl.getBoundingClientRect();
+    const zRect = zones[idx].getBoundingClientRect();
+    hopper.style.left = (zRect.left + zRect.width / 2 - nlRect.left) + "px";
+    hopper.style.bottom = (lane === 0 ? 60 : 104) + "px";
+  };
+  setHopperPos(start);
+  nl.appendChild(hopper);
+
   for (let s = 1; s <= val; s++) {
-    if (token !== S.token) return;
+    if (token !== S.token) { hopper.remove(); return; }
+    const prevPos = start + (s - 1) * dir;
     const currentPos = start + s * dir;
+
+    // Zıplama animasyonu ve kavis çizimi
+    hopper.classList.remove("jumping"); void hopper.offsetWidth; hopper.classList.add("jumping");
+    setHopperPos(currentPos);
+    drawJumpArc(prevPos, currentPos, val, lane);
+
     dropMarker(currentPos, val, s, s === val, lane);
     if (S.session.ayarlar.ses && isUyg()) {
       speak(NUM_WORDS[currentPos] || String(currentPos));
     }
     await sleep(S.session.ayarlar.hiz);
   }
+  hopper.remove();
   if (token !== S.token) return;
   S.pos = start + val * dir;
   S.placed++;
   S.animating = false;
   if (S.placed >= 2) {
     lockAnswer(false);
-    setMsg("Şimdi cevabını yaz", "info");
+    setMsg("Şimdi cevabını yaz ✨", "info");
   } else {
     schedulePromptHint();
   }
@@ -1557,13 +1692,28 @@ async function animateMove(val, dir, lane) {
 function dropMarker(i, val, count, final, lane) {
   if (i < 0 || i > 10) return;
   const zone = $$("#numline .zone")[i];
+  zone.classList.add("active-step");
   const lbl = zone.querySelector(".zlabel");
   lbl.classList.remove("hit"); void lbl.offsetWidth; lbl.classList.add("hit");
+
+  // Adım dalga halkası (Ripple)
+  const rip = document.createElement("div");
+  rip.className = "step-ripple";
+  rip.style.borderColor = SHAPE_COLORS[val] || "var(--blue)";
+  zone.appendChild(rip);
+  setTimeout(() => rip.remove(), 700);
+
   const m = document.createElement("div");
   m.className = `sh mk lane${lane}` + (final ? " final" : "");
   m.dataset.val = val;
   m.innerHTML = `<span>${count}</span>`;
   zone.appendChild(m);
+
+  // Son adıma ulaştığında yıldız parçacıkları patlat
+  if (final) {
+    const r = zone.getBoundingClientRect();
+    burstParticles(r.left + r.width / 2, r.top + 35, SHAPE_COLORS[val], 14);
+  }
 }
 
 const pad = $("#pad");
@@ -1745,11 +1895,11 @@ async function submitAnswer() {
   if (correct) {
     record(true, read, thumb);
     setMsg("");
+    burstParticles(window.innerWidth / 2, window.innerHeight / 2, "#34C759", 26);
     toast(`Aferin! 🎉<small>Cevap ${expected}</small>`, "ok", 1800);
     if (S.session.ayarlar.ses) speak("Aferin! Cevap " + (NUM_WORDS[+expected] || expected));
     return setTimeout(nextQuestion, 2100);
   }
-  // 3. ÖZELLİK: Yazım / Sembol Hatası
   S.hata++; S.errTypes.sembol++;
   if (S.attempts >= S.session.ayarlar.deneme) {
     record(false, read, thumb);
@@ -1767,14 +1917,16 @@ async function submitAnswer() {
 
 function retryQuestion() {
   const q = S.q;
+  stopTimer();
   S.token++; S.animating = false;
-  Object.assign(S, { pos: 0, placed: 0, remaining: [q.num1, q.num2], empties: 0, timeout: false });
-  $$(".mk").forEach(e => e.remove());
+  Object.assign(S, { pos: 0, placed: 0, remaining: [q.num1, q.num2], empties: 0, timeout: false, timerStarted: false, start: 0 });
+  clearNumberLineVisuals();
   buildTray([q.num1, q.num2]);
   clearPad(true);
   lockAnswer(true);
   setMsg("");
-  startTimer(q.sureSiniri);
+  // Yeniden denemede de öğrenci sayıyı sayı doğrusuna sürükleyene kadar sayaç başlamaz
+  prepareTimerDisplay(q.sureSiniri);
   schedulePromptHint();
 }
 
@@ -1784,7 +1936,8 @@ function record(dogru, read, thumb) {
   stopTimer(); clearPromptTimer();
   lockAnswer(true);
   const q = S.q;
-  const totalSec = +((Date.now() - S.start) / 1000).toFixed(2);
+  const activeStart = S.start || S.questionShownAt || Date.now();
+  const totalSec = +((Date.now() - activeStart) / 1000).toFixed(2);
   S.results.push({
     no: S.idx, num1: q.num1, num2: q.num2, op: q.op,
     soru: `${q.num1}${q.op}${q.num2}`,
@@ -1826,6 +1979,7 @@ function finishSession() {
   $("#workArea").style.display = "none";
   $("#timer").classList.add("hidden");
   $("#doneArea").classList.remove("hidden");
+  burstParticles(window.innerWidth / 2, window.innerHeight / 3, "#34C759", 32);
   $("#doneTitle").innerText = `Bitti! Aferin ${S.name}`;
   $("#doneSub").innerText = s.mod === "uygulama" ? `${res.sorular.length} sorudan ${dogru} tanesini doğru yaptın.` : "Tüm soruları tamamladın.";
   if (s.mod === "uygulama" && s.ayarlar.ses) speak("Bitti! Aferin " + S.name);
@@ -1957,7 +2111,6 @@ function summary(r) {
       errSum.sure += (+q.hataDetay.sure || 0);
     }
   });
-  // GAG (IOA) hesaplama
   let gagScored = 0, gagAgree = 0;
   r.sorular.forEach(q => {
     const s1 = scoreOf(r, q), s2 = gagScoreOf(r, q);
@@ -2008,7 +2161,6 @@ function filtered() {
   return RESULTS.filter(r => (!selectedResultStudent || r.ogrenci === selectedResultStudent) && (!ty || r.mod === ty));
 }
 
-// 4. ÖZELLİK: Ölçüt Karşılama Kontrolü
 function getStudentCriterion(studentName) {
   const pkg = teacherPackages && teacherPackages[studentName];
   const yuzde = (pkg && pkg.ayarlar && pkg.ayarlar.olcutYuzde) ? +pkg.ayarlar.olcutYuzde : (+$("#tOlcutYuzde").value || 80);
@@ -2037,7 +2189,6 @@ function renderCriterionAndGagBanners(rows) {
     ? `<span><b>✓ Ölçüt Karşılandı (${esc(EVRE[lastPhase] || lastPhase)}):</b> Öğrenci son ${oturum} ardışık oturumda <b>%${yuzde}</b> ve üzeri başarı gösterdi. Bir sonraki evreye geçebilirsiniz.</span>`
     : `<span><b>Ölçüt Takibi (${esc(EVRE[lastPhase] || lastPhase)}):</b> Hedef ardışık ${oturum} oturumda en az <b>%${yuzde}</b> başarı (${phaseSessions.length} oturum tamamlandı).</span>`;
 
-  // GAG Genel Özeti
   let totalGagScored = 0, totalGagAgree = 0;
   rows.forEach(r => {
     r.sorular.forEach(q => {
@@ -2195,7 +2346,6 @@ function renderChart() {
     g += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="${C.line}" stroke-width="1"/>`;
     g += `<text x="${L - 10}" y="${Y(v) + 4}" text-anchor="end" font-size="12" fill="${C.muted}">${v}</text>`;
   });
-  // Ölçüt çizgisi
   g += `<line x1="${L}" x2="${W - R}" y1="${Y(critPct)}" y2="${Y(critPct)}" stroke="${C.green}" stroke-width="1.5" stroke-dasharray="5 4"/>`;
   g += `<text transform="translate(16 ${T + ih / 2}) rotate(-90)" text-anchor="middle" font-size="12" font-weight="600" fill="${C.muted}">Doğru yüzdesi (%)</text>`;
   const every = Math.ceil(n / 20);
@@ -2238,7 +2388,6 @@ function renderChart() {
     c.addEventListener("pointerleave", () => tip.style.opacity = 0);
   });
 
-  // 2. ÖZELLİK: İsteğe Bağlı Tepki Bekleme Süresi (Latency) Grafiği
   if (!showLatency) {
     latWrap.classList.add("hidden");
     return;
