@@ -299,4 +299,386 @@
     <!-- Üst Çubuk -->
     <div class="top-bar">
         <div class="header">
-            <button class="mode-btn active" onclick="
+            <button class="mode-btn active" onclick="modDegistir('serbest', this)">Serbest Mod</button>
+            <button class="mode-btn" onclick="modDegistir('toplama', this)">Toplama Soruları</button>
+            <button class="mode-btn" onclick="modDegistir('cikarma', this)">Çıkarma Soruları</button>
+        </div>
+        <div class="user-badge" onclick="isimDegistir()" id="aktifKullaniciGosterge">👤 Öğrenci Girişi</div>
+    </div>
+
+    <!-- Soru Başlığı ve Uyarı -->
+    <div id="questionDisplay">Serbest Mod: Sayıları Sürükle!</div>
+    <div id="warningMsg"></div>
+
+    <!-- Şekiller (Doğrudan görünür olması için HTML içinde hazır) -->
+    <div class="shapes-container" id="shapesContainer">
+        <div class="shape" data-val="1" draggable="true">1</div>
+        <div class="shape" data-val="2" draggable="true">2</div>
+        <div class="shape" data-val="3" draggable="true">3</div>
+        <div class="shape" data-val="4" draggable="true">4</div>
+        <div class="shape" data-val="5" draggable="true">5</div>
+        <div class="shape" data-val="6" draggable="true">6</div>
+        <div class="shape" data-val="7" draggable="true">7</div>
+        <div class="shape" data-val="8" draggable="true">8</div>
+        <div class="shape" data-val="9" draggable="true">9</div>
+        <div class="shape" data-val="10" draggable="true">10</div>
+    </div>
+
+    <!-- Sayı Doğrusu (Doğrudan görünür olması için HTML içinde hazır) -->
+    <div class="number-line-wrapper" id="numberLine">
+        <div class="drop-zone" data-index="0"><div class="number-label">0</div></div>
+        <div class="drop-zone" data-index="1"><div class="number-label">1</div></div>
+        <div class="drop-zone" data-index="2"><div class="number-label">2</div></div>
+        <div class="drop-zone" data-index="3"><div class="number-label">3</div></div>
+        <div class="drop-zone" data-index="4"><div class="number-label">4</div></div>
+        <div class="drop-zone" data-index="5"><div class="number-label">5</div></div>
+        <div class="drop-zone" data-index="6"><div class="number-label">6</div></div>
+        <div class="drop-zone" data-index="7"><div class="number-label">7</div></div>
+        <div class="drop-zone" data-index="8"><div class="number-label">8</div></div>
+        <div class="drop-zone" data-index="9"><div class="number-label">9</div></div>
+        <div class="drop-zone" data-index="10"><div class="number-label">10</div></div>
+    </div>
+
+    <button id="freeResetBtn" onclick="resetBoard()">Sayı Doğrusunu Temizle</button>
+
+    <!-- Çizim Alanı -->
+    <div id="drawingArea">
+        <div class="canvas-container">
+            <h2>Cevabını Yaz:</h2>
+            <canvas id="drawCanvas" width="300" height="180"></canvas>
+        </div>
+        <div class="canvas-controls">
+            <button id="clearBtn" class="action-btn" onclick="clearCanvas()">Sil</button>
+            <button id="nextBtn" class="action-btn" onclick="generateQuestion()">Yeni Soru</button>
+        </div>
+    </div>
+
+    <!-- Giriş Penceresi -->
+    <div id="loginModal">
+        <div class="login-box">
+            <h1>Meka-Matematik</h1>
+            <p>Başlamak için adınızı yazın</p>
+            <input type="text" id="kullaniciAdiInput" placeholder="Adınız..." autocomplete="off">
+            <button type="button" id="baslaBtn" onclick="uygulamayiBaslat()">Başla</button>
+        </div>
+    </div>
+
+<script>
+    // GOOGLE SHEETS API URL (KENDİ LİNKİNİZİ BURAYA YAPIŞTIRIN)
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby.../exec";
+
+    let aktifKullanici = "Misafir";
+    let baslangicZamani = new Date().getTime();
+    let hataSayisi = 0;
+
+    let currentMode = 'serbest';
+    let currentQ = { num1: 0, num2: 0 };
+    let currentPosition = 0; 
+    let placedNumbers = 0;
+
+    // Giriş Fonksiyonları
+    function uygulamayiBaslat() {
+        const input = document.getElementById("kullaniciAdiInput").value.trim();
+        if (input !== "") {
+            aktifKullanici = input;
+        }
+        document.getElementById("aktifKullaniciGosterge").innerText = "👤 " + aktifKullanici;
+        document.getElementById("loginModal").style.display = "none";
+        baslangicZamani = new Date().getTime();
+    }
+
+    function isimDegistir() {
+        document.getElementById("loginModal").style.display = "flex";
+        document.getElementById("kullaniciAdiInput").focus();
+    }
+
+    // Enter tuşu ile giriş
+    document.getElementById("kullaniciAdiInput").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") uygulamayiBaslat();
+    });
+
+    // Veri Gönderme
+    function veriGonder(mod, soruStr, sonucText) {
+        if (mod === 'serbest' || GOOGLE_SCRIPT_URL.includes("AKfycby...")) return; 
+
+        const bitisZamani = new Date().getTime();
+        const gecenSureSaniye = ((bitisZamani - baslangicZamani) / 1000).toFixed(2);
+
+        const gidenVeri = {
+            kullaniciAdi: aktifKullanici,
+            mod: mod,
+            soru: soruStr,
+            hataSayisi: hataSayisi,
+            sure: gecenSureSaniye,
+            sonuc: sonucText
+        };
+
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(gidenVeri)
+        }).catch(err => console.error("Veri hatası:", err));
+    }
+
+    // Şekilleri Oluşturma ve Sürükleme Bağlantıları
+    function buildShapes(allowedNums = [1,2,3,4,5,6,7,8,9,10]) {
+        const container = document.getElementById('shapesContainer');
+        container.innerHTML = '';
+        
+        allowedNums.forEach(num => {
+            const shape = document.createElement('div');
+            shape.className = 'shape';
+            shape.dataset.val = num;
+            shape.draggable = true;
+            shape.innerText = num;
+
+            shape.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', num);
+            });
+
+            shape.addEventListener('touchstart', handleTouchStart, {passive: false});
+            shape.addEventListener('touchmove', handleTouchMove, {passive: false});
+            shape.addEventListener('touchend', handleTouchEnd);
+
+            container.appendChild(shape);
+        });
+    }
+
+    function setupDropZones() {
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.addEventListener('dragover', e => e.preventDefault());
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                const val = parseInt(e.dataTransfer.getData('text/plain'));
+                if (!isNaN(val)) processMove(val);
+            });
+        });
+    }
+
+    let touchEl = null;
+    function handleTouchStart(e) {
+        e.preventDefault();
+        touchEl = e.target.closest('.shape');
+    }
+    
+    function handleTouchMove(e) {
+        e.preventDefault();
+        if (!touchEl) return;
+        const touch = e.touches[0];
+        touchEl.style.position = 'fixed';
+        touchEl.style.left = (touch.clientX - 29) + 'px';
+        touchEl.style.top = (touch.clientY - 29) + 'px';
+    }
+
+    function handleTouchEnd(e) {
+        e.preventDefault();
+        if (!touchEl) return;
+        
+        touchEl.style.position = 'relative';
+        touchEl.style.left = '0';
+        touchEl.style.top = '0';
+
+        const touch = e.changedTouches[0];
+        const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+        const dropZone = elemBelow ? elemBelow.closest('.drop-zone') : null;
+
+        if (dropZone) {
+            processMove(parseInt(touchEl.dataset.val));
+        }
+        touchEl = null;
+    }
+
+    function processMove(val) {
+        const warning = document.getElementById('warningMsg');
+        warning.style.color = "#FF3B30";
+        warning.innerText = "";
+
+        if (currentMode === 'cikarma') {
+            if (placedNumbers === 0 && val !== currentQ.num1) {
+                hataSayisi++;
+                warning.innerText = "Önce BÜYÜK sayıyı (eksileni) koymalısın!";
+                return;
+            }
+            if (placedNumbers === 1 && val !== currentQ.num2) {
+                hataSayisi++;
+                warning.innerText = "Şimdi küçük sayıyı koymalısın!";
+                return;
+            }
+        }
+
+        if (currentPosition + val > 10 && currentMode !== 'cikarma') {
+            warning.innerText = "Sayı doğrusunu aştı (Maksimum 10)!";
+            return;
+        }
+
+        animateTrail(val);
+    }
+
+    function animateTrail(val) {
+        let step = 0;
+        let isSubtractionMove = (currentMode === 'cikarma' && placedNumbers === 1);
+        let direction = isSubtractionMove ? -1 : 1;
+        let startPos = currentPosition;
+        
+        let interval = setInterval(() => {
+            if (step > 0) {
+                placeTrailMarker(startPos + (step * direction), val, false);
+            }
+            step++;
+            
+            if (step >= val) {
+                clearInterval(interval);
+                currentPosition = startPos + (val * direction);
+                placeTrailMarker(currentPosition, val, true);
+                placedNumbers++;
+                checkCompletion();
+            }
+        }, 180); 
+    }
+
+    function placeTrailMarker(posIndex, shapeVal, isFinal) {
+        const zones = document.querySelectorAll('.drop-zone');
+        if (posIndex < 0 || posIndex > 10) return;
+        const targetZone = zones[posIndex];
+        
+        const marker = document.createElement('div');
+        marker.className = 'trail-shape';
+        
+        const referenceShape = document.querySelector(`.shape[data-val="${shapeVal}"]`);
+        if (referenceShape) {
+            const style = window.getComputedStyle(referenceShape);
+            marker.style.background = style.backgroundColor;
+            marker.style.borderRadius = style.borderRadius;
+            marker.style.clipPath = style.clipPath;
+            marker.style.color = style.color;
+            if (shapeVal === 3) marker.style.paddingTop = "10px";
+        }
+
+        if (isFinal) {
+            marker.innerText = shapeVal;
+            marker.style.opacity = "1";
+        }
+        
+        targetZone.appendChild(marker);
+    }
+
+    function checkCompletion() {
+        if ((currentMode === 'toplama' || currentMode === 'cikarma') && placedNumbers === 2) {
+            const warning = document.getElementById('warningMsg');
+            warning.style.color = "#34C759";
+            warning.innerText = "Harika! Şimdi cevabını tahtaya yaz.";
+            document.getElementById('shapesContainer').innerHTML = ""; 
+        }
+    }
+
+    function modDegistir(mode, btnElement) {
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        if (btnElement) btnElement.classList.add('active');
+        
+        const drawingArea = document.getElementById('drawingArea');
+        const freeResetBtn = document.getElementById('freeResetBtn');
+        const qDisplay = document.getElementById('questionDisplay');
+        document.getElementById('warningMsg').innerText = "";
+
+        if (mode === 'serbest') {
+            qDisplay.innerText = "Serbest Mod: Sayıları Sürükle!";
+            drawingArea.style.display = "none";
+            freeResetBtn.style.display = "block";
+            resetBoard();
+            buildShapes();
+        } else {
+            drawingArea.style.display = "flex";
+            freeResetBtn.style.display = "none";
+            generateQuestion();
+        }
+    }
+
+    function generateQuestion() {
+        if (placedNumbers > 0) {
+            let sStr = currentMode === 'toplama' ? `${currentQ.num1}+${currentQ.num2}` : `${currentQ.num1}-${currentQ.num2}`;
+            veriGonder(currentMode, sStr, "Tamamlandı");
+        }
+
+        resetBoard();
+        baslangicZamani = new Date().getTime();
+        hataSayisi = 0;
+        clearCanvas();
+        document.getElementById('warningMsg').innerText = "";
+
+        if (currentMode === 'toplama') {
+            currentQ.num1 = Math.floor(Math.random() * 5) + 1; 
+            let maxNum2 = 10 - currentQ.num1;
+            currentQ.num2 = Math.floor(Math.random() * maxNum2) + 1;
+            document.getElementById('questionDisplay').innerText = `${currentQ.num1} +${currentQ.num2} = ?`;
+            buildShapes([currentQ.num1, currentQ.num2]);
+        } 
+        else if (currentMode === 'cikarma') {
+            currentQ.num1 = Math.floor(Math.random() * 5) + 5; 
+            currentQ.num2 = Math.floor(Math.random() * (currentQ.num1 - 1)) + 1; 
+            document.getElementById('questionDisplay').innerText = `${currentQ.num1} -${currentQ.num2} = ?`;
+            buildShapes([currentQ.num1, currentQ.num2]);
+        }
+    }
+
+    function resetBoard() {
+        currentPosition = 0;
+        placedNumbers = 0;
+        document.querySelectorAll('.trail-shape').forEach(el => el.remove());
+        document.getElementById('warningMsg').innerText = "";
+    }
+
+    // Çizim Tahtası (Canvas)
+    const canvas = document.getElementById('drawCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+
+    function setupCanvas() {
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#1D1D1F';
+
+        canvas.addEventListener('mousedown', startPos);
+        canvas.addEventListener('mouseup', endPos);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseout', endPos);
+
+        canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPos(e.touches[0]); }, {passive: false});
+        canvas.addEventListener('touchend', (e) => { e.preventDefault(); endPos(); }, {passive: false});
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); }, {passive: false});
+    }
+
+    function startPos(e) {
+        isDrawing = true;
+        draw(e);
+    }
+
+    function endPos() {
+        isDrawing = false;
+        ctx.beginPath();
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Başlangıç Kurulumu
+    buildShapes();
+    setupDropZones();
+    setupCanvas();
+</script>
+</body>
+</html>
