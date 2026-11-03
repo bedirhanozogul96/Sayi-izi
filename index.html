@@ -2,10 +2,9 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sayı İzi</title>
     <style>
-        /* Apple Tasarım Dili (San Francisco Font, Yumuşak Renkler) */
         :root {
             --apple-bg: #F2F2F7;
             --apple-white: #FFFFFF;
@@ -20,50 +19,51 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
             margin: 0;
-            padding: 0;
+            padding: 0 0 60px 0;
             background-color: var(--apple-bg);
             color: var(--apple-text);
             display: flex;
             flex-direction: column;
             align-items: center;
-            touch-action: none;
+            overflow-x: hidden;
+            overflow-y: auto;
             user-select: none;
             -webkit-font-smoothing: antialiased;
         }
         
-        /* Glassmorphism Giriş Ekranı */
         #loginOverlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 9999;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .login-box {
             background: var(--apple-white);
-            padding: 40px;
+            padding: 36px;
             border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 360px;
+            width: 100%;
+            max-width: 380px;
         }
 
         .login-box h1 { 
-            margin: 0 0 24px 0; 
+            margin: 0 0 20px 0; 
             font-size: 32px; 
             font-weight: 700;
-            letter-spacing: -0.5px;
             color: var(--apple-blue);
         }
 
-        /* Rol Seçici (iOS Segmented Control) */
         .role-selector {
             display: flex;
             background-color: rgba(118, 118, 128, 0.12);
@@ -92,38 +92,21 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.12);
         }
         
-        #kullaniciAdiInput, #sureInput { 
+        .apple-input { 
             width: 100%;
-            padding: 16px; 
-            font-size: 18px; 
+            padding: 14px 16px; 
+            font-size: 17px; 
             border-radius: 12px; 
             border: 1px solid var(--apple-light-gray); 
             background: var(--apple-bg);
-            margin-bottom: 20px; 
+            margin-bottom: 14px; 
             text-align: center;
             box-sizing: border-box;
             outline: none;
-            transition: border 0.2s;
         }
-        #kullaniciAdiInput:focus, #sureInput:focus {
-            border-color: var(--apple-blue);
-        }
+        .apple-input:focus { border-color: var(--apple-blue); background: var(--apple-white); }
 
-        #teacherSettings {
-            width: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-        }
-        #teacherSettings label {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--apple-gray);
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        #baslaBtn { 
+        .apple-btn { 
             width: 100%;
             padding: 16px; 
             font-size: 18px; 
@@ -135,20 +118,151 @@
             font-weight: 600;
             transition: opacity 0.2s;
         }
-        #baslaBtn:active { opacity: 0.7; }
+        .apple-btn:active { opacity: 0.7; }
 
-        /* Üst Menü */
-        .header {
+        #matchInfoBar {
+            display: none;
+            margin-top: 15px;
+            padding: 8px 18px;
+            background: var(--apple-white);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--apple-gray);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        /* ÖĞRETMEN OTURUM PANELİ */
+        #teacherPanel {
+            display: none;
+            width: 90%;
+            max-width: 600px;
             margin-top: 30px;
+            background: var(--apple-white);
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            box-sizing: border-box;
+        }
+
+        #teacherPanel h2 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .question-builder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .q-num-input {
+            width: 75px;
+            height: 60px;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 14px;
+            border: 2px solid var(--apple-light-gray);
+            background: var(--apple-bg);
+            outline: none;
+        }
+
+        .q-op-select {
+            height: 60px;
+            padding: 0 16px;
+            font-size: 26px;
+            font-weight: 700;
+            border-radius: 14px;
+            border: 2px solid var(--apple-light-gray);
+            background: var(--apple-bg);
+            outline: none;
+        }
+
+        .auto-answer-box {
+            padding: 14px 24px;
+            background: rgba(52, 199, 89, 0.12);
+            color: var(--apple-green);
+            font-size: 26px;
+            font-weight: 800;
+            border-radius: 14px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .time-setting-row {
+            background: var(--apple-bg);
+            padding: 16px 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-inline-input {
+            width: 80px;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            border-radius: 10px;
+            border: 1px solid var(--apple-blue);
+            background: var(--apple-white);
+            color: var(--apple-blue);
+        }
+
+        .session-btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        #assignedQuestionsList {
+            margin-top: 20px;
+            border-top: 1px solid var(--apple-light-gray);
+            padding-top: 16px;
+        }
+
+        .assigned-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: var(--apple-bg);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* ÖĞRENCİ ARAYÜZÜ */
+        #studentPanel {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            margin-top: 20px;
             background-color: rgba(118, 118, 128, 0.12);
             padding: 4px;
             border-radius: 14px;
             display: flex;
             gap: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .mode-btn {
-            padding: 10px 24px;
+            padding: 10px 20px;
             font-size: 15px;
             font-weight: 600;
             color: var(--apple-text);
@@ -163,45 +277,47 @@
             box-shadow: 0 3px 8px rgba(0,0,0,0.12); 
         }
 
-        /* Süre ve Uyarı Alanı */
         #timerDisplay {
             display: none;
             font-size: 18px;
             font-weight: 600;
             color: var(--apple-blue);
-            margin-top: 20px;
+            margin-top: 16px;
             background: var(--apple-white);
-            padding: 8px 16px;
+            padding: 10px 20px;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         #questionDisplay {
-            font-size: 42px;
+            font-size: 40px;
             font-weight: 700;
             letter-spacing: -1px;
-            margin: 20px 0 10px 0;
-            height: 50px;
+            margin: 16px 0 8px 0;
+            min-height: 48px;
+            text-align: center;
         }
         
         #warningMsg {
             color: var(--apple-red);
             font-weight: 600;
             font-size: 17px;
-            height: 24px;
+            min-height: 24px;
             margin-bottom: 5px;
+            text-align: center;
         }
 
-        /* Şekil Konteyneri (Apple Card Style) */
         .shapes-container {
             display: flex;
-            gap: 20px;
-            margin: 10px 0 30px 0;
+            gap: 16px;
+            margin: 10px 0 25px 0;
             min-height: 80px;
-            padding: 20px 30px;
+            padding: 18px 25px;
             background: var(--apple-white);
             border-radius: 24px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .shape {
@@ -217,11 +333,9 @@
             position: relative;
             z-index: 10;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: transform 0.1s;
+            touch-action: none;
         }
-        .shape:active { transform: scale(0.95); cursor: grabbing; }
 
-        /* Geometrik Şekiller */
         .shape[data-val="1"] { background: #FF3B30; border-radius: 50%; } 
         .shape[data-val="2"] { background: #FF9500; border-radius: 50% 0 50% 0; } 
         .shape[data-val="3"] { background: transparent; width: 0; height: 0; border-left: 35px solid transparent; border-right: 35px solid transparent; border-bottom: 60px solid #FFCC00; color: #1D1D1F; box-shadow: none; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
@@ -234,11 +348,11 @@
         .shape[data-val="9"] { background: #FF2D55; clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%); } 
         .shape[data-val="10"] { background: #1D1D1F; clip-path: polygon(50% 0%, 81% 10%, 100% 35%, 100% 65%, 81% 90%, 50% 100%, 19% 90%, 0% 65%, 0% 35%, 19% 10%); } 
 
-        /* Sayı Doğrusu */
         .number-line-wrapper {
             margin-top: 10px;
             position: relative;
-            width: 900px;
+            width: 95%;
+            max-width: 900px;
             height: 120px;
             background: var(--apple-white);
             border-radius: 24px;
@@ -281,12 +395,13 @@
             font-size: 18px;
         }
 
-        /* Çizim Alanı */
         #drawingArea {
             display: none;
-            margin-top: 40px;
+            margin-top: 30px;
             align-items: flex-start;
             gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .canvas-container {
@@ -298,22 +413,22 @@
         .canvas-container h2 {
             font-size: 20px;
             font-weight: 600;
-            color: var(--apple-text);
-            margin: 0 0 12px 0;
+            margin: 0 0 10px 0;
         }
 
         #drawCanvas {
             background: var(--apple-white);
             border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
             cursor: crosshair;
+            touch-action: none;
         }
 
         .canvas-controls {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-top: 40px;
+            margin-top: 34px;
         }
 
         .action-btn {
@@ -324,10 +439,7 @@
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
-        .action-btn:active { opacity: 0.7; }
-        
         #clearBtn { background-color: var(--apple-red); }
         #nextBtn { background-color: var(--apple-green); }
 
@@ -335,71 +447,102 @@
 </head>
 <body>
 
-    <!-- KULLANICI GİRİŞ EKRANI -->
+    <!-- GİRİŞ EKRANI -->
     <div id="loginOverlay">
         <div class="login-box">
             <h1>Sayı İzi</h1>
             
             <div class="role-selector">
-                <button id="btnOgrenci" class="role-btn active" onclick="selectRole('ogrenci')">Öğrenci</button>
-                <button id="btnOgretmen" class="role-btn" onclick="selectRole('ogretmen')">Öğretmen</button>
+                <button id="btnOgrenci" class="role-btn active" onclick="selectRole('ogrenci')">Öğrenci Girişi</button>
+                <button id="btnOgretmen" class="role-btn" onclick="selectRole('ogretmen')">Öğretmen Girişi</button>
             </div>
 
-            <input type="text" id="kullaniciAdiInput" placeholder="Adınızı yazın...">
-            
-            <div id="teacherSettings">
-                <label>Her bir soru için verilen süre (saniye):</label>
-                <input type="number" id="sureInput" placeholder="Örn: 20" min="5" max="300">
-            </div>
+            <input type="text" id="ogretmenAdiInput" class="apple-input" placeholder="Öğretmen Adı...">
+            <input type="text" id="ogrenciAdiInput" class="apple-input" placeholder="Eşleşecek Öğrenci Adı...">
 
-            <button id="baslaBtn" onclick="uygulamayiBaslat()">Başla</button>
+            <button id="baslaBtn" class="apple-btn" onclick="uygulamayiBaslat()">Giriş Yap ve Eşleştir</button>
         </div>
     </div>
 
-    <!-- Üst Menü -->
-    <div class="header">
-        <button class="mode-btn active" onclick="setMode('serbest')">Serbest Mod</button>
-        <button class="mode-btn" onclick="setMode('toplama')">Toplama Soruları</button>
-        <button class="mode-btn" onclick="setMode('cikarma')">Çıkarma Soruları</button>
-    </div>
+    <div id="matchInfoBar"></div>
 
-    <!-- Süre ve Soru Alanı -->
-    <div id="timerDisplay">
-        Her bir soru için verilen süre: <span id="timeLimitVal"></span> sn. | Kalan Süre: <span id="timeLeft" style="color:var(--apple-red);"></span> sn.
-    </div>
-
-    <div id="questionDisplay">Sayıları Sürükle!</div>
-    <div id="warningMsg"></div>
-
-    <!-- Şekiller -->
-    <div class="shapes-container" id="shapesContainer">
-        <!-- JS ile doldurulacak -->
-    </div>
-
-    <!-- Sayı Doğrusu (0-10) -->
-    <div class="number-line-wrapper" id="numberLine">
-        <!-- JS ile 0-10 arası oluşturulacak -->
-    </div>
-
-    <!-- Çizim Alanı -->
-    <div id="drawingArea">
-        <div class="canvas-container">
-            <h2>Cevabını Yaz:</h2>
-            <canvas id="drawCanvas" width="300" height="200"></canvas>
+    <!-- ÖĞRETMEN OTURUM YÖNETİMİ -->
+    <div id="teacherPanel">
+        <h2>Öğretmen Oturum ve Soru Seti Paneli</h2>
+        
+        <div class="question-builder">
+            <input type="number" id="tNum1" class="q-num-input" value="4" min="1" max="10" oninput="autoCalcAnswer()">
+            <select id="tOp" class="q-op-select" onchange="autoCalcAnswer()">
+                <option value="+">+</option>
+                <option value="-">-</option>
+            </select>
+            <input type="number" id="tNum2" class="q-num-input" value="3" min="1" max="10" oninput="autoCalcAnswer()">
+            <span style="font-size: 28px; font-weight: bold;">=</span>
+            <div class="auto-answer-box" id="tAutoAnswer">7</div>
         </div>
-        <div class="canvas-controls">
-            <button id="clearBtn" class="action-btn" onclick="clearCanvas()">Sil</button>
-            <button id="nextBtn" class="action-btn" onclick="generateQuestion()">Yeni Soru</button>
+
+        <div class="time-setting-row">
+            <span>Soru Süresi:</span>
+            <input type="number" id="tTimeLimit" class="time-inline-input" value="20" min="5" max="300">
+            <span>saniye</span>
+        </div>
+
+        <div class="session-btn-group">
+            <button class="apple-btn" style="background: var(--apple-blue); flex:1;" onclick="addQuestionToSession()">
+                + Oturuma Soru Ekle
+            </button>
+            <button class="apple-btn" style="background: var(--apple-green); flex:1;" onclick="finalizeAndPublishSession()">
+                Oturumu Başlat / Gönder
+            </button>
+        </div>
+
+        <div id="teacherStatusMsg" style="text-align:center; margin-top:10px; font-weight:600; color:var(--apple-blue);"></div>
+
+        <div id="assignedQuestionsList">
+            <h3 style="font-size:16px; color:var(--apple-gray); margin:0 0 10px 0;">Oturum Soru Seti (<span id="sessionCount">0</span> Soru):</h3>
+            <div id="qListContainer"></div>
+        </div>
+    </div>
+
+    <!-- ÖĞRENCİ ARAYÜZÜ -->
+    <div id="studentPanel">
+        <div class="header">
+            <button class="mode-btn active" onclick="setMode('serbest', event)">Serbest Mod</button>
+            <button class="mode-btn" onclick="setMode('toplama', event)">Toplama Soruları</button>
+            <button class="mode-btn" onclick="setMode('cikarma', event)">Çıkarma Soruları</button>
+            <button class="mode-btn" onclick="setMode('ogretmen_sorusu', event)">Öğretmen Oturumu</button>
+        </div>
+
+        <div id="timerDisplay">
+            Süre <span id="timeLimitVal"></span> sn | Kalan: <span id="timeLeft" style="color:var(--apple-red);"></span> sn
+        </div>
+
+        <div id="questionDisplay">Sayıları Sürükle!</div>
+        <div id="warningMsg"></div>
+
+        <div class="shapes-container" id="shapesContainer"></div>
+        <div class="number-line-wrapper" id="numberLine"></div>
+
+        <div id="drawingArea">
+            <div class="canvas-container">
+                <h2>Cevabını Yaz:</h2>
+                <canvas id="drawCanvas" width="300" height="200"></canvas>
+            </div>
+            <div class="canvas-controls">
+                <button id="clearBtn" class="action-btn" onclick="clearCanvas()">Sil</button>
+                <button id="nextBtn" class="action-btn" onclick="generateQuestion()">Sonraki Soru</button>
+            </div>
         </div>
     </div>
 
 <script>
-    // GOOGLE SHEETS API URL (KENDİ LİNKİNİZİ BURAYA YAPIŞTIRIN)
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby.../exec";
 
-    let aktifKullanici = "";
     let secilenRol = "ogrenci";
-    let zamanSiniri = 0; // Saniye cinsinden
+    let aktifOgretmen = "";
+    let aktifOgrenci = "";
+
+    let zamanSiniri = 20; 
     let kalanZaman = 0;
     let zamanSayaci = null;
 
@@ -407,69 +550,148 @@
     let hataSayisi = 0;
 
     let currentMode = 'serbest';
-    let currentQ = { num1: 0, num2: 0, isFirstPlaced: false };
+    let currentQ = { num1: 0, num2: 0, op: '+' };
     let currentPosition = 0; 
     let placedNumbers = 0;
 
-    // Rol Seçimi
+    let sessionQuestionsQueue = []; // Oturum için biriken sorular
+    let activeSessionIndex = 0;
+    let sessionResultsSummary = []; // Oturum özet verileri
+
     function selectRole(role) {
         secilenRol = role;
-        document.getElementById('btnOgrenci').classList.remove('active');
-        document.getElementById('btnOgretmen').classList.remove('active');
-        
-        if(role === 'ogrenci') {
-            document.getElementById('btnOgrenci').classList.add('active');
-            document.getElementById('teacherSettings').style.display = 'none';
-        } else {
-            document.getElementById('btnOgretmen').classList.add('active');
-            document.getElementById('teacherSettings').style.display = 'flex';
-        }
+        document.getElementById('btnOgrenci').classList.toggle('active', role === 'ogrenci');
+        document.getElementById('btnOgretmen').classList.toggle('active', role === 'ogretmen');
     }
 
     function uygulamayiBaslat() {
-        const input = document.getElementById("kullaniciAdiInput").value.trim();
-        if(input === "") {
-            alert("Lütfen adınızı girin Bedirhan Hocam!");
+        const ogrt = document.getElementById("ogretmenAdiInput").value.trim();
+        const ogrc = document.getElementById("ogrenciAdiInput").value.trim();
+
+        if (ogrt === "" || ogrc === "") {
+            alert("Lütfen eşleşme için hem Öğretmen hem de Öğrenci adını girin!");
             return;
         }
+
+        aktifOgretmen = ogrt;
+        aktifOgrenci = ogrc;
+
+        document.getElementById("loginOverlay").style.display = "none";
         
-        if(secilenRol === 'ogretmen') {
-            const sure = parseInt(document.getElementById("sureInput").value);
-            if(!isNaN(sure) && sure > 0) {
-                zamanSiniri = sure;
-            }
+        const infoBar = document.getElementById("matchInfoBar");
+        infoBar.style.display = "block";
+        infoBar.innerText = `Eşleşme: Öğretmen ${aktifOgretmen} ↔ Öğrenci ${aktifOgrenci} (${secilenRol === 'ogretmen' ? 'Öğretmen Modu' : 'Öğrenci Modu'})`;
+
+        googleVeriYolla({
+            islemTipi: "eslesme_kaydi",
+            ogretmenAdi: aktifOgretmen,
+            ogrenciAdi: aktifOgrenci,
+            rol: secilenRol
+        });
+
+        const savedSession = localStorage.getItem("oturum_" + aktifOgrenci);
+        if (savedSession) {
+            sessionQuestionsQueue = JSON.parse(savedSession);
         }
 
-        aktifKullanici = input;
-        document.getElementById("loginOverlay").style.display = "none";
-        initApp();
+        if (secilenRol === 'ogretmen') {
+            document.getElementById("teacherPanel").style.display = "block";
+            document.getElementById("studentPanel").style.display = "none";
+            autoCalcAnswer();
+            renderSessionList();
+        } else {
+            document.getElementById("teacherPanel").style.display = "none";
+            document.getElementById("studentPanel").style.display = "flex";
+            initStudentApp();
+        }
     }
 
-    function veriGonder(mod, soruStr, sonucText) {
-        if(mod === 'serbest') return; 
+    function autoCalcAnswer() {
+        let n1 = parseInt(document.getElementById('tNum1').value) || 0;
+        let n2 = parseInt(document.getElementById('tNum2').value) || 0;
+        let op = document.getElementById('tOp').value;
+        const ansBox = document.getElementById('tAutoAnswer');
 
-        const bitisZamani = new Date().getTime();
-        const gecenSureSaniye = ((bitisZamani - baslangicZamani) / 1000).toFixed(2);
+        if (op === '+') {
+            let sum = n1 + n2;
+            ansBox.innerText = sum;
+            ansBox.style.color = sum > 10 ? "var(--apple-red)" : "var(--apple-green)";
+        } else {
+            let diff = n1 - n2;
+            ansBox.innerText = diff;
+            ansBox.style.color = diff < 0 ? "var(--apple-red)" : "var(--apple-green)";
+        }
+    }
 
-        const gidenVeri = {
-            kullaniciAdi: aktifKullanici,
-            mod: mod,
-            soru: soruStr,
-            hataSayisi: hataSayisi,
-            sure: gecenSureSaniye,
-            sonuc: sonucText
-        };
+    function addQuestionToSession() {
+        let n1 = parseInt(document.getElementById('tNum1').value) || 0;
+        let n2 = parseInt(document.getElementById('tNum2').value) || 0;
+        let op = document.getElementById('tOp').value;
+        let sure = parseInt(document.getElementById('tTimeLimit').value) || 20;
+        let ans = op === '+' ? (n1 + n2) : (n1 - n2);
 
+        const statusMsg = document.getElementById('teacherStatusMsg');
+
+        if (op === '+' && ans > 10) {
+            statusMsg.style.color = "var(--apple-red)";
+            statusMsg.innerText = "Sayı doğrusu 10'a kadar olduğu için toplam en fazla 10 olmalıdır!";
+            return;
+        }
+        if (op === '-' && (ans < 0 || n1 > 10)) {
+            statusMsg.style.color = "var(--apple-red)";
+            statusMsg.innerText = "Çıkarma işleminde sonuç doğal sayı olmalı ve ilk sayı 10'u geçmemelidir!";
+            return;
+        }
+
+        sessionQuestionsQueue.push({ num1: n1, num2: n2, op: op, ans: ans, sureSiniri: sure });
+        renderSessionList();
+
+        statusMsg.style.color = "var(--apple-blue)";
+        statusMsg.innerText = `Soru eklendi. Toplam soru: ${sessionQuestionsQueue.length}`;
+    }
+
+    function renderSessionList() {
+        const container = document.getElementById('qListContainer');
+        document.getElementById('sessionCount').innerText = sessionQuestionsQueue.length;
+        container.innerHTML = '';
+        sessionQuestionsQueue.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'assigned-item';
+            div.innerHTML = `<span>${idx + 1}. Soru: ${item.num1} ${item.op} ${item.num2} = <strong>${item.ans}</strong></span> <span>Süre: ${item.sureSiniri} sn</span>`;
+            container.appendChild(div);
+        });
+    }
+
+    function finalizeAndPublishSession() {
+        if(sessionQuestionsQueue.length === 0) {
+            alert("Oturuma en az bir soru eklemelisiniz!");
+            return;
+        }
+
+        localStorage.setItem("oturum_" + aktifOgrenci, JSON.stringify(sessionQuestionsQueue));
+
+        googleVeriYolla({
+            islemTipi: "oturum_olusturma",
+            ogretmenAdi: aktifOgretmen,
+            ogrenciAdi: aktifOgrenci,
+            toplamSoruSayisi: sessionQuestionsQueue.length,
+            detay: JSON.stringify(sessionQuestionsQueue)
+        });
+
+        document.getElementById('teacherStatusMsg.style.color'] = "var(--apple-green)";
+        document.getElementById('teacherStatusMsg').innerText = "Oturum başarıyla oluşturuldu ve öğrenciye gönderildi!";
+    }
+
+    function googleVeriYolla(veriPaketi) {
         fetch(GOOGLE_SCRIPT_URL, {
             method: "POST",
             mode: "no-cors",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(gidenVeri)
-        }).then(() => console.log("Veri iletildi."))
-          .catch(err => console.error("Hata:", err));
+            body: JSON.stringify(veriPaketi)
+        }).catch(err => console.error("Veri gönderim hatası:", err));
     }
 
-    function initApp() {
+    function initStudentApp() {
         buildNumberLine();
         buildShapes();
         setupCanvas();
@@ -572,7 +794,9 @@
         const warning = document.getElementById('warningMsg');
         warning.innerText = "";
 
-        if (currentMode === 'cikarma') {
+        let activeOp = (currentMode === 'cikarma' || (currentMode === 'ogretmen_sorusu' && currentQ.op === '-')) ? '-' : '+';
+
+        if (activeOp === '-') {
             if (placedNumbers === 0 && val !== currentQ.num1) {
                 hataSayisi++;
                 warning.style.color = "var(--apple-red)";
@@ -587,29 +811,27 @@
             }
         }
 
-        if (currentMode === 'toplama') {
-            if (val !== currentQ.num1 && val !== currentQ.num2 && (val === currentQ.num1 || val === currentQ.num2) == false) {
-                if(currentQ.num1 !== 0){
-                   hataSayisi++;
-                   warning.style.color = "var(--apple-red)";
-                   warning.innerText = "Sadece sorudaki sayıları kullanmalısın!";
-                   return;
-                }
+        if (currentMode !== 'serbest' && activeOp === '+') {
+            if (val !== currentQ.num1 && val !== currentQ.num2) {
+                hataSayisi++;
+                warning.style.color = "var(--apple-red)";
+                warning.innerText = "Sadece sorudaki sayıları kullanmalısın!";
+                return;
             }
         }
 
-        if (currentPosition + val > 10 && currentMode !== 'cikarma') {
+        if (currentPosition + val > 10 && activeOp !== '-') {
             warning.style.color = "var(--apple-red)";
             warning.innerText = "Sayı doğrusunu aştı!";
             return;
         }
 
-        animateTrail(val);
+        animateTrail(val, activeOp);
     }
 
-    function animateTrail(val) {
+    function animateTrail(val, activeOp) {
         let step = 0;
-        let isSubtractionMove = (currentMode === 'cikarma' && placedNumbers === 1);
+        let isSubtractionMove = (activeOp === '-' && placedNumbers === 1);
         let direction = isSubtractionMove ? -1 : 1;
         let startPos = currentPosition;
         
@@ -667,22 +889,20 @@
     }
 
     function checkCompletion() {
-        if ((currentMode === 'toplama' || currentMode === 'cikarma') && placedNumbers === 2) {
+        if (currentMode !== 'serbest' && placedNumbers === 2) {
             const warning = document.getElementById('warningMsg');
             warning.style.color = "var(--apple-green)";
             warning.innerText = "Harika! Şimdi cevabını tahtaya yaz.";
             
-            // Başarılı yerleştirmede sayacı durdur
             if(zamanSayaci) clearInterval(zamanSayaci);
-
             document.getElementById('shapesContainer').innerHTML = ""; 
         }
     }
 
-    function setMode(mode) {
+    function setMode(mode, ev) {
         currentMode = mode;
         document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
+        if(ev && ev.target) ev.target.classList.add('active');
         
         const drawingArea = document.getElementById('drawingArea');
         const qDisplay = document.getElementById('questionDisplay');
@@ -700,6 +920,12 @@
         } else {
             drawingArea.style.display = "flex";
             resizeCanvas(); 
+            if(mode === 'ogretmen_sorusu') {
+                activeSessionIndex = 0;
+                sessionResultsSummary = [];
+                const saved = localStorage.getItem("oturum_" + aktifOgrenci);
+                if(saved) sessionQuestionsQueue = JSON.parse(saved);
+            }
             generateQuestion();
         }
     }
@@ -730,8 +956,24 @@
 
     function generateQuestion() {
         if (placedNumbers > 0) {
-            let sStr = currentMode === 'toplama' ? `${currentQ.num1}+${currentQ.num2}` : `${currentQ.num1}-${currentQ.num2}`;
-            veriGonder(currentMode, sStr, "Tahtaya yazdı");
+            let sStr = `${currentQ.num1}${currentQ.op}${currentQ.num2}`;
+            let bitisZamani = new Date().getTime();
+            let gecenSureSaniye = ((bitisZamani - baslangicZamani) / 1000).toFixed(2);
+            
+            if(currentMode === 'ogretmen_sorusu') {
+                sessionResultsSummary.push({ soru: sStr, hata: hataSayisi, sure: gecenSureSaniye });
+            } else {
+                googleVeriYolla({
+                    islemTipi: "ogrenci_sonuc",
+                    ogretmenAdi: aktifOgretmen,
+                    ogrenciAdi: aktifOgrenci,
+                    mod: currentMode,
+                    soru: sStr,
+                    hataSayisi: hataSayisi,
+                    sure: gecenSureSaniye,
+                    sonuc: "Tamamlandı"
+                });
+            }
         }
 
         resetBoard();
@@ -741,20 +983,47 @@
         document.getElementById('warningMsg').style.color = "var(--apple-red)";
         document.getElementById('warningMsg').innerText = "";
 
-        startTimer();
+        if (currentMode === 'ogretmen_sorusu') {
+            if (activeSessionIndex < sessionQuestionsQueue.length) {
+                const q = sessionQuestionsQueue[activeSessionIndex];
+                activeSessionIndex++;
+                currentQ = { num1: q.num1, num2: q.num2, op: q.op };
+                zamanSiniri = q.sureSiniri || 20;
+                document.getElementById('questionDisplay').innerText = `Oturum (${activeSessionIndex}/${sessionQuestionsQueue.length}): ${currentQ.num1} ${currentQ.op} ${currentQ.num2} = ?`;
+                buildShapes([currentQ.num1, currentQ.num2]);
+                startTimer();
+            } else {
+                document.getElementById('questionDisplay').innerText = "Oturum Tamamlandı! Tebrikler 🎉";
+                document.getElementById('shapesContainer').innerHTML = "";
+                
+                // Oturum bittiğinde tüm özet sonuçları Google E-Tabloya tek seferde gönder
+                googleVeriYolla({
+                    islemTipi: "oturum_sonuc_ozeti",
+                    ogretmenAdi: aktifOgretmen,
+                    ogrenciAdi: aktifOgrenci,
+                    toplamSoru: sessionResultsSummary.length,
+                    detaylar: JSON.stringify(sessionResultsSummary)
+                });
+            }
+            return;
+        }
 
         if (currentMode === 'toplama') {
+            currentQ.op = '+';
             currentQ.num1 = Math.floor(Math.random() * 5) + 1; 
             let maxNum2 = 10 - currentQ.num1;
             currentQ.num2 = Math.floor(Math.random() * maxNum2) + 1;
             document.getElementById('questionDisplay').innerText = `${currentQ.num1} + ${currentQ.num2} = ?`;
             buildShapes([currentQ.num1, currentQ.num2]);
+            startTimer();
         } 
         else if (currentMode === 'cikarma') {
+            currentQ.op = '-';
             currentQ.num1 = Math.floor(Math.random() * 5) + 5; 
             currentQ.num2 = Math.floor(Math.random() * (currentQ.num1 - 1)) + 1; 
             document.getElementById('questionDisplay').innerText = `${currentQ.num1} - ${currentQ.num2} = ?`;
             buildShapes([currentQ.num1, currentQ.num2]);
+            startTimer();
         }
     }
 
@@ -784,15 +1053,14 @@
     }
 
     function resizeCanvas() {
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
+        canvas.width = 300;
+        canvas.height = 200;
         ctx.lineWidth = 6;
         ctx.lineCap = 'round';
+        ctx.strokeStyle = '#1D1D1F';
     }
 
     function startPos(e) {
-        // Çizim Tahtası Kısıtlaması
         if (currentMode !== 'serbest' && placedNumbers < 2) {
             const warning = document.getElementById('warningMsg');
             warning.style.color = "var(--apple-red)";
