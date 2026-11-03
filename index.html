@@ -166,6 +166,17 @@ select option{background:var(--cell);color:var(--label)}
 .code-cell .btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .code-cell .btns .btn{min-height:44px}
 
+.phase-seg{margin:14px 0 0}
+.phase-seg button{height:38px;font-size:15px;display:flex;align-items:center;justify-content:center;gap:7px}
+.phase-seg .pc{font-size:12px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--fill3);color:var(--label2);font-variant-numeric:tabular-nums}
+.phase-seg .pc.full{background:var(--green);color:#fff}
+.phase-seg .pc.over{background:var(--red);color:#fff}
+.code-list .row{min-height:60px}
+.code-list .ph{font-weight:600}
+.code-list .ph small{display:block;font-weight:400;font-size:13px;color:var(--label2)}
+.code-list .code{font-family:var(--round);font-size:22px;font-weight:700;letter-spacing:2px;font-variant-numeric:tabular-nums}
+.code-list .ph{white-space:nowrap}
+.code-list .row{gap:8px;padding-right:12px}
 /* sonuçlar */
 .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 4px}
 .toolbar .grow{flex:1}
@@ -362,7 +373,7 @@ select option{background:var(--cell);color:var(--label)}
     <h2>Sayı İzi</h2>
     <div class="who" id="tWho"></div>
     <nav class="nav" id="tabSeg">
-      <button data-tab="olustur" class="on"><svg class="i"><use href="#i-plus"/></svg><span>Oturum Oluştur</span></button>
+      <button data-tab="olustur" class="on"><svg class="i"><use href="#i-plus"/></svg><span>Öğretim Oluştur</span></button>
       <button data-tab="sonuclar"><svg class="i"><use href="#i-list"/></svg><span>Sonuçlar</span></button>
       <button data-tab="grafik"><svg class="i"><use href="#i-chart"/></svg><span>Grafik</span></button>
     </nav>
@@ -375,32 +386,26 @@ select option{background:var(--cell);color:var(--label)}
   <main class="content"><div class="content-inner">
     <!-- OTURUM OLUŞTUR -->
     <div id="tab-olustur" class="tab">
-      <div class="large-title">Oturum Oluştur</div>
+      <div class="large-title">Öğretim Oluştur</div>
+      <div class="seg wide phase-seg" id="phaseSeg">
+        <button data-ph="A" class="on">Başlama düzeyi <span class="pc">0/5</span></button>
+        <button data-ph="B">Uygulama <span class="pc">0/5</span></button>
+        <button data-ph="C">İzleme <span class="pc">0/5</span></button>
+        <button data-ph="D">Genelleme <span class="pc">0/5</span></button>
+      </div>
+      <div class="group-foot" id="modHint" style="margin-top:8px"></div>
       <div class="cols">
         <div>
-          <div class="group-title">Oturum türü</div>
+          <div class="group-title">Ayarlar · tüm evreler</div>
           <div class="group">
-            <div class="row" style="padding:10px 12px">
-              <div class="seg wide big" id="modSeg" style="flex:1">
-                <button data-mod="yoklama" class="on">Yoklama</button>
-                <button data-mod="uygulama">Uygulama</button>
-              </div>
-            </div>
-          </div>
-          <div class="group-foot" id="modHint"></div>
-
-          <div class="group-title">Ayarlar</div>
-          <div class="group">
-            <div class="row icon-row"><span class="ico" style="background:var(--indigo)"><svg class="i"><use href="#i-flag"/></svg></span><span class="k">Evre</span>
-              <span class="menu"><select id="tEvre">
-                <option value="A">A · Başlama düzeyi</option><option value="B">B · Uygulama</option>
-                <option value="C">İzleme</option><option value="D">Genelleme</option>
-              </select></span></div>
+            <div class="row icon-row"><span class="ico" style="background:var(--indigo)"><svg class="i"><use href="#i-list"/></svg></span><span class="k">Her evrede soru sayısı</span>
+              <span class="v" id="tCountLbl">5</span>
+              <div class="stepper"><button onclick="stepCount(-1)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepCount(1)" aria-label="Artır">+</button></div></div>
             <div class="row icon-row"><span class="ico" style="background:var(--orange)"><svg class="i"><use href="#i-speed"/></svg></span><span class="k">Sayma hızı</span>
               <span class="menu"><select id="tHiz">
                 <option value="1300">Çok yavaş</option><option value="900" selected>Yavaş</option><option value="600">Normal</option>
               </select></span></div>
-            <div class="row icon-row" id="denemeRow"><span class="ico" style="background:var(--green)"><svg class="i"><use href="#i-repeat"/></svg></span><span class="k">Deneme hakkı</span>
+            <div class="row icon-row" id="denemeRow"><span class="ico" style="background:var(--green)"><svg class="i"><use href="#i-repeat"/></svg></span><span class="k">Deneme hakkı <span class="v" style="font-size:13px">· uygulama</span></span>
               <span class="menu"><select id="tDeneme">
                 <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="5">5</option>
               </select></span></div>
@@ -408,7 +413,7 @@ select option{background:var(--cell);color:var(--label)}
               <span class="menu"><select id="tOto">
                 <option value="oto">Otomatik</option><option value="onay">Onayla ile</option>
               </select></span></div>
-            <label class="row icon-row" id="sesRow"><span class="ico" style="background:#FF2D55"><svg class="i"><use href="#i-speaker"/></svg></span><span class="k">Sesli sayım</span>
+            <label class="row icon-row" id="sesRow"><span class="ico" style="background:#FF2D55"><svg class="i"><use href="#i-speaker"/></svg></span><span class="k">Sesli sayım <span class="v" style="font-size:13px">· uygulama</span></span>
               <input type="checkbox" class="switch" id="tSes"></label>
             <label class="row icon-row"><span class="ico" style="background:#8E8E93"><svg class="i"><use href="#i-timer"/></svg></span><span class="k">Süreyi öğrenciye göster</span>
               <input type="checkbox" class="switch" id="tSureGoster"></label>
@@ -417,7 +422,7 @@ select option{background:var(--cell);color:var(--label)}
         </div>
 
         <div>
-          <div class="group-title">Yeni soru</div>
+          <div class="group-title" id="newTitle">Yeni soru</div>
           <div class="group">
             <div class="row" style="padding:12px 12px 0">
               <div class="seg wide big" id="opSeg" style="flex:1"><button data-op="+" class="on">Toplama  +</button><button data-op="-">Çıkarma  −</button></div>
@@ -439,21 +444,16 @@ select option{background:var(--cell);color:var(--label)}
           </div>
           <div class="group-foot" id="addMsg" style="color:var(--red)"></div>
 
-          <div class="group-title">Sorular · <span id="qCount">0</span></div>
+          <div class="group-title"><span id="listTitle">Sorular</span> · <span id="qCount">0</span></div>
           <div class="group" id="qList"><div class="empty">Henüz soru eklenmedi.</div></div>
 
-          <button class="btn block" style="margin-top:20px" onclick="publishSession()">Oturumu Tamamla</button>
+          <button class="btn block" id="saveBtn" style="margin-top:20px" onclick="publishSession()">Öğretimi Kaydet</button>
+          <div class="group-foot" id="saveHint"></div>
 
           <div id="codeBox" class="hidden">
-            <div class="group-title">Oturum kodu</div>
-            <div class="group"><div class="code-cell">
-              <div class="code" id="codeText" onclick="copyCode()">------</div>
-              <div class="meta" id="codeMeta"></div>
-              <div class="btns">
-                <button class="btn tinted" onclick="copyCode()" id="copyBtn"><svg class="i"><use href="#i-copy"/></svg>Kopyala</button>
-                <button class="btn" onclick="openStudentHere()"><svg class="i"><use href="#i-person"/></svg>Öğrenci Girişini Aç</button>
-              </div>
-            </div></div>
+            <div class="group-title">Oturum kodları</div>
+            <div class="group code-list" id="codeList"></div>
+            <div class="group-foot" id="codeMeta"></div>
           </div>
         </div>
       </div>
@@ -695,10 +695,20 @@ function logout() { showScreen("#login"); }
 /* ============================================================
    ÖĞRETMEN — OTURUM OLUŞTUR
    ============================================================ */
-let tMod = "yoklama";
-let tQuestions = [];
-let tCode = "";
+const PHASES = [
+  { k: "A", ad: "Başlama düzeyi", mod: "yoklama" },
+  { k: "B", ad: "Uygulama", mod: "uygulama" },
+  { k: "C", ad: "İzleme", mod: "yoklama" },
+  { k: "D", ad: "Genelleme", mod: "yoklama" }
+];
+const PH = Object.fromEntries(PHASES.map(p => [p.k, p]));
+let tPhases = { A: [], B: [], C: [], D: [] }; // her evrenin soruları ayrı
+let tPhase = "A";
+let tQuestions = tPhases.A;
+let tCount = 5;
+let tCodes = null;
 let tDirty = true;
+let tCode = "";
 
 function setTab(name) {
   $$("#tabSeg button").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
@@ -707,23 +717,43 @@ function setTab(name) {
 }
 $$("#tabSeg button").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
 
-function setMod(mod) {
-  tMod = mod;
-  $$("#modSeg button").forEach(b => b.classList.toggle("on", b.dataset.mod === mod));
-  const d = defaultAyarlar(mod);
-  $("#tEvre").value = mod === "uygulama" ? "B" : "A";
-  $("#tSes").checked = d.ses;
-  $("#tOto").value = d.otoKontrol ? "oto" : "onay";
-  const yok = mod === "yoklama";
-  $("#tSes").disabled = yok; $("#sesRow").classList.toggle("dim", yok);
-  $("#tDeneme").disabled = yok; $("#tDeneme").value = yok ? "1" : "3"; $("#denemeRow").classList.toggle("dim", yok);
-  $("#modHint").innerText = yok
-    ? "Sorular sırayla gelir. Tek deneme; doğru/yanlış geri bildirimi ve sesli sayım yok."
-    : "Sorular karışık gelir. Sesli sayım, \"Aferin\" / \"Dikkat et\" geri bildirimi ve deneme hakkı var.";
-  markDirty();
+function setPhase(k) {
+  tPhase = k;
+  tQuestions = tPhases[k];
+  const ph = PH[k];
+  $$("#phaseSeg button").forEach(b => b.classList.toggle("on", b.dataset.ph === k));
+  $("#modHint").innerText = ph.mod === "yoklama"
+    ? `${ph.ad}: yoklama oturumu. Sorular sırayla gelir; tek deneme, doğru/yanlış geri bildirimi ve sesli sayım yok.`
+    : `${ph.ad}: öğretim oturumu. Sorular karışık gelir; sesli sayım, "Aferin" / "Dikkat et" geri bildirimi ve deneme hakkı var.`;
+  $("#newTitle").innerText = `${ph.ad} · yeni soru`;
+  $("#listTitle").innerText = `${ph.ad} soruları`;
+  $("#addMsg").innerText = "";
+  renderQuestions();
 }
-$$("#modSeg button").forEach(b => b.addEventListener("click", () => setMod(b.dataset.mod)));
-["#tEvre", "#tHiz", "#tDeneme", "#tOto", "#tSes", "#tSureGoster"].forEach(s => $(s).addEventListener("change", markDirty));
+$$("#phaseSeg button").forEach(b => b.addEventListener("click", () => setPhase(b.dataset.ph)));
+
+function stepCount(d) {
+  tCount = Math.min(20, Math.max(1, tCount + d));
+  $("#tCountLbl").innerText = tCount;
+  markDirty();
+  renderQuestions();
+}
+
+function updatePhaseUI() {
+  let missing = [];
+  PHASES.forEach(p => {
+    const n = tPhases[p.k].length;
+    const pc = document.querySelector(`#phaseSeg button[data-ph="${p.k}"] .pc`);
+    pc.innerText = `${n}/${tCount}`;
+    pc.className = "pc" + (n === tCount ? " full" : n > tCount ? " over" : "");
+    if (n < tCount) missing.push(`${p.ad} ${tCount - n} soru eksik`);
+    if (n > tCount) missing.push(`${p.ad} ${n - tCount} soru fazla`);
+  });
+  $("#saveBtn").disabled = missing.length > 0;
+  $("#saveHint").innerText = missing.length ? missing.join(" · ") : "Dört evre de hazır.";
+}
+
+["#tHiz", "#tDeneme", "#tOto", "#tSes", "#tSureGoster"].forEach(s => $(s).addEventListener("change", markDirty));
 ["#tN1", "#tN2"].forEach(s => $(s).addEventListener("input", calcAnswer));
 $$("#opSeg button").forEach(b => b.addEventListener("click", () => setOp(b.dataset.op)));
 function setOp(op) {
@@ -760,6 +790,7 @@ function addQuestion() {
   const sure = Math.max(5, parseInt($("#tSure").value) || 30);
   const m = $("#addMsg");
   m.innerText = "";
+  if (tQuestions.length >= tCount) { m.innerText = `Bu evre dolu (${tCount} soru). Soru sayısını artırın ya da bir soruyu silin.`; return; }
   if (!Number.isFinite(n1) || !Number.isFinite(n2) || n2 < 1 || n2 > 10 || n1 < 1 || n1 > 10) { m.innerText = "Sayılar 1 ile 10 arasında olmalı."; return; }
   if (op === "+" && n1 + n2 > 10) { m.innerText = "Toplam en fazla 10 olabilir."; return; }
   if (op === "-" && n1 - n2 < 0) { m.innerText = "Çıkarmada ilk sayı büyük olmalı."; return; }
@@ -773,7 +804,8 @@ function moveQuestion(i, d) {
   markDirty(); renderQuestions();
 }
 function renderQuestions() {
-  $("#qCount").innerText = tQuestions.length;
+  $("#qCount").innerText = tQuestions.length + "/" + tCount;
+  updatePhaseUI();
   const box = $("#qList");
   if (!tQuestions.length) { box.innerHTML = '<div class="empty">Henüz soru eklenmedi.</div>'; return; }
   box.innerHTML = tQuestions.map((q, i) => `
@@ -788,47 +820,57 @@ function renderQuestions() {
 }
 
 function readSettings() {
-  const yok = tMod === "yoklama";
   return {
-    mod: tMod,
-    evre: $("#tEvre").value,
-    ayarlar: {
-      hiz: parseInt($("#tHiz").value) || 900,
-      ses: !yok && $("#tSes").checked,
-      sureGoster: $("#tSureGoster").checked,
-      deneme: yok ? 1 : (parseInt($("#tDeneme").value) || 3),
-      otoKontrol: $("#tOto").value === "oto"
-    }
+    hiz: parseInt($("#tHiz").value) || 900,
+    ses: $("#tSes").checked,
+    sureGoster: $("#tSureGoster").checked,
+    deneme: parseInt($("#tDeneme").value) || 3,
+    otoKontrol: $("#tOto").value === "oto"
   };
 }
 
+// Öğretimi kaydet: dört evrenin her biri için ayrı oturum ve kod
 function publishSession() {
-  const m = $("#addMsg");
-  if (!tQuestions.length) { m.innerText = "Önce en az bir soru ekleyin."; return; }
-  if (!tDirty && tCode) { $("#codeBox").classList.remove("hidden"); return; }
-  tCode = String(Math.floor(100000 + Math.random() * 900000));
-  const s = Object.assign({ kod: tCode, ogretmen: teacherName, olusturma: new Date().toISOString() }, readSettings(), { sorular: tQuestions.slice() });
-  store.set("sayiizi_oturum_" + tCode, s);
-  post({
-    islemTipi: "oturum_olusturma", ogretmenAdi: teacherName, oturumKodu: tCode,
-    calismaTuru: s.mod, evre: s.evre, toplamSoruSayisi: s.sorular.length, detay: JSON.stringify(s)
+  updatePhaseUI();
+  if ($("#saveBtn").disabled) return;
+  if (!tDirty && tCodes) { $("#codeBox").classList.remove("hidden"); return; }
+  const ogretimId = "o" + Date.now().toString(36);
+  const ayar = readSettings();
+  const used = new Set();
+  tCodes = PHASES.map(p => {
+    let kod;
+    do { kod = String(Math.floor(100000 + Math.random() * 900000)); } while (used.has(kod));
+    used.add(kod);
+    const ayarlar = Object.assign({}, ayar);
+    if (p.mod === "yoklama") { ayarlar.ses = false; ayarlar.deneme = 1; }
+    const s = { kod, ogretimId, ogretmen: teacherName, olusturma: new Date().toISOString(),
+      mod: p.mod, evre: p.k, ayarlar, sorular: tPhases[p.k].slice() };
+    store.set("sayiizi_oturum_" + kod, s);
+    post({ islemTipi: "oturum_olusturma", ogretmenAdi: teacherName, oturumKodu: kod,
+      calismaTuru: p.mod, evre: p.k, toplamSoruSayisi: s.sorular.length, detay: JSON.stringify(s) });
+    return { kod, ph: p };
   });
   tDirty = false;
-  $("#codeText").innerText = tCode;
-  $("#codeMeta").innerText = `${s.mod === "yoklama" ? "Yoklama" : "Uygulama"} · ${EVRE[s.evre]} · ${s.sorular.length} soru` +
-    (SHEETS_ON ? "" : " · Sheets bağlı değil: kod yalnızca bu cihazda çalışır");
+  tCode = tCodes[0].kod;
+  $("#codeList").innerHTML = tCodes.map(c => `
+    <div class="row">
+      <span class="k ph">${c.ph.ad}<small>${c.ph.mod === "yoklama" ? "Yoklama" : "Öğretim"} · ${tCount} soru</small></span>
+      <span class="code">${c.kod}</span>
+      <button class="btn tinted small" onclick="copyCode('${c.kod}', this)">Kopyala</button>
+      <button class="btn small" onclick="openStudentHere('${c.kod}')">Aç</button>
+    </div>`).join("");
+  $("#codeMeta").innerText = "Her evre için öğrenciye o evrenin kodunu verin." +
+    (SHEETS_ON ? "" : " Sheets bağlı değil: kodlar yalnızca bu cihazda çalışır.");
   $("#codeBox").classList.remove("hidden");
 }
-function copyCode() {
-  const b = $("#copyBtn");
-  (navigator.clipboard ? navigator.clipboard.writeText(tCode) : Promise.reject()).then(
-    () => { b.innerHTML = '<svg class="i"><use href="#i-check"/></svg>Kopyalandı'; setTimeout(() => b.innerHTML = '<svg class="i"><use href="#i-copy"/></svg>Kopyala', 1800); },
-    () => { b.innerText = "Kopyalanamadı"; setTimeout(() => b.innerHTML = '<svg class="i"><use href="#i-copy"/></svg>Kopyala', 1800); });
+function copyCode(kod, b) {
+  const done = t => { if (b) { b.innerText = t; setTimeout(() => b.innerText = "Kopyala", 1600); } };
+  (navigator.clipboard ? navigator.clipboard.writeText(kod) : Promise.reject()).then(() => done("Kopyalandı"), () => done("Olmadı"));
 }
-function openStudentHere() {
+function openStudentHere(kod) {
   showScreen("#login");
   $$("#roleSeg button")[0].click();
-  $("#inCode").value = tCode;
+  $("#inCode").value = kod || tCode;
   $("#inName").focus();
 }
 
@@ -1546,7 +1588,7 @@ function downloadChart() {
 }
 
 /* ---------- başlangıç ---------- */
-setMod("yoklama");
+setPhase("A");
 calcAnswer();
 renderQuestions();
 </script>
