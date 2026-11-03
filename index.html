@@ -1336,8 +1336,11 @@ async function animateMove(val, dir, lane) {
   const start = S.pos;
   for (let s = 1; s <= val; s++) {
     if (token !== S.token) return;
-    dropMarker(start + s * dir, val, s, s === val, lane);
-    if (S.session.ayarlar.ses && isUyg()) speak(NUM_WORDS[s] || String(s));
+    const currentPos = start + s * dir; // Sayı doğrusunda o an basılan nokta
+    dropMarker(currentPos, val, s, s === val, lane);
+    if (S.session.ayarlar.ses && isUyg()) {
+      speak(NUM_WORDS[currentPos] || String(currentPos));
+    }
     await sleep(S.session.ayarlar.hiz);
   }
   if (token !== S.token) return;
