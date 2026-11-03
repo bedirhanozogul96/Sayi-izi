@@ -1674,10 +1674,12 @@ async function animateMove(val, dir, lane) {
   S.pos = start + val * dir;
   S.placed++;
   S.animating = false;
+  
   if (S.placed >= 2) {
     lockAnswer(false);
     setMsg("Şimdi cevabını yaz ✨", "info");
-    // 2. SAYI SAYI DOĞRUSUNDA SAYILIP BİTTİĞİ AN GERİ SAYIM BAŞLAR
+    
+    // İkinci sayının sayımı bittiği an geri sayım başlar
     if (!S.timerStarted && S.q) {
       startTimer(S.q.sureSiniri);
     }
