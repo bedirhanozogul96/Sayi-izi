@@ -3,118 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Meka-Matematik (Kinetic-Cog)</title>
+    <title>Sayı İzi - Meka Matematik</title>
     <style>
-        /* Apple Tasarım Dili (San Francisco Font, Yumuşak Renkler) */
-        :root {
-            --apple-bg: #F2F2F7;
-            --apple-white: #FFFFFF;
-            --apple-blue: #007AFF;
-            --apple-green: #34C759;
-            --apple-red: #FF3B30;
-            --apple-text: #1D1D1F;
-            --apple-gray: #8E8E93;
-            --apple-light-gray: #E5E5EA;
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: var(--apple-bg);
-            color: var(--apple-text);
+            padding: 20px;
+            background-color: #F2F2F7;
+            color: #1D1D1F;
             display: flex;
             flex-direction: column;
             align-items: center;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        /* Glassmorphism Giriş Ekranı */
-        #loginOverlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(242, 242, 247, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 99999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            touch-action: auto; /* Giriş ekranında tıklamaya izin ver */
-        }
 
-        .login-box {
-            background: var(--apple-white);
-            padding: 40px 32px;
-            border-radius: 28px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 340px;
-            box-sizing: border-box;
-        }
-
-        .login-box h1 { 
-            margin: 0 0 8px 0; 
-            font-size: 28px; 
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: var(--apple-text);
-        }
-
-        .login-box p {
-            margin: 0 0 24px 0;
-            font-size: 15px;
-            color: var(--apple-gray);
-            text-align: center;
-        }
-        
-        #kullaniciAdiInput { 
+        /* Üst Bilgi ve Kullanıcı Çubuğu */
+        .top-bar {
             width: 100%;
-            padding: 16px; 
-            font-size: 18px; 
-            border-radius: 14px; 
-            border: 1.5px solid var(--apple-light-gray); 
-            background: var(--apple-bg);
-            margin-bottom: 20px; 
-            text-align: center;
-            box-sizing: border-box;
-            outline: none;
-            transition: all 0.2s;
-            user-select: text !important;
-            -webkit-user-select: text !important;
-            touch-action: manipulation;
-        }
-        #kullaniciAdiInput:focus {
-            border-color: var(--apple-blue);
-            background: var(--apple-white);
-            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
+            max-width: 900px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 10px;
         }
 
-        #baslaBtn { 
-            width: 100%;
-            padding: 16px; 
-            font-size: 18px; 
-            background: var(--apple-blue); 
-            color: white; 
-            border: none; 
-            border-radius: 14px; 
-            cursor: pointer; 
+        .user-badge {
+            background: #FFFFFF;
+            padding: 8px 16px;
+            border-radius: 20px;
             font-weight: 600;
-            transition: transform 0.1s, opacity 0.2s;
-            touch-action: manipulation;
+            font-size: 15px;
+            color: #007AFF;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            cursor: pointer;
         }
-        #baslaBtn:hover { opacity: 0.92; }
-        #baslaBtn:active { transform: scale(0.98); opacity: 0.8; }
 
-        /* iOS Tarzı Segmented Control (Üst Menü) */
+        /* iOS Tarzı Üst Menü */
         .header {
-            margin-top: 24px;
-            background-color: rgba(118, 118, 128, 0.12);
+            background-color: #E5E5EA;
             padding: 4px;
             border-radius: 14px;
             display: flex;
@@ -122,97 +56,97 @@
         }
 
         .mode-btn {
-            padding: 10px 24px;
+            padding: 10px 22px;
             font-size: 15px;
             font-weight: 600;
-            color: var(--apple-text);
+            color: #1D1D1F;
             background: transparent;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .mode-btn.active { 
-            background-color: var(--apple-white); 
-            box-shadow: 0 3px 8px rgba(0,0,0,0.12); 
+            transition: all 0.2s;
         }
 
-        /* Soru ve Uyarı Metinleri */
+        .mode-btn.active {
+            background-color: #FFFFFF;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+        }
+
+        /* Soru ve Uyarı Alanı */
         #questionDisplay {
-            font-size: 44px;
+            font-size: 40px;
             font-weight: 700;
-            letter-spacing: -1px;
-            margin: 24px 0 8px 0;
-            height: 52px;
-        }
-        
-        #warningMsg {
-            color: var(--apple-red);
-            font-weight: 600;
-            font-size: 17px;
-            height: 24px;
-            margin-bottom: 8px;
+            margin: 15px 0 5px 0;
+            min-height: 48px;
+            text-align: center;
         }
 
-        /* Şekil Konteyneri (Apple Card Style) */
+        #warningMsg {
+            color: #FF3B30;
+            font-weight: 600;
+            font-size: 16px;
+            min-height: 22px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Şekiller Kutusu */
         .shapes-container {
             display: flex;
-            gap: 18px;
-            margin: 8px 0 24px 0;
-            min-height: 80px;
-            padding: 18px 28px;
-            background: var(--apple-white);
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 5px 0 25px 0;
+            min-height: 96px;
+            padding: 18px 25px;
+            background: #FFFFFF;
             border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            touch-action: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            width: 100%;
+            max-width: 900px;
         }
 
         .shape {
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             color: white;
             cursor: grab;
             position: relative;
             z-index: 10;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            transition: transform 0.1s;
             touch-action: none;
         }
-        .shape:active { transform: scale(0.95); cursor: grabbing; }
+        .shape:active { transform: scale(0.95); }
 
         /* 1-10 Arası Geometrik Şekiller */
-        .shape[data-val="1"] { background: #FF3B30; border-radius: 50%; } 
-        .shape[data-val="2"] { background: #FF9500; border-radius: 50% 0 50% 0; } 
-        .shape[data-val="3"] { background: transparent; width: 0; height: 0; border-left: 35px solid transparent; border-right: 35px solid transparent; border-bottom: 60px solid #FFCC00; color: #1D1D1F; box-shadow: none; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
-        .shape[data-val="3"] span { position: absolute; top: 25px; left: -8px;}
-        .shape[data-val="4"] { background: #34C759; border-radius: 12px; } 
-        .shape[data-val="5"] { background: #30B0C7; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); } 
-        .shape[data-val="6"] { background: #007AFF; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); } 
-        .shape[data-val="7"] { background: #5856D6; clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%); } 
-        .shape[data-val="8"] { background: #AF52DE; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); } 
-        .shape[data-val="9"] { background: #FF2D55; clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%); } 
-        .shape[data-val="10"] { background: #1D1D1F; clip-path: polygon(50% 0%, 81% 10%, 100% 35%, 100% 65%, 81% 90%, 50% 100%, 19% 90%, 0% 65%, 0% 35%, 19% 10%); } 
+        .shape[data-val="1"] { background: #FF3B30; border-radius: 50%; }
+        .shape[data-val="2"] { background: #FF9500; border-radius: 50% 0 50% 0; }
+        .shape[data-val="3"] { background: #FFCC00; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); color: #1D1D1F; padding-top: 14px; }
+        .shape[data-val="4"] { background: #34C759; border-radius: 10px; }
+        .shape[data-val="5"] { background: #30B0C7; clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%); }
+        .shape[data-val="6"] { background: #007AFF; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+        .shape[data-val="7"] { background: #5856D6; clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%); }
+        .shape[data-val="8"] { background: #AF52DE; clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); }
+        .shape[data-val="9"] { background: #FF2D55; clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%); }
+        .shape[data-val="10"] { background: #1D1D1F; clip-path: polygon(50% 0%, 81% 10%, 100% 35%, 100% 65%, 81% 90%, 50% 100%, 19% 90%, 0% 65%, 0% 35%, 19% 10%); }
 
-        /* Sayı Doğrusu (Apple Card Style) */
+        /* Sayı Doğrusu (0-10) */
         .number-line-wrapper {
-            margin-top: 10px;
             position: relative;
-            width: 90%;
+            width: 100%;
             max-width: 900px;
-            height: 120px;
-            background: var(--apple-white);
+            height: 130px;
+            background: #FFFFFF;
             border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             display: flex;
             align-items: flex-end;
-            padding-bottom: 20px;
-            box-sizing: border-box;
-            touch-action: none;
+            padding-bottom: 18px;
         }
 
         .drop-zone {
@@ -223,35 +157,146 @@
             justify-content: flex-end;
             align-items: center;
             position: relative;
-            border-right: 1px solid var(--apple-light-gray);
+            border-right: 1px solid #E5E5EA;
         }
         .drop-zone:last-child { border-right: none; }
 
         .number-label {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--apple-gray);
-            margin-top: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #8E8E93;
+            margin-top: 8px;
         }
 
         .trail-shape {
             position: absolute;
-            bottom: 45px;
-            width: 40px;
-            height: 40px;
-            opacity: 0.3;
+            bottom: 48px;
+            width: 44px;
+            height: 44px;
+            opacity: 0.35;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 18px;
+            color: white;
+        }
+
+        /* Serbest Mod Sıfırlama Butonu */
+        #freeResetBtn {
+            margin-top: 20px;
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #FFFFFF;
+            color: #007AFF;
+            border: 1.5px solid #007AFF;
+            border-radius: 12px;
+            cursor: pointer;
         }
 
         /* Çizim Alanı */
         #drawingArea {
             display: none;
-            margin-top: 30px;
-            margin-bottom: 40px;
+            margin-top: 25px;
             align-items: flex-start;
             gap: 20px;
-            touch-action
+        }
+
+        .canvas-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .canvas-container h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+        }
+
+        #drawCanvas {
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 2px solid #E5E5EA;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .canvas-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .action-btn {
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        #clearBtn { background-color: #FF3B30; }
+        #nextBtn { background-color: #34C759; }
+
+        /* Kullanıcı Giriş Penceresi (Arka planı karartır ama sayı doğrusunu gizlemez) */
+        #loginModal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: #FFFFFF;
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 320px;
+        }
+
+        .login-box h1 { margin: 0 0 8px 0; font-size: 26px; }
+        .login-box p { margin: 0 0 20px 0; color: #8E8E93; font-size: 15px; }
+
+        #kullaniciAdiInput {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border-radius: 12px;
+            border: 1.5px solid #E5E5EA;
+            background: #F2F2F7;
+            margin-bottom: 16px;
+            text-align: center;
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+
+        #baslaBtn {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Üst Çubuk -->
+    <div class="top-bar">
+        <div class="header">
+            <button class="mode-btn active" onclick="
