@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sayı İzi</title>
     <style>
+        /* Apple Tasarım Dili & Dinamik Tema Değişkenleri */
         :root {
             --apple-bg: #F2F2F7;
             --apple-white: #FFFFFF;
@@ -14,6 +15,19 @@
             --apple-text: #1D1D1F;
             --apple-gray: #8E8E93;
             --apple-light-gray: #E5E5EA;
+            --card-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        [data-theme="dark"] {
+            --apple-bg: #000000;
+            --apple-white: #1C1C1E;
+            --apple-blue: #0A84FF;
+            --apple-green: #30D158;
+            --apple-red: #FF453A;
+            --apple-text: #F2F2F7;
+            --apple-gray: #98989F;
+            --apple-light-gray: #2C2C2E;
+            --card-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
 
         body {
@@ -29,12 +43,31 @@
             overflow-y: auto;
             user-select: none;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.3s, color 0.3s;
         }
         
+        /* Tema Değiştirme Butonu (Sağ Üst) */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--apple-white);
+            color: var(--apple-text);
+            border: 1px solid var(--apple-light-gray);
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 10000;
+            transition: all 0.2s;
+        }
+        .theme-toggle-btn:active { transform: scale(0.95); }
+
         #loginOverlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(var(--apple-bg), 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 9999;
@@ -49,12 +82,13 @@
             background: var(--apple-white);
             padding: 36px;
             border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 100%;
             max-width: 380px;
+            transition: background 0.3s;
         }
 
         .login-box h1 { 
@@ -66,7 +100,7 @@
 
         .role-selector {
             display: flex;
-            background-color: rgba(118, 118, 128, 0.12);
+            background-color: var(--apple-light-gray);
             padding: 4px;
             border-radius: 12px;
             width: 100%;
@@ -91,6 +125,7 @@
             background-color: var(--apple-white);
             box-shadow: 0 3px 8px rgba(0,0,0,0.12);
         }
+        [data-theme="dark"] .role-btn.active { background-color: #3A3A3C; color: #fff; }
         
         .apple-input { 
             width: 100%;
@@ -99,12 +134,13 @@
             border-radius: 12px; 
             border: 1px solid var(--apple-light-gray); 
             background: var(--apple-bg);
+            color: var(--apple-text);
             margin-bottom: 14px; 
             text-align: center;
             box-sizing: border-box;
             outline: none;
         }
-        .apple-input:focus { border-color: var(--apple-blue); background: var(--apple-white); }
+        .apple-input:focus { border-color: var(--apple-blue); }
 
         .apple-btn { 
             width: 100%;
@@ -129,20 +165,21 @@
             font-size: 14px;
             font-weight: 600;
             color: var(--apple-gray);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            box-shadow: var(--card-shadow);
         }
 
         /* ÖĞRETMEN PANELİ */
         #teacherPanel {
             display: none;
             width: 90%;
-            max-width: 600px;
+            max-width: 650px;
             margin-top: 30px;
             background: var(--apple-white);
             padding: 32px;
             border-radius: 24px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            box-shadow: var(--card-shadow);
             box-sizing: border-box;
+            transition: background 0.3s;
         }
 
         #teacherPanel h2 { margin: 0 0 20px 0; font-size: 24px; text-align: center; }
@@ -158,16 +195,16 @@
 
         .q-num-input {
             width: 75px; height: 60px; font-size: 26px; font-weight: 700; text-align: center;
-            border-radius: 14px; border: 2px solid var(--apple-light-gray); background: var(--apple-bg); outline: none;
+            border-radius: 14px; border: 2px solid var(--apple-light-gray); background: var(--apple-bg); color: var(--apple-text); outline: none;
         }
 
         .q-op-select {
             height: 60px; padding: 0 16px; font-size: 26px; font-weight: 700;
-            border-radius: 14px; border: 2px solid var(--apple-light-gray); background: var(--apple-bg); outline: none;
+            border-radius: 14px; border: 2px solid var(--apple-light-gray); background: var(--apple-bg); color: var(--apple-text); outline: none;
         }
 
         .auto-answer-box {
-            padding: 14px 24px; background: rgba(52, 199, 89, 0.12); color: var(--apple-green);
+            padding: 14px 24px; background: rgba(52, 199, 89, 0.15); color: var(--apple-green);
             font-size: 26px; font-weight: 800; border-radius: 14px; min-width: 60px; text-align: center;
         }
 
@@ -184,9 +221,64 @@
         .session-btn-group { display: flex; gap: 12px; margin-bottom: 20px; }
 
         #assignedQuestionsList { border-top: 1px solid var(--apple-light-gray); padding-top: 16px; }
-        .assigned-item { display: flex; justify-content: space-between; padding: 10px 14px; background: var(--apple-bg); border-radius: 10px; margin-bottom: 8px; font-weight: 600; }
+        
+        .assigned-item { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 12px 16px; 
+            background: var(--apple-bg); 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            font-weight: 600; 
+            gap: 10px;
+        }
 
-        /* 6 Haneli Kod Gösterge Kutusu (Kopyalanabilir) */
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .drag-handle {
+            font-size: 18px;
+            color: var(--apple-gray);
+            cursor: grab;
+            font-weight: bold;
+        }
+
+        .order-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .order-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--apple-blue);
+            padding: 0;
+        }
+        .order-btn:hover { opacity: 0.7; }
+
+        .delete-btn {
+            background: rgba(255, 59, 48, 0.15);
+            color: var(--apple-red);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .delete-btn:hover { background: var(--apple-red); color: #fff; }
+
         #codeDisplayBox {
             display: none;
             margin-top: 20px;
@@ -228,7 +320,6 @@
             cursor: pointer;
             font-size: 15px;
         }
-        .copy-btn:active { opacity: 0.7; }
 
         #switchToStudentBtn {
             margin-top: 14px;
@@ -244,7 +335,7 @@
         }
 
         .header {
-            margin-top: 20px; background-color: rgba(118, 118, 128, 0.12); padding: 4px; border-radius: 14px;
+            margin-top: 20px; background-color: var(--apple-light-gray); padding: 4px; border-radius: 14px;
             display: flex; gap: 4px; flex-wrap: wrap; justify-content: center;
         }
 
@@ -253,10 +344,11 @@
             background: transparent; border: none; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
         }
         .mode-btn.active { background-color: var(--apple-white); box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
+        [data-theme="dark"] .mode-btn.active { background-color: #3A3A3C; color: #fff; }
 
         #timerDisplay {
             display: none; font-size: 18px; font-weight: 600; color: var(--apple-blue); margin-top: 16px;
-            background: var(--apple-white); padding: 10px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: var(--apple-white); padding: 10px 20px; border-radius: 12px; box-shadow: var(--card-shadow);
         }
 
         #questionDisplay { font-size: 40px; font-weight: 700; letter-spacing: -1px; margin: 16px 0 8px 0; min-height: 48px; text-align: center; }
@@ -264,7 +356,8 @@
 
         .shapes-container {
             display: flex; gap: 16px; margin: 10px 0 25px 0; min-height: 80px; padding: 18px 25px;
-            background: var(--apple-white); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); flex-wrap: wrap; justify-content: center;
+            background: var(--apple-white); border-radius: 24px; box-shadow: var(--card-shadow); flex-wrap: wrap; justify-content: center;
+            transition: background 0.3s;
         }
 
         .shape {
@@ -287,8 +380,9 @@
 
         .number-line-wrapper {
             margin-top: 10px; position: relative; width: 95%; max-width: 900px; height: 120px;
-            background: var(--apple-white); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            background: var(--apple-white); border-radius: 24px; box-shadow: var(--card-shadow);
             display: flex; align-items: flex-end; padding-bottom: 20px; box-sizing: border-box;
+            transition: background 0.3s;
         }
 
         .drop-zone {
@@ -306,7 +400,7 @@
         #drawingArea { display: none; margin-top: 30px; align-items: flex-start; gap: 20px; flex-wrap: wrap; justify-content: center; }
         .canvas-container { display: flex; flex-direction: column; align-items: center; }
         .canvas-container h2 { font-size: 20px; font-weight: 600; margin: 0 0 10px 0; }
-        #drawCanvas { background: var(--apple-white); border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); cursor: crosshair; touch-action: none; }
+        #drawCanvas { background: var(--apple-white); border-radius: 20px; box-shadow: var(--card-shadow); cursor: crosshair; touch-action: none; transition: background 0.3s; }
         .canvas-controls { display: flex; flex-direction: column; gap: 12px; margin-top: 34px; }
         .action-btn { padding: 14px 24px; font-size: 16px; font-weight: 600; color: white; border: none; border-radius: 12px; cursor: pointer; }
         #clearBtn { background-color: var(--apple-red); }
@@ -314,6 +408,9 @@
     </style>
 </head>
 <body>
+
+    <!-- Karanlık/Aydınlık Mod Butonu -->
+    <button class="theme-toggle-btn" onclick="toggleTheme()">🌙 Karanlık Mod</button>
 
     <!-- GİRİŞ EKRANI -->
     <div id="loginOverlay">
@@ -370,7 +467,6 @@
             </button>
         </div>
 
-        <!-- 6 Haneli Üretilen Kod Kutusu (Kopyalanabilir) -->
         <div id="codeDisplayBox">
             <h3>Oturum 6 Haneli Kodu</h3>
             <div class="code-row">
@@ -432,7 +528,7 @@
     let sessionResultsSummary = [];
 
     let mevcutKod = "";
-    let veriDegistiMi = true; // Soru ekleme/çıkarma veya süre değiştiğinde true olur
+    let veriDegistiMi = true;
 
     let zamanSiniri = 20;
     let kalanZaman = 0;
@@ -444,6 +540,19 @@
     let currentQ = { num1: 0, num2: 0, op: '+' };
     let currentPosition = 0; 
     let placedNumbers = 0;
+
+    // --- KARANLIK / AYDINLIK MOD ---
+    function toggleTheme() {
+        const html = document.documentElement;
+        const btn = document.querySelector('.theme-toggle-btn');
+        if(html.getAttribute('data-theme') === 'dark') {
+            html.removeAttribute('data-theme');
+            btn.innerText = "🌙 Karanlık Mod";
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            btn.innerText = "☀️ Aydınlık Mod";
+        }
+    }
 
     function switchRole(role) {
         aktifRol = role;
@@ -459,9 +568,7 @@
         }
     }
 
-    function markAsModified() {
-        veriDegistiMi = true; // Öğretmen süre veya soru parametrelerini değiştirdi
-    }
+    function markAsModified() { veriDegistiMi = true; }
 
     function sistemeGirisYap() {
         if(aktifRol === 'ogrenci') {
@@ -527,7 +634,6 @@
     }
 
     function ogrenciGirisnineGec() {
-        // Öğretmen ekranından çıkıp doğrudan öğrenci giriş paneline geçiş (test kolaylığı için)
         document.getElementById("teacherPanel").style.display = "none";
         document.getElementById("loginOverlay").style.display = "flex";
         switchRole('ogrenci');
@@ -583,6 +689,23 @@
         renderSessionList();
     }
 
+    // --- SORU ÇIKARMA VE YUKARI/AŞAĞI TAŞIMA (SÜRÜKLE TUTAMACI) ---
+    function removeQuestion(index) {
+        sessionQuestionsQueue.splice(index, 1);
+        markAsModified();
+        renderSessionList();
+    }
+
+    function moveQuestion(index, direction) {
+        let newIndex = index + direction;
+        if (newIndex < 0 || newIndex >= sessionQuestionsQueue.length) return;
+        let temp = sessionQuestionsQueue[index];
+        sessionQuestionsQueue[index] = sessionQuestionsQueue[newIndex];
+        sessionQuestionsQueue[newIndex] = temp;
+        markAsModified();
+        renderSessionList();
+    }
+
     function renderSessionList() {
         const container = document.getElementById('qListContainer');
         document.getElementById('sessionCount').innerText = sessionQuestionsQueue.length;
@@ -590,7 +713,18 @@
         sessionQuestionsQueue.forEach((item, idx) => {
             const div = document.createElement('div');
             div.className = 'assigned-item';
-            div.innerHTML = `<span>${idx + 1}. Soru: ${item.num1} ${item.op} ${item.num2} = <strong>${item.ans}</strong></span> <span>Süre: ${item.sureSiniri} sn</span>`;
+            
+            div.innerHTML = `
+                <div class="item-left">
+                    <span class="drag-handle" title="Sıralama Tutamacı">≡</span>
+                    <div class="order-btns">
+                        <button class="order-btn" onclick="moveQuestion(${idx}, -1)" title="Yukarı taşı">▲</button>
+                        <button class="order-btn" onclick="moveQuestion(${idx}, 1)" title="Aşağı taşı">▼</button>
+                    </div>
+                    <span>${idx + 1}. Soru: ${item.num1} ${item.op} ${item.num2} = <strong>${item.ans}</strong> (Süre: ${item.sureSiniri} sn)</span>
+                </div>
+                <button class="delete-btn" onclick="removeQuestion(${idx})" title="Soruyu Çıkart">✕</button>
+            `;
             container.appendChild(div);
         });
     }
@@ -601,15 +735,13 @@
             return;
         }
 
-        // Eğer veriler değişmediyse yeni kod üretme, mevcut kodu koru
         if(!veriDegistiMi && mevcutKod) {
             document.getElementById('codeDisplayBox').style.display = 'block';
             return;
         }
 
-        // Yeni 6 haneli rastgele kod üret
         mevcutKod = Math.floor(100000 + Math.random() * 900000).toString();
-        veriDegistiMi = false; // Güncellendi olarak işaretle
+        veriDegistiMi = false;
 
         localStorage.setItem("oturum_kod_" + mevcutKod, JSON.stringify(sessionQuestionsQueue));
 
@@ -893,7 +1025,8 @@
 
     function resizeCanvas() {
         canvas.width = 300; canvas.height = 200;
-        ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.strokeStyle = '#1D1D1F';
+        ctx.lineWidth = 6; ctx.lineCap = 'round';
+        ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#F2F2F7' : '#1D1D1F';
     }
 
     function startPos(e) {
@@ -910,6 +1043,7 @@
         const rect = canvas.getBoundingClientRect();
         const clientX = e.clientX || (e.touches && e.touches[0].clientX);
         const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        ctx.strokeStyle = document.documentElement.getAttribute('data-theme') === 'dark' ? '#F2F2F7' : '#1D1D1F';
         ctx.lineTo(clientX - rect.left, clientY - rect.top);
         ctx.stroke();
         ctx.beginPath();
