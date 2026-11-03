@@ -34,7 +34,7 @@
         #loginOverlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 9999;
@@ -132,7 +132,7 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
-        /* ÖĞRETMEN OTURUM PANELİ */
+        /* ÖĞRETMEN PANELİ */
         #teacherPanel {
             display: none;
             width: 90%;
@@ -145,11 +145,7 @@
             box-sizing: border-box;
         }
 
-        #teacherPanel h2 {
-            margin: 0 0 20px 0;
-            font-size: 24px;
-            text-align: center;
-        }
+        #teacherPanel h2 { margin: 0 0 20px 0; font-size: 24px; text-align: center; }
 
         .question-builder {
             display: flex;
@@ -161,86 +157,47 @@
         }
 
         .q-num-input {
-            width: 75px;
-            height: 60px;
-            font-size: 26px;
-            font-weight: 700;
-            text-align: center;
-            border-radius: 14px;
-            border: 2px solid var(--apple-light-gray);
-            background: var(--apple-bg);
-            outline: none;
+            width: 75px; height: 60px; font-size: 26px; font-weight: 700; text-align: center;
+            border-radius: 14px; border: 2px solid var(--apple-light-gray); background: var(--apple-bg); outline: none;
         }
 
         .q-op-select {
-            height: 60px;
-            padding: 0 16px;
-            font-size: 26px;
-            font-weight: 700;
-            border-radius: 14px;
-            border: 2px solid var(--apple-light-gray);
-            background: var(--apple-bg);
-            outline: none;
+            height: 60px; padding: 0 16px; font-size: 26px; font-weight: 700;
+            border-radius: 14px; border: 2px solid var(--apple-light-gray); background: var(--apple-bg); outline: none;
         }
 
         .auto-answer-box {
-            padding: 14px 24px;
-            background: rgba(52, 199, 89, 0.12);
-            color: var(--apple-green);
-            font-size: 26px;
-            font-weight: 800;
-            border-radius: 14px;
-            min-width: 60px;
-            text-align: center;
+            padding: 14px 24px; background: rgba(52, 199, 89, 0.12); color: var(--apple-green);
+            font-size: 26px; font-weight: 800; border-radius: 14px; min-width: 60px; text-align: center;
         }
 
         .time-setting-row {
-            background: var(--apple-bg);
-            padding: 16px 20px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            background: var(--apple-bg); padding: 16px 20px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 18px; font-weight: 600; margin-bottom: 20px;
         }
 
         .time-inline-input {
-            width: 80px;
-            padding: 10px;
-            font-size: 18px;
-            font-weight: 700;
-            text-align: center;
-            border-radius: 10px;
-            border: 1px solid var(--apple-blue);
-            background: var(--apple-white);
-            color: var(--apple-blue);
+            width: 80px; padding: 10px; font-size: 18px; font-weight: 700; text-align: center;
+            border-radius: 10px; border: 1px solid var(--apple-blue); background: var(--apple-white); color: var(--apple-blue);
         }
 
-        .session-btn-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
+        .session-btn-group { display: flex; gap: 12px; margin-bottom: 20px; }
 
-        #assignedQuestionsList {
+        #assignedQuestionsList { border-top: 1px solid var(--apple-light-gray); padding-top: 16px; }
+        .assigned-item { display: flex; justify-content: space-between; padding: 10px 14px; background: var(--apple-bg); border-radius: 10px; margin-bottom: 8px; font-weight: 600; }
+
+        /* 6 Haneli Kod Gösterge Kutusu */
+        #codeDisplayBox {
+            display: none;
             margin-top: 20px;
-            border-top: 1px solid var(--apple-light-gray);
-            padding-top: 16px;
+            padding: 20px;
+            background: rgba(0, 122, 255, 0.1);
+            border: 2px dashed var(--apple-blue);
+            border-radius: 16px;
+            text-align: center;
         }
-
-        .assigned-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 14px;
-            background: var(--apple-bg);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
+        #codeDisplayBox h3 { margin: 0 0 10px 0; color: var(--apple-blue); font-size: 18px; }
+        #generatedCodeText { font-size: 36px; font-weight: 800; letter-spacing: 4px; color: var(--apple-text); }
 
         /* ÖĞRENCİ ARAYÜZÜ */
         #studentPanel {
@@ -251,89 +208,33 @@
         }
 
         .header {
-            margin-top: 20px;
-            background-color: rgba(118, 118, 128, 0.12);
-            padding: 4px;
-            border-radius: 14px;
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-top: 20px; background-color: rgba(118, 118, 128, 0.12); padding: 4px; border-radius: 14px;
+            display: flex; gap: 4px; flex-wrap: wrap; justify-content: center;
         }
 
         .mode-btn {
-            padding: 10px 20px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--apple-text);
-            background: transparent;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            padding: 10px 20px; font-size: 15px; font-weight: 600; color: var(--apple-text);
+            background: transparent; border: none; border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
         }
-        .mode-btn.active { 
-            background-color: var(--apple-white); 
-            box-shadow: 0 3px 8px rgba(0,0,0,0.12); 
-        }
+        .mode-btn.active { background-color: var(--apple-white); box-shadow: 0 3px 8px rgba(0,0,0,0.12); }
 
         #timerDisplay {
-            display: none;
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--apple-blue);
-            margin-top: 16px;
-            background: var(--apple-white);
-            padding: 10px 20px;
-            border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: none; font-size: 18px; font-weight: 600; color: var(--apple-blue); margin-top: 16px;
+            background: var(--apple-white); padding: 10px 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        #questionDisplay {
-            font-size: 40px;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin: 16px 0 8px 0;
-            min-height: 48px;
-            text-align: center;
-        }
-        
-        #warningMsg {
-            color: var(--apple-red);
-            font-weight: 600;
-            font-size: 17px;
-            min-height: 24px;
-            margin-bottom: 5px;
-            text-align: center;
-        }
+        #questionDisplay { font-size: 40px; font-weight: 700; letter-spacing: -1px; margin: 16px 0 8px 0; min-height: 48px; text-align: center; }
+        #warningMsg { color: var(--apple-red); font-weight: 600; font-size: 17px; min-height: 24px; margin-bottom: 5px; text-align: center; }
 
         .shapes-container {
-            display: flex;
-            gap: 16px;
-            margin: 10px 0 25px 0;
-            min-height: 80px;
-            padding: 18px 25px;
-            background: var(--apple-white);
-            border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            flex-wrap: wrap;
-            justify-content: center;
+            display: flex; gap: 16px; margin: 10px 0 25px 0; min-height: 80px; padding: 18px 25px;
+            background: var(--apple-white); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); flex-wrap: wrap; justify-content: center;
         }
 
         .shape {
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 26px;
-            font-weight: 700;
-            color: white;
-            cursor: grab;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            touch-action: none;
+            width: 60px; height: 60px; display: flex; justify-content: center; align-items: center;
+            font-size: 26px; font-weight: 700; color: white; cursor: grab; position: relative; z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); touch-action: none;
         }
 
         .shape[data-val="1"] { background: #FF3B30; border-radius: 50%; } 
@@ -349,126 +250,65 @@
         .shape[data-val="10"] { background: #1D1D1F; clip-path: polygon(50% 0%, 81% 10%, 100% 35%, 100% 65%, 81% 90%, 50% 100%, 19% 90%, 0% 65%, 0% 35%, 19% 10%); } 
 
         .number-line-wrapper {
-            margin-top: 10px;
-            position: relative;
-            width: 95%;
-            max-width: 900px;
-            height: 120px;
-            background: var(--apple-white);
-            border-radius: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            display: flex;
-            align-items: flex-end;
-            padding-bottom: 20px;
-            box-sizing: border-box;
+            margin-top: 10px; position: relative; width: 95%; max-width: 900px; height: 120px;
+            background: var(--apple-white); border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            display: flex; align-items: flex-end; padding-bottom: 20px; box-sizing: border-box;
         }
 
         .drop-zone {
-            flex: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            position: relative;
-            border-right: 1px solid var(--apple-light-gray);
+            flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+            align-items: center; position: relative; border-right: 1px solid var(--apple-light-gray);
         }
         .drop-zone:last-child { border-right: none; }
-
-        .number-label {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--apple-gray);
-            margin-top: 10px;
-        }
+        .number-label { font-size: 20px; font-weight: 600; color: var(--apple-gray); margin-top: 10px; }
 
         .trail-shape {
-            position: absolute;
-            bottom: 45px;
-            width: 40px;
-            height: 40px;
-            opacity: 0.3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 18px;
+            position: absolute; bottom: 45px; width: 40px; height: 40px; opacity: 0.3;
+            display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 18px;
         }
 
-        #drawingArea {
-            display: none;
-            margin-top: 30px;
-            align-items: flex-start;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .canvas-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .canvas-container h2 {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 0 0 10px 0;
-        }
-
-        #drawCanvas {
-            background: var(--apple-white);
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            cursor: crosshair;
-            touch-action: none;
-        }
-
-        .canvas-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 34px;
-        }
-
-        .action-btn {
-            padding: 14px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-        }
+        #drawingArea { display: none; margin-top: 30px; align-items: flex-start; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .canvas-container { display: flex; flex-direction: column; align-items: center; }
+        .canvas-container h2 { font-size: 20px; font-weight: 600; margin: 0 0 10px 0; }
+        #drawCanvas { background: var(--apple-white); border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); cursor: crosshair; touch-action: none; }
+        .canvas-controls { display: flex; flex-direction: column; gap: 12px; margin-top: 34px; }
+        .action-btn { padding: 14px 24px; font-size: 16px; font-weight: 600; color: white; border: none; border-radius: 12px; cursor: pointer; }
         #clearBtn { background-color: var(--apple-red); }
         #nextBtn { background-color: var(--apple-green); }
-
     </style>
 </head>
 <body>
 
-    <!-- GİRİŞ EKRANI -->
+    <!-- GİRİŞ EKRANI (DİNAMİK FORM) -->
     <div id="loginOverlay">
         <div class="login-box">
             <h1>Sayı İzi</h1>
             
             <div class="role-selector">
-                <button id="btnOgrenci" class="role-btn active" onclick="selectRole('ogrenci')">Öğrenci Girişi</button>
-                <button id="btnOgretmen" class="role-btn" onclick="selectRole('ogretmen')">Öğretmen Girişi</button>
+                <button id="btnOgrenci" class="role-btn active" onclick="switchRole('ogrenci')">Öğrenci Girişi</button>
+                <button id="btnOgretmen" class="role-btn" onclick="switchRole('ogretmen')">Öğretmen Girişi</button>
             </div>
 
-            <input type="text" id="ogretmenAdiInput" class="apple-input" placeholder="Öğretmen Adı...">
-            <input type="text" id="ogrenciAdiInput" class="apple-input" placeholder="Eşleşecek Öğrenci Adı...">
+            <!-- Öğrenci Modu Alanı -->
+            <div id="studentForm" style="width:100%;">
+                <input type="text" id="ogrenciAdiInput" class="apple-input" placeholder="Öğrenci Adı...">
+                <input type="text" id="oturumKoduInput" class="apple-input" placeholder="6 Haneli Oturum Kodu..." maxlength="6">
+            </div>
 
-            <button id="baslaBtn" class="apple-btn" onclick="uygulamayiBaslat()">Giriş Yap ve Eşleştir</button>
+            <!-- Öğretmen Modu Alanı -->
+            <div id="teacherForm" style="width:100%; display:none;">
+                <input type="text" id="ogretmenAdiInput" class="apple-input" placeholder="Öğretmen Adı...">
+            </div>
+
+            <button id="baslaBtn" class="apple-btn" onclick="sistemeGirisYap()">Devam Et</button>
         </div>
     </div>
 
     <div id="matchInfoBar"></div>
 
-    <!-- ÖĞRETMEN OTURUM YÖNETİMİ -->
+    <!-- ÖĞRETMEN OTURUM PANELİ -->
     <div id="teacherPanel">
-        <h2>Öğretmen Oturum ve Soru Seti Paneli</h2>
+        <h2>Oturum ve Soru Seti Oluşturucu</h2>
         
         <div class="question-builder">
             <input type="number" id="tNum1" class="q-num-input" value="4" min="1" max="10" oninput="autoCalcAnswer()">
@@ -492,14 +332,19 @@
                 + Oturuma Soru Ekle
             </button>
             <button class="apple-btn" style="background: var(--apple-green); flex:1;" onclick="finalizeAndPublishSession()">
-                Oturumu Başlat / Gönder
+                Oturumu Tamamla ve Kod Üret
             </button>
         </div>
 
-        <div id="teacherStatusMsg" style="text-align:center; margin-top:10px; font-weight:600; color:var(--apple-blue);"></div>
+        <!-- 6 Haneli Üretilen Kod Kutusu -->
+        <div id="codeDisplayBox">
+            <h3>Oturum 6 Haneli Kodu Üretildi!</h3>
+            <div id="generatedCodeText">------</div>
+            <p style="font-size:13px; color:var(--apple-gray); margin:8px 0 0 0;">Bu kodu öğrencilerinize vererek sisteme girmelerini sağlayın.</p>
+        </div>
 
         <div id="assignedQuestionsList">
-            <h3 style="font-size:16px; color:var(--apple-gray); margin:0 0 10px 0;">Oturum Soru Seti (<span id="sessionCount">0</span> Soru):</h3>
+            <h3 style="font-size:16px; color:var(--apple-gray); margin:0 0 10px 0;">Eklenen Sorular (<span id="sessionCount">0</span>):</h3>
             <div id="qListContainer"></div>
         </div>
     </div>
@@ -508,9 +353,7 @@
     <div id="studentPanel">
         <div class="header">
             <button class="mode-btn active" onclick="setMode('serbest', event)">Serbest Mod</button>
-            <button class="mode-btn" onclick="setMode('toplama', event)">Toplama Soruları</button>
-            <button class="mode-btn" onclick="setMode('cikarma', event)">Çıkarma Soruları</button>
-            <button class="mode-btn" onclick="setMode('ogretmen_sorusu', event)">Öğretmen Oturumu</button>
+            <button class="mode-btn" onclick="setMode('oturum_sorulari', event)">Öğretmen Oturumu</button>
         </div>
 
         <div id="timerDisplay">
@@ -538,14 +381,18 @@
 <script>
     const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby.../exec";
 
-    let secilenRol = "ogrenci";
-    let aktifOgretmen = "";
-    let aktifOgrenci = "";
+    let aktifRol = "ogrenci";
+    let aktifOgrenciAdi = "";
+    let aktifOgretmenAdi = "";
+    let girilenOturumKodu = "";
 
-    let zamanSiniri = 20; 
+    let sessionQuestionsQueue = [];
+    let activeSessionIndex = 0;
+    let sessionResultsSummary = [];
+
+    let zamanSiniri = 20;
     let kalanZaman = 0;
     let zamanSayaci = null;
-
     let baslangicZamani = 0;
     let hataSayisi = 0;
 
@@ -554,55 +401,80 @@
     let currentPosition = 0; 
     let placedNumbers = 0;
 
-    let sessionQuestionsQueue = []; // Oturum için biriken sorular
-    let activeSessionIndex = 0;
-    let sessionResultsSummary = []; // Oturum özet verileri
-
-    function selectRole(role) {
-        secilenRol = role;
+    function switchRole(role) {
+        aktifRol = role;
         document.getElementById('btnOgrenci').classList.toggle('active', role === 'ogrenci');
         document.getElementById('btnOgretmen').classList.toggle('active', role === 'ogretmen');
+
+        if(role === 'ogrenci') {
+            document.getElementById('studentForm').style.display = 'block';
+            document.getElementById('teacherForm').style.display = 'none';
+        } else {
+            document.getElementById('studentForm').style.display = 'none';
+            document.getElementById('teacherForm').style.display = 'block';
+        }
     }
 
-    function uygulamayiBaslat() {
-        const ogrt = document.getElementById("ogretmenAdiInput").value.trim();
-        const ogrc = document.getElementById("ogrenciAdiInput").value.trim();
+    function sistemeGirisYap() {
+        if(aktifRol === 'ogrenci') {
+            const ogrc = document.getElementById("ogrenciAdiInput").value.trim();
+            const kod = document.getElementById("oturumKoduInput").value.trim();
 
-        if (ogrt === "" || ogrc === "") {
-            alert("Lütfen eşleşme için hem Öğretmen hem de Öğrenci adını girin!");
-            return;
-        }
+            if(ogrc === "" || kod.length !== 6) {
+                alert("Lütfen öğrenci adını ve 6 haneli oturum kodunu eksiksiz girin!");
+                return;
+            }
 
-        aktifOgretmen = ogrt;
-        aktifOgrenci = ogrc;
+            aktifOgrenciAdi = ogrc;
+            girilenOturumKodu = kod;
 
-        document.getElementById("loginOverlay").style.display = "none";
-        
-        const infoBar = document.getElementById("matchInfoBar");
-        infoBar.style.display = "block";
-        infoBar.innerText = `Eşleşme: Öğretmen ${aktifOgretmen} ↔ Öğrenci ${aktifOgrenci} (${secilenRol === 'ogretmen' ? 'Öğretmen Modu' : 'Öğrenci Modu'})`;
+            // Google'dan 6 haneli kodla oturum sorularını çek
+            fetch(`${GOOGLE_SCRIPT_URL}?kod=${kod}`)
+                .then(res => res.json())
+                .then(data => {
+                    if(data && data.length > 0) {
+                        sessionQuestionsQueue = data;
+                        document.getElementById("loginOverlay").style.display = "none";
+                        document.getElementById("matchInfoBar").style.display = "block";
+                        document.getElementById("matchInfoBar").innerText = `Öğrenci: ${aktifOgrenciAdi} | Oturum Kodu: ${girilenOturumKodu}`;
+                        
+                        document.getElementById("teacherPanel").style.display = "none";
+                        document.getElementById("studentPanel").style.display = "flex";
+                        initStudentApp();
+                    } else {
+                        alert("Bu kodla eşleşen bir oturum bulunamadı! Lütfen kodu kontrol edin.");
+                    }
+                })
+                .catch(err => {
+                    // İnternet veya CORS durumunda localStorage fallback
+                    const localData = localStorage.getItem("oturum_kod_" + kod);
+                    if(localData) {
+                        sessionQuestionsQueue = JSON.parse(localData);
+                        document.getElementById("loginOverlay").style.display = "none";
+                        document.getElementById("matchInfoBar").style.display = "block";
+                        document.getElementById("matchInfoBar").innerText = `Öğrenci: ${aktifOgrenciAdi} | Oturum Kodu: ${girilenOturumKodu}`;
+                        document.getElementById("teacherPanel").style.display = "none";
+                        document.getElementById("studentPanel").style.display = "flex";
+                        initStudentApp();
+                    } else {
+                        alert("Oturum yüklenemedi. Lütfen internet bağlantınızı veya kodu kontrol edin.");
+                    }
+                });
 
-        googleVeriYolla({
-            islemTipi: "eslesme_kaydi",
-            ogretmenAdi: aktifOgretmen,
-            ogrenciAdi: aktifOgrenci,
-            rol: secilenRol
-        });
-
-        const savedSession = localStorage.getItem("oturum_" + aktifOgrenci);
-        if (savedSession) {
-            sessionQuestionsQueue = JSON.parse(savedSession);
-        }
-
-        if (secilenRol === 'ogretmen') {
+        } else {
+            const ogrt = document.getElementById("ogretmenAdiInput").value.trim();
+            if(ogrt === "") {
+                alert("Lütfen öğretmen adını girin!");
+                return;
+            }
+            aktifOgretmenAdi = ogrt;
+            document.getElementById("loginOverlay").style.display = "none";
+            document.getElementById("matchInfoBar").style.display = "block";
+            document.getElementById("matchInfoBar").innerText = `Öğretmen: ${aktifOgretmenAdi}`;
+            
             document.getElementById("teacherPanel").style.display = "block";
             document.getElementById("studentPanel").style.display = "none";
             autoCalcAnswer();
-            renderSessionList();
-        } else {
-            document.getElementById("teacherPanel").style.display = "none";
-            document.getElementById("studentPanel").style.display = "flex";
-            initStudentApp();
         }
     }
 
@@ -630,24 +502,17 @@
         let sure = parseInt(document.getElementById('tTimeLimit').value) || 20;
         let ans = op === '+' ? (n1 + n2) : (n1 - n2);
 
-        const statusMsg = document.getElementById('teacherStatusMsg');
-
         if (op === '+' && ans > 10) {
-            statusMsg.style.color = "var(--apple-red)";
-            statusMsg.innerText = "Sayı doğrusu 10'a kadar olduğu için toplam en fazla 10 olmalıdır!";
+            alert("Toplam en fazla 10 olmalıdır!");
             return;
         }
         if (op === '-' && (ans < 0 || n1 > 10)) {
-            statusMsg.style.color = "var(--apple-red)";
-            statusMsg.innerText = "Çıkarma işleminde sonuç doğal sayı olmalı ve ilk sayı 10'u geçmemelidir!";
+            alert("Çıkarma sonucu doğal sayı olmalı ve ilk sayı 10'u geçmemelidir!");
             return;
         }
 
         sessionQuestionsQueue.push({ num1: n1, num2: n2, op: op, ans: ans, sureSiniri: sure });
         renderSessionList();
-
-        statusMsg.style.color = "var(--apple-blue)";
-        statusMsg.innerText = `Soru eklendi. Toplam soru: ${sessionQuestionsQueue.length}`;
     }
 
     function renderSessionList() {
@@ -668,29 +533,32 @@
             return;
         }
 
-        localStorage.setItem("oturum_" + aktifOgrenci, JSON.stringify(sessionQuestionsQueue));
+        // 6 haneli rastgele kod üret
+        const rastgeleKod = Math.floor(100000 + Math.random() * 900000).toString();
+        
+        // Tarayıcı hafızasına da yedekle
+        localStorage.setItem("oturum_kod_" + rastgeleKod, JSON.stringify(sessionQuestionsQueue));
 
-        googleVeriYolla({
-            islemTipi: "oturum_olusturma",
-            ogretmenAdi: aktifOgretmen,
-            ogrenciAdi: aktifOgrenci,
-            toplamSoruSayisi: sessionQuestionsQueue.length,
-            detay: JSON.stringify(sessionQuestionsQueue)
-        });
-
-        document.getElementById('teacherStatusMsg.style.color'] = "var(--apple-green)";
-        document.getElementById('teacherStatusMsg').innerText = "Oturum başarıyla oluşturuldu ve öğrenciye gönderildi!";
-    }
-
-    function googleVeriYolla(veriPaketi) {
+        // Google E-Tabloya gönder
         fetch(GOOGLE_SCRIPT_URL, {
             method: "POST",
             mode: "no-cors",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(veriPaketi)
-        }).catch(err => console.error("Veri gönderim hatası:", err));
+            body: JSON.stringify({
+                islemTipi: "oturum_olusturma",
+                ogretmenAdi: aktifOgretmenAdi,
+                oturumKodu: rastgeleKod,
+                toplamSoruSayisi: sessionQuestionsQueue.length,
+                detay: JSON.stringify(sessionQuestionsQueue)
+            })
+        }).catch(err => console.error(err));
+
+        // Ekranda 6 haneli kodu göster
+        document.getElementById('codeDisplayBox').style.display = 'block';
+        document.getElementById('generatedCodeText').innerText = rastgeleKod;
     }
 
+    // --- ÖĞRENCİ OYUN MOTORU ---
     function initStudentApp() {
         buildNumberLine();
         buildShapes();
@@ -704,11 +572,9 @@
             const zone = document.createElement('div');
             zone.className = 'drop-zone';
             zone.dataset.index = i;
-            
             const label = document.createElement('div');
             label.className = 'number-label';
             label.innerText = i;
-
             zone.appendChild(label);
             wrapper.appendChild(zone);
         }
@@ -717,13 +583,11 @@
     function buildShapes(allowedNums = [1,2,3,4,5,6,7,8,9,10]) {
         const container = document.getElementById('shapesContainer');
         container.innerHTML = '';
-        
         allowedNums.forEach(num => {
             const shape = document.createElement('div');
             shape.className = 'shape';
             shape.dataset.val = num;
             shape.draggable = true;
-            
             if (num === 3) {
                 const span = document.createElement('span');
                 span.innerText = num;
@@ -731,18 +595,12 @@
             } else {
                 shape.innerText = num;
             }
-
-            shape.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', num);
-            });
-
+            shape.addEventListener('dragstart', (e) => e.dataTransfer.setData('text/plain', num));
             shape.addEventListener('touchstart', handleTouchStart, {passive: false});
             shape.addEventListener('touchmove', handleTouchMove, {passive: false});
             shape.addEventListener('touchend', handleTouchEnd);
-
             container.appendChild(shape);
         });
-
         setupDropZones();
     }
 
@@ -751,18 +609,13 @@
             zone.addEventListener('dragover', e => e.preventDefault());
             zone.addEventListener('drop', e => {
                 e.preventDefault();
-                const val = parseInt(e.dataTransfer.getData('text/plain'));
-                processMove(val);
+                processMove(parseInt(e.dataTransfer.getData('text/plain')));
             });
         });
     }
 
     let touchEl = null;
-    function handleTouchStart(e) {
-        e.preventDefault();
-        touchEl = e.target.closest('.shape');
-    }
-    
+    function handleTouchStart(e) { e.preventDefault(); touchEl = e.target.closest('.shape'); }
     function handleTouchMove(e) {
         e.preventDefault();
         if (!touchEl) return;
@@ -771,20 +624,15 @@
         touchEl.style.left = touch.clientX - 30 + 'px';
         touchEl.style.top = touch.clientY - 30 + 'px';
     }
-
     function handleTouchEnd(e) {
         e.preventDefault();
         if (!touchEl) return;
-        
         touchEl.style.position = 'relative';
         touchEl.style.left = '0';
         touchEl.style.top = '0';
-
         const touch = e.changedTouches[0];
         const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-        const dropZone = elemBelow ? elemBelow.closest('.drop-zone') : null;
-
-        if (dropZone) {
+        if (elemBelow && elemBelow.closest('.drop-zone')) {
             processMove(parseInt(touchEl.dataset.val));
         }
         touchEl = null;
@@ -793,54 +641,27 @@
     function processMove(val) {
         const warning = document.getElementById('warningMsg');
         warning.innerText = "";
-
-        let activeOp = (currentMode === 'cikarma' || (currentMode === 'ogretmen_sorusu' && currentQ.op === '-')) ? '-' : '+';
+        let activeOp = (currentMode === 'cikarma' || (currentMode === 'oturum_sorulari' && currentQ.op === '-')) ? '-' : '+';
 
         if (activeOp === '-') {
-            if (placedNumbers === 0 && val !== currentQ.num1) {
-                hataSayisi++;
-                warning.style.color = "var(--apple-red)";
-                warning.innerText = "Önce BÜYÜK sayıyı (eksileni) koymalısın!";
-                return;
-            }
-            if (placedNumbers === 1 && val !== currentQ.num2) {
-                hataSayisi++;
-                warning.style.color = "var(--apple-red)";
-                warning.innerText = "Şimdi küçük sayıyı koymalısın!";
-                return;
-            }
+            if (placedNumbers === 0 && val !== currentQ.num1) { hataSayisi++; warning.innerText = "Önce BÜYÜK sayıyı koymalısın!"; return; }
+            if (placedNumbers === 1 && val !== currentQ.num2) { hataSayisi++; warning.innerText = "Şimdi küçük sayıyı koymalısın!"; return; }
         }
-
         if (currentMode !== 'serbest' && activeOp === '+') {
-            if (val !== currentQ.num1 && val !== currentQ.num2) {
-                hataSayisi++;
-                warning.style.color = "var(--apple-red)";
-                warning.innerText = "Sadece sorudaki sayıları kullanmalısın!";
-                return;
-            }
+            if (val !== currentQ.num1 && val !== currentQ.num2) { hataSayisi++; warning.innerText = "Sorudaki sayıları kullanmalısın!"; return; }
         }
-
-        if (currentPosition + val > 10 && activeOp !== '-') {
-            warning.style.color = "var(--apple-red)";
-            warning.innerText = "Sayı doğrusunu aştı!";
-            return;
-        }
+        if (currentPosition + val > 10 && activeOp !== '-') { warning.innerText = "Sınırı aştı!"; return; }
 
         animateTrail(val, activeOp);
     }
 
     function animateTrail(val, activeOp) {
         let step = 0;
-        let isSubtractionMove = (activeOp === '-' && placedNumbers === 1);
-        let direction = isSubtractionMove ? -1 : 1;
+        let direction = (activeOp === '-' && placedNumbers === 1) ? -1 : 1;
         let startPos = currentPosition;
-        
         let interval = setInterval(() => {
-            if (step > 0) {
-                placeTrailMarker(startPos + (step * direction), val, false);
-            }
+            if (step > 0) placeTrailMarker(startPos + (step * direction), val, false);
             step++;
-            
             if (step >= val) {
                 clearInterval(interval);
                 currentPosition = startPos + (val * direction);
@@ -848,44 +669,33 @@
                 placedNumbers++;
                 checkCompletion();
             }
-        }, 200); 
+        }, 200);
     }
 
     function placeTrailMarker(posIndex, shapeVal, isFinal) {
         const zones = document.querySelectorAll('.drop-zone');
         if(posIndex < 0 || posIndex > 10) return;
-        const targetZone = zones[posIndex];
-        
         const marker = document.createElement('div');
         marker.className = 'trail-shape';
-        
-        const referenceShape = document.querySelector(`.shape[data-val="${shapeVal}"]`);
-        if(referenceShape) {
-            marker.style.background = referenceShape.style.background || window.getComputedStyle(referenceShape).backgroundColor;
-            marker.style.borderRadius = window.getComputedStyle(referenceShape).borderRadius;
-            marker.style.clipPath = window.getComputedStyle(referenceShape).clipPath;
-            marker.style.border = window.getComputedStyle(referenceShape).border;
-            marker.style.width = "40px";
-            marker.style.height = "40px";
-            marker.style.color = window.getComputedStyle(referenceShape).color;
-            if(shapeVal === 3) marker.style.boxShadow = "none";
+        const ref = document.querySelector(`.shape[data-val="${shapeVal}"]`);
+        if(ref) {
+            marker.style.background = window.getComputedStyle(ref).backgroundColor;
+            marker.style.borderRadius = window.getComputedStyle(ref).borderRadius;
+            marker.style.clipPath = window.getComputedStyle(ref).clipPath;
+            marker.style.width = "40px"; marker.style.height = "40px";
+            marker.style.color = window.getComputedStyle(ref).color;
         }
-
         if (isFinal) {
             marker.innerText = shapeVal;
             marker.style.opacity = "1";
-            
             if(shapeVal === 3) {
-                 marker.innerText = "";
-                 const sp = document.createElement('span');
-                 sp.innerText = shapeVal;
-                 sp.style.position = "absolute";
-                 sp.style.top = "15px";
-                 marker.appendChild(sp);
+                marker.innerText = "";
+                const sp = document.createElement('span');
+                sp.innerText = shapeVal; sp.style.position = "absolute"; sp.style.top = "15px";
+                marker.appendChild(sp);
             }
         }
-        
-        targetZone.appendChild(marker);
+        zones[posIndex].appendChild(marker);
     }
 
     function checkCompletion() {
@@ -893,7 +703,6 @@
             const warning = document.getElementById('warningMsg');
             warning.style.color = "var(--apple-green)";
             warning.innerText = "Harika! Şimdi cevabını tahtaya yaz.";
-            
             if(zamanSayaci) clearInterval(zamanSayaci);
             document.getElementById('shapesContainer').innerHTML = ""; 
         }
@@ -906,25 +715,22 @@
         
         const drawingArea = document.getElementById('drawingArea');
         const qDisplay = document.getElementById('questionDisplay');
-        const warning = document.getElementById('warningMsg');
-        warning.innerText = "";
+        document.getElementById('warningMsg').innerText = "";
 
         if (zamanSayaci) clearInterval(zamanSayaci);
         document.getElementById('timerDisplay').style.display = 'none';
 
         if (mode === 'serbest') {
-            qDisplay.innerText = "Serbest Mod: Sayıları Keşfet";
+            qDisplay.innerText = "Serbest Mod";
             drawingArea.style.display = "none";
             resetBoard();
             buildShapes();
         } else {
             drawingArea.style.display = "flex";
             resizeCanvas(); 
-            if(mode === 'ogretmen_sorusu') {
+            if(mode === 'oturum_sorulari') {
                 activeSessionIndex = 0;
                 sessionResultsSummary = [];
-                const saved = localStorage.getItem("oturum_" + aktifOgrenci);
-                if(saved) sessionQuestionsQueue = JSON.parse(saved);
             }
             generateQuestion();
         }
@@ -936,19 +742,14 @@
             document.getElementById('timerDisplay').style.display = 'block';
             document.getElementById('timeLimitVal').innerText = zamanSiniri;
             document.getElementById('timeLeft').innerText = kalanZaman;
-            
             if(zamanSayaci) clearInterval(zamanSayaci);
-            
             zamanSayaci = setInterval(() => {
                 kalanZaman--;
                 document.getElementById('timeLeft').innerText = kalanZaman;
-                
                 if(kalanZaman <= 0) {
                     clearInterval(zamanSayaci);
                     hataSayisi++;
-                    const warning = document.getElementById('warningMsg');
-                    warning.style.color = "var(--apple-red)";
-                    warning.innerText = "Süre doldu! (Hata sayıldı)";
+                    document.getElementById('warningMsg').innerText = "Süre doldu! (Hata sayıldı)";
                 }
             }, 1000);
         }
@@ -957,22 +758,9 @@
     function generateQuestion() {
         if (placedNumbers > 0) {
             let sStr = `${currentQ.num1}${currentQ.op}${currentQ.num2}`;
-            let bitisZamani = new Date().getTime();
-            let gecenSureSaniye = ((bitisZamani - baslangicZamani) / 1000).toFixed(2);
-            
-            if(currentMode === 'ogretmen_sorusu') {
-                sessionResultsSummary.push({ soru: sStr, hata: hataSayisi, sure: gecenSureSaniye });
-            } else {
-                googleVeriYolla({
-                    islemTipi: "ogrenci_sonuc",
-                    ogretmenAdi: aktifOgretmen,
-                    ogrenciAdi: aktifOgrenci,
-                    mod: currentMode,
-                    soru: sStr,
-                    hataSayisi: hataSayisi,
-                    sure: gecenSureSaniye,
-                    sonuc: "Tamamlandı"
-                });
+            let gecenSure = ((new Date().getTime() - baslangicZamani) / 1000).toFixed(2);
+            if(currentMode === 'oturum_sorulari') {
+                sessionResultsSummary.push({ soru: sStr, hata: hataSayisi, sure: gecenSure });
             }
         }
 
@@ -980,50 +768,34 @@
         baslangicZamani = new Date().getTime();
         hataSayisi = 0;
         clearCanvas();
-        document.getElementById('warningMsg').style.color = "var(--apple-red)";
-        document.getElementById('warningMsg').innerText = "";
 
-        if (currentMode === 'ogretmen_sorusu') {
+        if (currentMode === 'oturum_sorulari') {
             if (activeSessionIndex < sessionQuestionsQueue.length) {
                 const q = sessionQuestionsQueue[activeSessionIndex];
                 activeSessionIndex++;
                 currentQ = { num1: q.num1, num2: q.num2, op: q.op };
                 zamanSiniri = q.sureSiniri || 20;
-                document.getElementById('questionDisplay').innerText = `Oturum (${activeSessionIndex}/${sessionQuestionsQueue.length}): ${currentQ.num1} ${currentQ.op} ${currentQ.num2} = ?`;
+                document.getElementById('questionDisplay').innerText = `Oturum Soru (${activeSessionIndex}/${sessionQuestionsQueue.length}): ${currentQ.num1} ${currentQ.op} ${currentQ.num2} = ?`;
                 buildShapes([currentQ.num1, currentQ.num2]);
                 startTimer();
             } else {
                 document.getElementById('questionDisplay').innerText = "Oturum Tamamlandı! Tebrikler 🎉";
                 document.getElementById('shapesContainer').innerHTML = "";
                 
-                // Oturum bittiğinde tüm özet sonuçları Google E-Tabloya tek seferde gönder
-                googleVeriYolla({
-                    islemTipi: "oturum_sonuc_ozeti",
-                    ogretmenAdi: aktifOgretmen,
-                    ogrenciAdi: aktifOgrenci,
-                    toplamSoru: sessionResultsSummary.length,
-                    detaylar: JSON.stringify(sessionResultsSummary)
-                });
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        islemTipi: "oturum_sonuc_ozeti",
+                        ogrenciAdi: aktifOgrenciAdi,
+                        oturumKodu: girilenOturumKodu,
+                        toplamSoru: sessionResultsSummary.length,
+                        detaylar: JSON.stringify(sessionResultsSummary)
+                    })
+                }).catch(err => console.error(err));
             }
             return;
-        }
-
-        if (currentMode === 'toplama') {
-            currentQ.op = '+';
-            currentQ.num1 = Math.floor(Math.random() * 5) + 1; 
-            let maxNum2 = 10 - currentQ.num1;
-            currentQ.num2 = Math.floor(Math.random() * maxNum2) + 1;
-            document.getElementById('questionDisplay').innerText = `${currentQ.num1} + ${currentQ.num2} = ?`;
-            buildShapes([currentQ.num1, currentQ.num2]);
-            startTimer();
-        } 
-        else if (currentMode === 'cikarma') {
-            currentQ.op = '-';
-            currentQ.num1 = Math.floor(Math.random() * 5) + 5; 
-            currentQ.num2 = Math.floor(Math.random() * (currentQ.num1 - 1)) + 1; 
-            document.getElementById('questionDisplay').innerText = `${currentQ.num1} - ${currentQ.num2} = ?`;
-            buildShapes([currentQ.num1, currentQ.num2]);
-            startTimer();
         }
     }
 
@@ -1038,68 +810,40 @@
     let isDrawing = false;
 
     function setupCanvas() {
-        ctx.lineWidth = 6;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#1D1D1F';
-
-        canvas.addEventListener('mousedown', startPos);
-        canvas.addEventListener('mouseup', endPos);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseout', endPos);
-
+        ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.strokeStyle = '#1D1D1F';
+        canvas.addEventListener('mousedown', (e) => { startPos(e); });
+        canvas.addEventListener('mouseup', () => endPos());
+        canvas.addEventListener('mousemove', (e) => draw(e));
         canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startPos(e.touches[0]); }, {passive: false});
         canvas.addEventListener('touchend', (e) => { e.preventDefault(); endPos(); }, {passive: false});
         canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); }, {passive: false});
     }
 
     function resizeCanvas() {
-        canvas.width = 300;
-        canvas.height = 200;
-        ctx.lineWidth = 6;
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = '#1D1D1F';
+        canvas.width = 300; canvas.height = 200;
+        ctx.lineWidth = 6; ctx.lineCap = 'round'; ctx.strokeStyle = '#1D1D1F';
     }
 
     function startPos(e) {
         if (currentMode !== 'serbest' && placedNumbers < 2) {
-            const warning = document.getElementById('warningMsg');
-            warning.style.color = "var(--apple-red)";
-            warning.innerText = "Önce sayıları sayı doğrusuna sürüklemelisin!";
+            document.getElementById('warningMsg').innerText = "Önce sayıları sayı doğrusuna sürüklemelisin!";
             return;
         }
-
         isDrawing = true;
         draw(e);
     }
-
-    function endPos() {
-        isDrawing = false;
-        ctx.beginPath();
-    }
-
+    function endPos() { isDrawing = false; ctx.beginPath(); }
     function draw(e) {
         if (!isDrawing) return;
         const rect = canvas.getBoundingClientRect();
-        
-        let clientX = e.clientX;
-        let clientY = e.clientY;
-        if(e.touches && e.touches.length > 0) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-        }
-
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-        
-        ctx.lineTo(x, y);
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        ctx.lineTo(clientX - rect.left, clientY - rect.top);
         ctx.stroke();
         ctx.beginPath();
-        ctx.moveTo(x, y);
+        ctx.moveTo(clientX - rect.left, clientY - rect.top);
     }
-
-    function clearCanvas() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
 </script>
 </body>
 </html>
