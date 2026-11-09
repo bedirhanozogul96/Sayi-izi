@@ -7,29 +7,37 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#F2F2F7">
 <title>Sayı İzi</title>
+<meta name="description" content="Özel eğitim ve erken matematik becerileri için etkileşimli basamak değeri, onluk-birlik ve işlem öğretimi uygulaması.">
+<meta property="og:title" content="Sayı İzi">
+<meta property="og:description" content="Özel eğitim ve erken matematik becerileri için etkileşimli basamak değeri, onluk-birlik ve işlem öğretimi uygulaması.">
+<meta property="og:type" content="website">
 <style>
 /* iOS / iPadOS sistem renkleri (UIKit semantic colors) */
 :root{
-  --bg:#F2F2F7; --cell:#FFFFFF; --cell2:#F2F2F7;
-  --label:#000000; --label2:rgba(60,60,67,.6); --label3:rgba(60,60,67,.3);
-  --sep:rgba(60,60,67,.29); --fill:rgba(120,120,128,.2); --fill3:rgba(118,118,128,.12);
-  --blue:#007AFF; --green:#34C759; --red:#FF3B30; --orange:#FF9500; --indigo:#5856D6; --purple:#AF52DE;
-  --tint-blue:rgba(0,122,255,.12); --tint-red:rgba(255,59,48,.12); --tint-green:rgba(52,199,89,.15); --tint-orange:rgba(255,149,0,.15); --tint-purple:rgba(175,82,222,.15);
-  --material:rgba(242,242,247,.78); --hud:rgba(250,250,252,.86);
+  --bg:#E8ECF3; --cell:#FFFFFF; --cell2:#F1F5F9;
+  --label:#0F172A; --label2:rgba(15,23,42,.68); --label3:rgba(15,23,42,.42);
+  --sep:rgba(51,65,85,.22); --fill:rgba(100,116,139,.24); --fill3:rgba(100,116,139,.14);
+  --border:#C5D0DF; --border-strong:#94A3B8;
+  --card-shadow:0 2px 10px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.04);
+  --blue:#007AFF; --green:#2EB84E; --red:#FF3B30; --orange:#F58200; --indigo:#5856D6; --purple:#AF52DE;
+  --tint-blue:rgba(0,122,255,.13); --tint-red:rgba(255,59,48,.13); --tint-green:rgba(46,184,78,.15); --tint-orange:rgba(245,130,0,.16); --tint-purple:rgba(175,82,222,.15);
+  --material:rgba(232,236,243,.85); --hud:rgba(255,255,255,.92);
   --ink:#1C1C1E; --ten:#1C1C1E;
-  --surface:var(--cell); --text:var(--label); --muted:var(--label2); --faint:rgba(60,60,67,.45); --line:rgba(60,60,67,.18);
+  --surface:var(--cell); --text:var(--label); --muted:var(--label2); --faint:rgba(15,23,42,.5); --line:rgba(51,65,85,.28);
   --round:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 [data-theme="dark"]{
   color-scheme:dark;
-  --bg:#000000; --cell:#1C1C1E; --cell2:#2C2C2E;
-  --label:#FFFFFF; --label2:rgba(235,235,245,.6); --label3:rgba(235,235,245,.3);
-  --sep:rgba(84,84,88,.65); --fill:rgba(120,120,128,.36); --fill3:rgba(118,118,128,.24);
+  --bg:#0B0E14; --cell:#171B24; --cell2:#212734;
+  --label:#F8FAFC; --label2:rgba(241,245,249,.68); --label3:rgba(241,245,249,.38);
+  --sep:rgba(148,163,184,.25); --fill:rgba(148,163,184,.34); --fill3:rgba(148,163,184,.18);
+  --border:#333C4D; --border-strong:#4B566B;
+  --card-shadow:0 4px 16px rgba(0,0,0,.38);
   --blue:#0A84FF; --green:#30D158; --red:#FF453A; --orange:#FF9F0A; --indigo:#5E5CE6; --purple:#BF5AF2;
-  --tint-blue:rgba(10,132,255,.2); --tint-red:rgba(255,69,58,.2); --tint-green:rgba(48,209,88,.2); --tint-orange:rgba(255,159,10,.2); --tint-purple:rgba(191,90,242,.22);
-  --material:rgba(28,28,30,.78); --hud:rgba(44,44,46,.88);
+  --tint-blue:rgba(10,132,255,.22); --tint-red:rgba(255,69,58,.22); --tint-green:rgba(48,209,88,.22); --tint-orange:rgba(255,159,10,.22); --tint-purple:rgba(191,90,242,.24);
+  --material:rgba(23,27,36,.84); --hud:rgba(33,39,52,.92);
   --ink:#F2F2F7; --ten:#636366;
-  --faint:rgba(235,235,245,.45); --line:rgba(84,84,88,.5);
+  --faint:rgba(241,245,249,.5); --line:rgba(148,163,184,.42);
 }
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
@@ -41,36 +49,36 @@ button{cursor:pointer;-webkit-user-select:none;user-select:none}
 svg.i{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---------- düğmeler ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border:none;border-radius:12px;
-  font-size:17px;font-weight:600;background:var(--blue);color:#fff;transition:opacity .12s,transform .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 20px;border:1px solid rgba(0,0,0,.08);border-radius:12px;
+  font-size:17px;font-weight:600;background:var(--blue);color:#fff;transition:opacity .12s,transform .15s;box-shadow:0 2px 6px rgba(0,122,255,.18)}
 .btn:active{opacity:.6;transform:scale(.97)}
-.btn:disabled{opacity:.3;cursor:default}
-.btn.tinted{background:var(--tint-blue);color:var(--blue)}
-.btn.tinted-green{background:var(--tint-green);color:var(--green)}
-.btn.tinted-red{background:var(--tint-red);color:var(--red)}
-.btn.tinted-orange{background:var(--tint-orange);color:var(--orange)}
-.btn.tinted-purple{background:var(--tint-purple);color:var(--purple)}
+.btn:disabled{opacity:.35;cursor:default;box-shadow:none}
+.btn.tinted{background:var(--tint-blue);color:var(--blue);border:1.5px solid rgba(0,122,255,.32);box-shadow:none}
+.btn.tinted-green{background:var(--tint-green);color:var(--green);border:1.5px solid rgba(46,184,78,.35);box-shadow:none}
+.btn.tinted-red{background:var(--tint-red);color:var(--red);border:1.5px solid rgba(255,59,48,.32);box-shadow:none}
+.btn.tinted-orange{background:var(--tint-orange);color:var(--orange);border:1.5px solid rgba(245,130,0,.35);box-shadow:none}
+.btn.tinted-purple{background:var(--tint-purple);color:var(--purple);border:1.5px solid rgba(175,82,222,.35);box-shadow:none}
 .btn.block{width:100%}
 .btn.small{min-height:34px;padding:0 14px;font-size:15px;border-radius:17px}
 .plain{border:none;background:none;color:var(--blue);font-size:17px;padding:8px 4px;display:inline-flex;align-items:center;gap:6px}
 .plain:active{opacity:.4}
 
 /* ---------- segment denetimi ---------- */
-.seg{display:inline-flex;position:relative;background:var(--fill3);padding:2px;border-radius:9px;gap:0}
-.seg button{position:relative;border:none;background:transparent;height:28px;padding:0 14px;border-radius:7px;font-size:13px;font-weight:500;letter-spacing:-.08px;color:var(--label);min-width:0}
-.seg button+button::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:1px;background:var(--sep);opacity:.6}
-.seg button.on{background:var(--cell);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
+.seg{display:inline-flex;position:relative;background:var(--cell2);padding:3px;border-radius:10px;gap:0;border:1.5px solid var(--border)}
+.seg button{position:relative;border:1px solid transparent;background:transparent;height:28px;padding:0 14px;border-radius:7px;font-size:13px;font-weight:500;letter-spacing:-.08px;color:var(--label);min-width:0}
+.seg button+button::before{content:"";position:absolute;left:-1px;top:6px;bottom:6px;width:1px;background:var(--sep);opacity:.8}
+.seg button.on{background:var(--cell);border-color:var(--border-strong);font-weight:600;box-shadow:0 2px 6px rgba(15,23,42,.1)}
 .seg button.on::before,.seg button.on+button::before{opacity:0}
-[data-theme="dark"] .seg button.on{background:#636366}
+[data-theme="dark"] .seg button.on{background:#333C4D;border-color:var(--border-strong)}
 .seg.wide{display:flex}.seg.wide button{flex:1}
 .seg.big button{height:32px;font-size:15px}
 
 /* ---------- gruplanmış liste ---------- */
-.group-title{font-size:13px;font-weight:400;color:var(--label2);text-transform:uppercase;letter-spacing:-.08px;margin:22px 16px 7px}
+.group-title{font-size:13px;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:.02em;margin:22px 16px 7px}
 .group-foot{font-size:13px;color:var(--label2);letter-spacing:-.08px;margin:7px 16px 0;line-height:1.38}
-.group{background:var(--cell);border-radius:10px;overflow:hidden}
-.row{display:flex;align-items:center;gap:12px;min-height:44px;padding:6px 16px;position:relative}
-.row+.row::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.group{background:var(--cell);border-radius:12px;overflow:hidden;border:1.5px solid var(--border);box-shadow:var(--card-shadow)}
+.row{display:flex;align-items:center;gap:12px;min-height:46px;padding:6px 16px;position:relative}
+.row+.row::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--sep)}
 .row.icon-row+.row::before,.row.icon-row::before{left:60px}
 .row .k{flex:1;min-width:0}
 .row .v{color:var(--label2)}
@@ -82,21 +90,22 @@ svg.i{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-widt
   background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath d='M2.5 6 6 2.5 9.5 6M2.5 10 6 13.5 9.5 10' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath d='M2.5 6 6 2.5 9.5 6M2.5 10 6 13.5 9.5 10' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
 select option{background:var(--cell);color:var(--label)}
-.switch{appearance:none;-webkit-appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;transition:background .25s;flex:none;margin:0;cursor:pointer}
-.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 3px 1px rgba(0,0,0,.06);transition:transform .25s cubic-bezier(.3,.7,.4,1)}
-.switch:checked{background:var(--green)}.switch:checked::after{transform:translateX(20px)}
+.switch{appearance:none;-webkit-appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);border:1px solid var(--border-strong);position:relative;transition:background .25s,border-color .25s;flex:none;margin:0;cursor:pointer}
+.switch::after{content:"";position:absolute;top:1px;left:1px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.18),0 2px 1px rgba(0,0,0,.08);transition:transform .25s cubic-bezier(.3,.7,.4,1)}
+.switch:checked{background:var(--green);border-color:var(--green)}.switch:checked::after{transform:translateX(20px)}
 .field{width:100%;border:none;background:transparent;outline:none;font-size:17px;padding:11px 0;color:var(--label)}
 .field::placeholder{color:var(--label3)}
 
-.stepper{display:inline-flex;align-items:center;background:var(--fill3);border-radius:9px;height:32px}
-.stepper button{border:none;background:transparent;width:40px;height:32px;font-size:22px;font-weight:300;color:var(--label);display:flex;align-items:center;justify-content:center}
+.stepper{display:inline-flex;align-items:center;background:var(--cell2);border:1.5px solid var(--border);border-radius:9px;height:34px}
+.stepper button{border:none;background:transparent;width:40px;height:32px;font-size:22px;font-weight:400;color:var(--label);display:flex;align-items:center;justify-content:center}
 .stepper button:active{background:var(--fill)}
-.stepper button:first-child{border-radius:9px 0 0 9px}.stepper button:last-child{border-radius:0 9px 9px 0}
-.stepper .div{width:1px;height:18px;background:var(--sep)}
+.stepper button:first-child{border-radius:8px 0 0 8px}.stepper button:last-child{border-radius:0 8px 8px 0}
+.stepper .div{width:1px;height:18px;background:var(--border-strong)}
 
 /* ---------- giriş ---------- */
 #login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 20px}
-.login-box{width:100%;max-width:460px}
+.login-box{width:100%;max-width:460px;background:var(--cell);border:1.5px solid var(--border);border-radius:22px;padding:28px 24px 24px;box-shadow:0 8px 30px rgba(15,23,42,.08)}
+.login-box .group{background:var(--cell2);border:1.5px solid var(--border);box-shadow:none}
 .app-icon{width:76px;height:76px;border-radius:17px;background:var(--blue);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;
   box-shadow:0 1px 2px rgba(0,0,0,.08),0 6px 18px rgba(0,122,255,.22)}
 .app-icon svg{width:50px;height:50px}
@@ -110,16 +119,17 @@ select option{background:var(--cell);color:var(--label)}
 
 /* ---------- öğretmen: kenar çubuğu + içerik ---------- */
 #teacher{display:flex;min-height:100vh}
-.sidebar{width:300px;flex:none;background:var(--bg);border-right:.5px solid var(--sep);padding:max(18px,env(safe-area-inset-top)) 16px 20px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
-[data-theme="dark"] .sidebar{background:#1C1C1E}
+.sidebar{width:300px;flex:none;background:var(--cell);border-right:1.5px solid var(--border);padding:max(18px,env(safe-area-inset-top)) 16px 20px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+[data-theme="dark"] .sidebar{background:#171B24}
 .sidebar h2{font-size:34px;font-weight:700;letter-spacing:.37px;margin:20px 4px 2px}
 .sidebar .who{color:var(--label2);font-size:15px;margin:0 4px 18px}
-.nav{display:flex;flex-direction:column;gap:4px}
-.nav button{display:flex;align-items:center;gap:12px;border:none;background:transparent;height:44px;padding:0 12px;border-radius:10px;font-size:17px;text-align:left;color:var(--label)}
+.nav{display:flex;flex-direction:column;gap:5px}
+.nav button{display:flex;align-items:center;gap:12px;border:1px solid transparent;background:transparent;height:44px;padding:0 12px;border-radius:10px;font-size:17px;text-align:left;color:var(--label)}
+.nav button:hover:not(.on){background:var(--cell2);border-color:var(--border)}
 .nav button svg.i{color:var(--blue)}
-.nav button.on{background:var(--blue);color:#fff;font-weight:600}
+.nav button.on{background:var(--blue);color:#fff;font-weight:600;border-color:rgba(0,0,0,.1)}
 .nav button.on svg.i{color:#fff}
-.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px}
+.side-foot{margin-top:auto;display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid var(--sep)}
 .side-foot .nav button svg.i{color:var(--label2)}
 .content{flex:1;min-width:0;padding:max(18px,env(safe-area-inset-top)) 32px 60px}
 .content-inner{max-width:900px;margin:0 auto}
@@ -129,26 +139,27 @@ select option{background:var(--cell);color:var(--label)}
 @media (max-width:1100px){.cols{grid-template-columns:1fr}}
 @media (max-width:820px){
   #teacher{flex-direction:column}
-  .sidebar{width:auto;height:auto;position:sticky;top:0;z-index:30;flex-direction:row;align-items:center;gap:10px;padding:10px 12px;border-right:none;border-bottom:.5px solid var(--sep);
+  .sidebar{width:auto;height:auto;position:sticky;top:0;z-index:30;flex-direction:row;align-items:center;gap:10px;padding:10px 12px;border-right:none;border-bottom:1.5px solid var(--border);
     background:var(--material);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px)}
   .sidebar h2,.sidebar .who{display:none}
   .nav{flex-direction:row;flex:1}
   .nav button{height:36px;padding:0 10px;font-size:15px;gap:6px}
   .nav button span{display:none}
   .nav button.on span{display:inline}
-  .side-foot{margin:0;flex-direction:row}
+  .side-foot{margin:0;flex-direction:row;padding-top:0;border-top:none}
   .content{padding:4px 16px 40px}
 }
 
 /* soru oluşturucu */
 .builder{display:flex;align-items:flex-start;justify-content:center;gap:12px;padding:18px 12px 14px}
 .numbox{display:flex;flex-direction:column;align-items:center;gap:8px}
-.numbox .val{font-family:var(--round);font-size:44px;font-weight:700;line-height:52px;height:52px;width:72px;text-align:center;border:none;background:none;outline:none;padding:0;color:var(--label);-moz-appearance:textfield}
+.numbox .val{font-family:var(--round);font-size:42px;font-weight:700;line-height:52px;height:56px;width:78px;text-align:center;border:1.5px solid var(--border);border-radius:12px;background:var(--cell2);outline:none;padding:0;color:var(--label);-moz-appearance:textfield}
+.numbox .val:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--tint-blue)}
 .numbox .val::-webkit-outer-spin-button,.numbox .val::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.opsign{font-family:var(--round);font-size:44px;font-weight:700;color:var(--blue);line-height:52px;min-width:30px;text-align:center}
-.eqsign{font-family:var(--round);font-size:40px;font-weight:600;color:var(--label2);line-height:52px}
-.ans{font-family:var(--round);font-size:44px;font-weight:700;min-width:56px;text-align:center;color:var(--green);line-height:52px}
-.ans.bad{color:var(--red)}
+.opsign{font-family:var(--round);font-size:44px;font-weight:700;color:var(--blue);line-height:56px;min-width:30px;text-align:center}
+.eqsign{font-family:var(--round);font-size:40px;font-weight:600;color:var(--label2);line-height:56px}
+.ans{font-family:var(--round);font-size:42px;font-weight:700;min-width:64px;height:56px;padding:0 10px;border-radius:12px;border:1.5px solid var(--border);background:var(--cell2);text-align:center;color:var(--green);line-height:53px}
+.ans.bad{color:var(--red);border-color:rgba(255,59,48,.4);background:var(--tint-red)}
 .qrow .no{color:var(--label2);width:24px;font-variant-numeric:tabular-nums}
 .qrow .txt{font-family:var(--round);font-weight:600;font-size:19px}
 .qrow .meta{color:var(--label2);font-size:15px}
@@ -159,20 +170,38 @@ select option{background:var(--cell);color:var(--label)}
 .reorder:active{color:var(--label)}
 .empty{color:var(--label2);text-align:center;padding:20px 16px;font-size:15px}
 
-.phase-seg{margin:14px 0 0}
-.phase-seg button{height:38px;font-size:15px;display:flex;align-items:center;justify-content:center;gap:7px}
-.phase-seg .pc{font-size:12px;font-weight:600;padding:1px 7px;border-radius:9px;background:var(--fill3);color:var(--label2);font-variant-numeric:tabular-nums}
-.phase-seg .pc.full{background:var(--green);color:#fff}
-.phase-seg .pc.over{background:var(--red);color:#fff}
+.phase-bar-wrap{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+.seg.phase-seg{display:flex;margin:0;flex:1 1 100%;flex-wrap:wrap;gap:6px;padding:6px;border-radius:12px;background:var(--cell2);border:1.5px solid var(--border)}
+.seg.phase-seg button{height:38px;font-size:15px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:0 14px;flex:1 0 auto;min-width:max-content;white-space:nowrap;border-radius:8px;border:1px solid var(--border);background:var(--cell)}
+.seg.phase-seg button.on{border:1.5px solid var(--blue);background:var(--tint-blue);color:var(--blue);box-shadow:0 2px 6px rgba(0,122,255,.12)}
+.seg.phase-seg button+button::before{display:none}
+.seg.phase-seg .pc{font-size:12px;font-weight:600;padding:2px 7px;border-radius:9px;background:var(--fill3);color:var(--label2);font-variant-numeric:tabular-nums;flex:none}
+.seg.phase-seg .pc.full{background:var(--green);color:#fff}
+.seg.phase-seg .pc.over{background:var(--red);color:#fff}
+.seg.phase-seg .ph-del{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:rgba(120,120,128,.18);color:var(--label2);font-size:13px;font-weight:700;line-height:1;margin-left:2px;transition:background .15s,color .15s,transform .12s;flex:none}
+.seg.phase-seg .ph-del:hover,.seg.phase-seg .ph-del:active{background:var(--red);color:#fff;transform:scale(1.08)}
+.seg.phase-seg button.add-uyg-btn{flex:0 0 auto;background:var(--tint-blue);color:var(--blue);border:1.5px dashed var(--blue);font-weight:600;border-radius:8px;padding:0 14px}
+.seg.phase-seg button.add-uyg-btn:active{opacity:.65}
 .code-list .row{min-height:60px;gap:8px;padding-right:12px}
 .code-list .ph{font-weight:600;white-space:nowrap}
 .code-list .ph small{display:block;font-weight:400;font-size:13px;color:var(--label2)}
 .code-list .code{font-family:var(--round);font-size:22px;font-weight:700;letter-spacing:2px;font-variant-numeric:tabular-nums}
 
+/* Öğrenci çıkış doğrulama modalı */
+.modal-backdrop{position:fixed;inset:0;z-index:1100;background:rgba(15,23,42,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-card{width:100%;max-width:410px;background:var(--cell);border:2px solid var(--border-strong);border-radius:20px;padding:22px 20px 18px;box-shadow:0 22px 64px rgba(0,0,0,.3)}
+.modal-card h3{margin:0 0 6px;font-size:20px;font-weight:700;text-align:center}
+.modal-card p{margin:0 0 14px;font-size:14px;color:var(--label2);text-align:center;line-height:1.45}
+.modal-card .group{background:var(--cell2);margin-bottom:10px}
+.modal-card.shake{animation:shake .45s cubic-bezier(.36,.07,.19,.97)}
+.exit-lock-badge{width:52px;height:52px;border-radius:16px;background:var(--tint-red);border:1.5px solid rgba(255,59,48,.35);color:var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.exit-lock-badge svg.i{width:26px;height:26px;stroke-width:2.3}
+.exit-session-pill{background:var(--tint-blue);border:1px solid rgba(0,122,255,.28);color:var(--blue);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;text-align:center;margin-bottom:12px}
+
 /* öğrenci seçim kartları */
 .student-pills{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
-.st-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:14px;background:var(--cell);border:1.5px solid transparent;
-  font-weight:600;font-size:16px;color:var(--label);box-shadow:0 2px 8px rgba(0,0,0,.04);transition:all .15s}
+.st-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:14px;background:var(--cell);border:1.5px solid var(--border);
+  font-weight:600;font-size:16px;color:var(--label);box-shadow:var(--card-shadow);transition:all .15s}
 .st-pill .cnt{font-size:13px;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--fill3);color:var(--label2)}
 .st-pill.on{border-color:var(--blue);background:var(--tint-blue);color:var(--blue)}
 .st-pill.on .cnt{background:var(--blue);color:#fff}
@@ -184,14 +213,14 @@ select option{background:var(--cell);color:var(--label)}
 /* ölçüt karşılama ve GAG bilgi kutuları */
 .criterion-banner{padding:14px 16px;border-radius:12px;margin:12px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:15px}
 .criterion-banner.met{background:var(--tint-green);border:1.5px solid var(--green);color:var(--green)}
-.criterion-banner.wait{background:var(--cell);border:1px solid var(--sep);color:var(--label2)}
+.criterion-banner.wait{background:var(--cell);border:1.5px solid var(--border);color:var(--label2)}
 .gag-banner{background:var(--tint-purple);border:1.5px solid var(--purple);color:var(--purple);padding:12px 16px;border-radius:12px;margin:10px 0;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
-.err-breakdown{margin-top:6px;padding:8px 10px;border-radius:8px;background:var(--tint-red);color:var(--red);font-size:12px;line-height:1.45;font-weight:500}
+.err-breakdown{margin-top:6px;padding:8px 10px;border-radius:8px;background:var(--tint-red);border:1px solid rgba(255,59,48,.3);color:var(--red);font-size:12px;line-height:1.45;font-weight:500}
 
 /* sonuçlar ve grafik */
 .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 4px}
 .toolbar .grow{flex:1}
-.chip{position:relative;display:inline-flex;align-items:center;background:var(--fill3);border-radius:17px;height:34px;padding:0 0 0 14px;color:var(--label)}
+.chip{position:relative;display:inline-flex;align-items:center;background:var(--cell);border:1.5px solid var(--border);border-radius:17px;height:36px;padding:0 0 0 14px;color:var(--label);box-shadow:var(--card-shadow)}
 .chip select{appearance:none;-webkit-appearance:none;border:none;background:transparent;font-size:15px;font-weight:500;padding:0 30px 0 0;height:34px;outline:none;cursor:pointer;color:var(--label)}
 .chip::after{content:"";position:absolute;right:11px;top:50%;width:10px;height:14px;transform:translateY(-50%);pointer-events:none;background:var(--label2);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 16'%3E%3Cpath d='M2.5 6 6 2.5 9.5 6M2.5 10 6 13.5 9.5 10' fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
@@ -209,56 +238,59 @@ select option{background:var(--cell);color:var(--label)}
 .cap{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;letter-spacing:0}
 .cap.y{background:var(--tint-blue);color:var(--blue)}.cap.u{background:var(--tint-orange);color:var(--orange)}.cap.warn{background:var(--tint-orange);color:var(--orange)}
 .cap.gag{background:var(--tint-purple);color:var(--purple)}
-.detail{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;padding:6px 16px 16px;background:var(--cell)}
-.qcard{background:var(--cell2);border-radius:12px;padding:10px}
-[data-theme="dark"] .qcard{background:#2C2C2E}
-.qcard img,.qcard .noimg{width:100%;aspect-ratio:3/2;border-radius:8px;display:block}
+.detail{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;padding:10px 16px 16px;background:var(--cell2);border-top:1px solid var(--sep)}
+.qcard{background:var(--cell);border:1.5px solid var(--border);border-radius:12px;padding:10px;box-shadow:var(--card-shadow)}
+[data-theme="dark"] .qcard{background:#171B24}
+.qcard img,.qcard .noimg{width:100%;aspect-ratio:3/2;border-radius:8px;display:block;border:1px solid var(--border)}
 .qcard img{object-fit:contain;background:#fff}
-.qcard .noimg{display:flex;align-items:center;justify-content:center;background:var(--fill3);color:var(--label2);font-size:13px}
+.qcard .noimg{display:flex;align-items:center;justify-content:center;background:var(--cell2);color:var(--label2);font-size:13px}
 .qcard .op{font-family:var(--round);font-size:19px;font-weight:700;margin:8px 2px 2px}
 .qcard .m{font-size:13px;color:var(--label2);line-height:1.45;margin:0 2px}
 .verdict{margin-top:8px}
-.verdict.seg button.on.ok{background:var(--green);color:#fff}
-.verdict.seg button.on.no{background:var(--red);color:#fff}
+.verdict.seg button.on.ok{background:var(--green);color:#fff;border-color:var(--green)}
+.verdict.seg button.on.no{background:var(--red);color:#fff;border-color:var(--red)}
 .edited{display:block;font-size:12px;color:var(--orange);margin:6px 2px 0}
 
-.chart-card{background:var(--cell);border-radius:10px;padding:16px 14px 10px;margin-top:10px}
+.chart-card{background:var(--cell);border:1.5px solid var(--border);border-radius:12px;padding:16px 14px 10px;margin-top:10px;box-shadow:var(--card-shadow)}
 .chart-box{position:relative}
 .chart-box svg{width:100%;height:auto;display:block}
 .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--label2);margin:0 4px 4px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
-.tip{position:absolute;pointer-events:none;background:var(--hud);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.45;white-space:nowrap;
+.tip{position:absolute;pointer-events:none;background:var(--hud);border:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:12px;padding:9px 12px;font-size:13px;line-height:1.45;white-space:nowrap;
   transform:translate(-50%,calc(-100% - 12px));opacity:0;transition:opacity .12s;box-shadow:0 8px 30px rgba(0,0,0,.14);letter-spacing:-.08px;z-index:20}
 .tip b{font-size:15px}
 
 /* ---------- öğrenci & eğlenceli animasyonlar ---------- */
 #student{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:max(10px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom));gap:14px}
 .s-top{width:100%;max-width:1120px;display:flex;align-items:center;justify-content:space-between;min-height:40px}
-.s-exit{color:var(--label3);font-size:15px}
-.timer{display:inline-flex;align-items:center;gap:6px;font-family:var(--round);font-size:17px;font-weight:600;color:var(--label2);background:var(--fill3);height:32px;padding:0 12px;border-radius:16px;font-variant-numeric:tabular-nums;transition:all .25s}
+.s-exit{color:var(--label2);font-size:15px;font-weight:500;background:var(--cell);border:1.5px solid var(--border);border-radius:10px;padding:6px 12px;box-shadow:var(--card-shadow)}
+.timer{display:inline-flex;align-items:center;gap:6px;font-family:var(--round);font-size:17px;font-weight:600;color:var(--label2);background:var(--cell);border:1.5px solid var(--border);height:34px;padding:0 13px;border-radius:17px;font-variant-numeric:tabular-nums;transition:all .25s;box-shadow:var(--card-shadow)}
 .timer svg.i{width:17px;height:17px}
-.timer.waiting{color:var(--blue);background:var(--tint-blue)}
-.timer.low{color:var(--red);background:var(--tint-red);animation:timerPulse .6s infinite alternate}
+.timer.waiting{color:var(--blue);background:var(--tint-blue);border-color:rgba(0,122,255,.35)}
+.timer.low{color:var(--red);background:var(--tint-red);border-color:rgba(255,59,48,.4);animation:timerPulse .6s infinite alternate}
 @keyframes timerPulse{from{transform:scale(1)}to{transform:scale(1.08)}}
 .qhead{text-align:center;margin-top:-6px}
-.prompt{font-size:clamp(17px,2.2vw,22px);font-weight:500;color:var(--label2);letter-spacing:-.3px}
+.prompt{font-size:clamp(17px,2.2vw,22px);font-weight:500;color:var(--label2);letter-spacing:-.3px;line-height:1.45}
+.prompt .p-num{color:var(--label);font-weight:700}
+.prompt .hl-drag{color:var(--blue);background:var(--tint-blue);border:1px solid rgba(0,122,255,.28);padding:2px 10px;border-radius:9px;font-weight:700;display:inline-block}
+.prompt .hl-solve{color:var(--orange);background:var(--tint-orange);border:1px solid rgba(245,130,0,.32);padding:2px 10px;border-radius:9px;font-weight:700;display:inline-block}
 .equation{font-family:var(--round);font-size:clamp(50px,7.4vw,80px);font-weight:700;letter-spacing:-.5px;line-height:1.08;margin-top:2px;transition:transform .3s}
 .equation .qm{color:var(--blue);display:inline-block;animation:qmFloat 2s ease-in-out infinite}
 @keyframes qmFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-6px) rotate(6deg)}}
 .msg{min-height:24px;font-size:clamp(16px,1.9vw,19px);font-weight:600;text-align:center;letter-spacing:-.3px}
 .msg.warn{color:var(--red)}.msg.info{color:var(--blue)}
 
-.tray{display:flex;gap:30px;justify-content:center;align-items:center;min-height:clamp(88px,12vh,108px);padding:12px 36px;background:var(--cell);border-radius:20px;min-width:260px;box-shadow:0 4px 20px rgba(0,0,0,.04)}
+.tray{display:flex;gap:30px;justify-content:center;align-items:center;min-height:clamp(88px,12vh,108px);padding:12px 36px;background:var(--cell);border:2px solid var(--border-strong);border-radius:20px;min-width:260px;box-shadow:0 4px 16px rgba(15,23,42,.08)}
 .sh{display:flex;justify-content:center;align-items:center;font-family:var(--round);font-weight:700;color:#fff;position:relative}
-.sh[data-val="1"]{background:linear-gradient(145deg,#FF5E55,#FF3B30);border-radius:50%}
-.sh[data-val="2"]{background:linear-gradient(145deg,#FFB340,#FF9500);border-radius:50% 0 50% 0}
-.sh[data-val="3"]{background:linear-gradient(145deg,#FFE047,#FFCC00);color:#1C1C1E;clip-path:polygon(50% 0%,0% 100%,100% 100%);align-items:flex-end;padding-bottom:10%}
-.sh[data-val="4"]{background:linear-gradient(145deg,#4AE371,#34C759);border-radius:22%}
-.sh[data-val="5"]{background:linear-gradient(145deg,#4CC8DF,#30B0C7);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
-.sh[data-val="6"]{background:linear-gradient(145deg,#3395FF,#007AFF);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)}
-.sh[data-val="7"]{background:linear-gradient(145deg,#7A78F0,#5856D6);clip-path:polygon(50% 0%,90% 20%,100% 60%,75% 100%,25% 100%,0% 60%,10% 20%)}
-.sh[data-val="8"]{background:linear-gradient(145deg,#C774F0,#AF52DE);clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%)}
-.sh[data-val="9"]{background:linear-gradient(145deg,#FF5C7C,#FF2D55);clip-path:polygon(50% 0%,83% 12%,100% 43%,94% 78%,68% 100%,32% 100%,6% 78%,0% 43%,17% 12%)}
+.sh[data-val="1"],.sh[data-val="11"]{background:linear-gradient(145deg,#FF5E55,#FF3B30);border-radius:50%}
+.sh[data-val="2"],.sh[data-val="12"]{background:linear-gradient(145deg,#FFB340,#FF9500);border-radius:50% 0 50% 0}
+.sh[data-val="3"],.sh[data-val="13"]{background:linear-gradient(145deg,#FFE047,#FFCC00);color:#1C1C1E;clip-path:polygon(50% 0%,0% 100%,100% 100%);align-items:flex-end;padding-bottom:10%}
+.sh[data-val="4"],.sh[data-val="14"]{background:linear-gradient(145deg,#4AE371,#34C759);border-radius:22%}
+.sh[data-val="5"],.sh[data-val="15"]{background:linear-gradient(145deg,#4CC8DF,#30B0C7);clip-path:polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)}
+.sh[data-val="6"],.sh[data-val="16"]{background:linear-gradient(145deg,#3395FF,#007AFF);clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%)}
+.sh[data-val="7"],.sh[data-val="17"]{background:linear-gradient(145deg,#7A78F0,#5856D6);clip-path:polygon(50% 0%,90% 20%,100% 60%,75% 100%,25% 100%,0% 60%,10% 20%)}
+.sh[data-val="8"],.sh[data-val="18"]{background:linear-gradient(145deg,#C774F0,#AF52DE);clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%)}
+.sh[data-val="9"],.sh[data-val="19"]{background:linear-gradient(145deg,#FF5C7C,#FF2D55);clip-path:polygon(50% 0%,83% 12%,100% 43%,94% 78%,68% 100%,32% 100%,6% 78%,0% 43%,17% 12%)}
 .sh[data-val="10"]{background:var(--ten);clip-path:polygon(50% 0%,81% 10%,100% 35%,100% 65%,81% 90%,50% 100%,19% 90%,0% 65%,0% 35%,19% 10%)}
 
 /* Tepsideki şekillerde tatlı nefes alma / yüzme animasyonu */
@@ -279,17 +311,17 @@ select option{background:var(--cell);color:var(--label)}
 .ghost{position:fixed;z-index:1000;pointer-events:none;transform:translate(-50%,-50%) scale(1.18) rotate(-4deg);filter:drop-shadow(0 16px 24px rgba(0,0,0,.28));transition:transform .1s}
 
 /* Sayı Doğrusu ve Zıplama Kemerleri */
-.numline{position:relative;width:100%;max-width:1120px;height:clamp(165px,24vh,195px);background:var(--cell);border-radius:22px;display:flex;padding:0 8px;transition:box-shadow .25s,transform .25s;--mk:clamp(28px,3.5vw,42px);overflow:visible;box-shadow:0 4px 20px rgba(0,0,0,.04)}
-.numline.over{box-shadow:0 0 0 4px var(--blue),0 12px 30px rgba(0,122,255,.18);transform:scale(1.01)}
-.numline::before{content:"";position:absolute;left:3.5%;right:3.5%;bottom:44px;height:3px;background:var(--fill);border-radius:2px}
+.numline{position:relative;width:100%;max-width:1120px;height:clamp(165px,24vh,195px);background:var(--cell);border:2px solid var(--border-strong);border-radius:22px;display:flex;padding:0 6px;transition:box-shadow .25s,transform .25s,border-color .25s;--mk:clamp(22px,2.7vw,34px);overflow:visible;box-shadow:0 4px 16px rgba(15,23,42,.08)}
+.numline.over{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,122,255,.25),0 12px 30px rgba(0,122,255,.18);transform:scale(1.01)}
+.numline::before{content:"";position:absolute;left:2.5%;right:2.5%;bottom:44px;height:3.5px;background:var(--border-strong);border-radius:2px}
 .arc-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
 .jump-arc{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:120;stroke-dashoffset:120;animation:drawArc .45s ease-out forwards}
 @keyframes drawArc{to{stroke-dashoffset:0}}
 
-.zone{flex:1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:10px;z-index:3}
-.zone::before{content:"";position:absolute;bottom:37px;width:3px;height:16px;background:var(--fill);border-radius:1.5px;transition:all .25s}
+.zone{flex:1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:10px;z-index:3;min-width:0}
+.zone::before{content:"";position:absolute;bottom:37px;width:3px;height:16px;background:var(--border-strong);border-radius:1.5px;transition:all .25s}
 .zone.active-step::before{background:var(--blue);height:22px;transform:scaleX(1.4)}
-.zlabel{font-family:var(--round);font-size:clamp(18px,2.3vw,23px);font-weight:700;color:var(--label2);font-variant-numeric:tabular-nums;transition:color .2s,transform .2s}
+.zlabel{font-family:var(--round);font-size:clamp(13px,1.65vw,19px);font-weight:700;color:var(--label2);font-variant-numeric:tabular-nums;transition:color .2s,transform .2s;white-space:nowrap}
 .zlabel.hit{animation:hitBounce .65s cubic-bezier(.3,1.6,.4,1);color:var(--blue)}
 @keyframes hitBounce{0%{transform:scale(1)}35%{transform:scale(1.85) translateY(-4px);color:var(--blue)}70%{transform:scale(.92)}100%{transform:scale(1.15)}}
 
@@ -336,21 +368,21 @@ select option{background:var(--cell);color:var(--label)}
 
 .answer{display:flex;gap:16px;align-items:stretch;justify-content:center;width:100%;max-width:1120px}
 .pad-wrap{position:relative;flex:0 1 500px;min-width:0}
-.pad-title{font-size:13px;color:var(--label2);text-transform:uppercase;letter-spacing:-.08px;margin:0 0 7px 16px}
-.pad-box{position:relative;border-radius:20px;background:var(--cell);overflow:hidden;transition:box-shadow .3s}
-.answer:not(.locked) .pad-box{box-shadow:0 0 0 2.5px var(--blue), 0 8px 25px rgba(0,122,255,.12)}
-.pad-box::after{content:"";position:absolute;left:28px;right:28px;bottom:26%;height:1.5px;background:var(--fill);pointer-events:none}
+.pad-title{font-size:13px;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:.02em;margin:0 0 7px 16px}
+.pad-box{position:relative;border-radius:20px;background:var(--cell);border:2px solid var(--border-strong);overflow:hidden;transition:box-shadow .3s,border-color .3s;box-shadow:0 4px 16px rgba(15,23,42,.08)}
+.answer:not(.locked) .pad-box{border-color:var(--blue);box-shadow:0 0 0 3px rgba(0,122,255,.2), 0 8px 25px rgba(0,122,255,.12)}
+.pad-box::after{content:"";position:absolute;left:28px;right:28px;bottom:26%;height:2px;background:var(--border-strong);pointer-events:none}
 #pad{position:relative;z-index:1;display:block;width:100%;height:clamp(170px,27vh,250px);touch-action:none;cursor:crosshair}
-.answer.locked .pad-box{opacity:.5}
+.answer.locked .pad-box{opacity:.78;background:var(--cell2);border-style:dashed}
 .answer.locked #pad{cursor:default}
-.pad-lock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:var(--label2);font-size:15px;pointer-events:none;text-align:center;padding:16px}
+.pad-lock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:var(--label2);font-size:15px;font-weight:500;pointer-events:none;text-align:center;padding:16px}
 .answer:not(.locked) .pad-lock{display:none}
 .a-btns{display:flex;flex-direction:column;gap:12px;justify-content:flex-end;width:clamp(130px,15vw,170px)}
 .a-btns .btn{min-height:56px;font-size:18px}
 @media (max-width:560px){.answer{flex-direction:column;align-items:stretch}.pad-wrap{flex:none}.a-btns{flex-direction:row;width:100%}.a-btns .btn{flex:1}}
 
 .toast{position:fixed;left:50%;top:44%;z-index:900;min-width:220px;max-width:min(380px,86vw);padding:26px 30px 22px;border-radius:22px;text-align:center;
-  background:var(--hud);backdrop-filter:saturate(180%) blur(30px);-webkit-backdrop-filter:saturate(180%) blur(30px);box-shadow:0 18px 50px rgba(0,0,0,.18);
+  background:var(--hud);border:1.5px solid var(--border-strong);backdrop-filter:saturate(180%) blur(30px);-webkit-backdrop-filter:saturate(180%) blur(30px);box-shadow:0 18px 50px rgba(0,0,0,.22);
   transform:translate(-50%,-50%) scale(.86);opacity:0;pointer-events:none;transition:opacity .18s,transform .3s cubic-bezier(.3,1.4,.5,1)}
 .toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .toast .badge{width:64px;height:64px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;color:#fff}
@@ -359,11 +391,33 @@ select option{background:var(--cell);color:var(--label)}
 .toast .t1{font-size:clamp(26px,3.6vw,34px);font-weight:700;letter-spacing:.2px}
 .toast .t2{font-family:var(--round);font-size:clamp(20px,2.6vw,26px);font-weight:600;color:var(--label2);margin-top:4px}
 
-.done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding-bottom:40px}
-.done .seal{width:110px;height:110px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:14px;animation:finalCrown .8s cubic-bezier(.25,1.8,.4,1)}
+.done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:20px 16px 40px;width:100%;max-width:560px}
+.done .seal{width:110px;height:110px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:10px;animation:finalCrown .8s cubic-bezier(.25,1.8,.4,1);box-shadow:0 10px 28px rgba(46,184,78,.28)}
 .done .seal svg.i{width:60px;height:60px;stroke-width:3}
-.done h2{font-size:clamp(30px,4.4vw,40px);font-weight:700;margin:0;letter-spacing:.3px}
-.done p{font-size:19px;color:var(--label2);margin:4px 0 26px}
+.done h2{font-size:clamp(28px,4.2vw,38px);font-weight:700;margin:0;letter-spacing:.3px}
+.done p{font-size:19px;color:var(--label2);margin:4px 0 18px}
+
+/* Başarı Madalyası Kutlama Kartı */
+.medal-card{width:100%;background:linear-gradient(145deg,#FFFBEB,#FEF3C7);border:2px solid #F59E0B;border-radius:24px;padding:24px 22px 20px;margin:4px 0 18px;box-shadow:0 14px 36px rgba(245,158,11,.18),inset 0 1px 0 rgba(255,255,255,.8);position:relative;overflow:hidden;animation:finalCrown .85s cubic-bezier(.25,1.8,.4,1)}
+[data-theme="dark"] .medal-card{background:linear-gradient(145deg,#2E2310,#1F180B);border-color:#F59E0B;box-shadow:0 14px 36px rgba(0,0,0,.45)}
+.medal-emblem{width:108px;height:118px;margin:0 auto 10px;display:block;filter:drop-shadow(0 8px 18px rgba(245,158,11,.38));animation:medalFloat 2.6s ease-in-out infinite}
+@keyframes medalFloat{0%,100%{transform:translateY(0) scale(1) rotate(0deg)}50%{transform:translateY(-7px) scale(1.05) rotate(2deg)}}
+.medal-card .m-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.45);color:#B45309;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:4px 12px;border-radius:99px;margin-bottom:8px}
+[data-theme="dark"] .medal-card .m-tag{color:#FBBF24}
+.medal-card h3{margin:0 0 6px;font-family:var(--round);font-size:clamp(22px,3.2vw,28px);font-weight:800;color:#92400E}
+[data-theme="dark"] .medal-card h3{color:#FDE68A}
+.medal-card .m-desc{margin:0;font-size:16px;font-weight:600;color:#78350F;line-height:1.45}
+[data-theme="dark"] .medal-card .m-desc{color:#FCD34D}
+.medal-stars{display:flex;justify-content:center;gap:8px;margin-top:12px;font-size:24px}
+.cap.medal{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.45);color:#B45309;font-weight:700;cursor:pointer}
+[data-theme="dark"] .cap.medal{color:#FBBF24}
+.confetti-piece{position:fixed;top:-20px;z-index:1250;pointer-events:none;border-radius:3px;animation:confettiFall var(--dur,2.4s) cubic-bezier(.22,.61,.36,1) forwards}
+@keyframes confettiFall{
+  0%{transform:translate3d(0,-20px,0) rotate(0deg);opacity:1}
+  80%{opacity:1}
+  100%{transform:translate3d(var(--drift,40px),105vh,0) rotate(var(--rot,540deg));opacity:0}
+}
+
 .rotate-hint{display:none;width:100%;max-width:1120px;align-items:center;justify-content:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--tint-blue);color:var(--blue);font-size:15px;font-weight:500}
 @media (orientation:portrait) and (max-width:1024px){.rotate-hint{display:flex}}
 </style>
@@ -395,6 +449,7 @@ select option{background:var(--cell);color:var(--label)}
   <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M15 5l4 4L8 20H4v-4z"/></symbol>
   <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
 </svg>
 
 <!-- ================= GİRİŞ ================= -->
@@ -498,11 +553,26 @@ select option{background:var(--cell);color:var(--label)}
         </div>
       </div>
 
-      <div class="seg wide phase-seg" id="phaseSeg">
-        <button data-ph="A" class="on">Başlama düzeyi <span class="pc">0/5</span></button>
-        <button data-ph="B">Uygulama <span class="pc">0/5</span></button>
-        <button data-ph="C">İzleme <span class="pc">0/5</span></button>
-        <button data-ph="D">Genelleme <span class="pc">0/5</span></button>
+      <div class="group" style="margin-bottom:14px">
+        <label class="row icon-row" style="cursor:pointer">
+          <span class="ico" style="background:var(--purple)"><svg class="i"><use href="#i-list"/></svg></span>
+          <span class="k">Başlama düzeyi, izleme ve genelleme adımlarını kullan <span class="v" style="font-size:13px">· Kapatıldığında sadece Uygulama çalışır</span></span>
+          <input type="checkbox" class="switch" id="tAllPhases" checked onchange="toggleAllPhases()">
+        </label>
+        <div class="row icon-row">
+          <span class="ico" style="background:var(--orange)"><svg class="i"><use href="#i-plus"/></svg></span>
+          <span class="k">Önden hazırlanacak Uygulama sayısı <span class="v" style="font-size:13px">· Uygulama 1, 2, 3…</span></span>
+          <span class="v" id="tUygCountLbl">1</span>
+          <div class="stepper">
+            <button onclick="stepUygCount(-1)" aria-label="Uygulama Azalt">−</button>
+            <span class="div"></span>
+            <button onclick="stepUygCount(1)" aria-label="Uygulama Artır">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase-bar-wrap">
+        <div class="seg phase-seg" id="phaseSeg"></div>
       </div>
       <div class="group-foot" id="modHint" style="margin-top:8px"></div>
       <div class="cols">
@@ -553,12 +623,12 @@ select option{background:var(--cell);color:var(--label)}
               <div class="seg wide big" id="opSeg" style="flex:1"><button data-op="+" class="on">Toplama  +</button><button data-op="-">Çıkarma  −</button></div>
             </div>
             <div class="builder">
-              <div class="numbox"><input type="number" class="val" id="tN1" value="4" min="1" max="10">
-                <div class="stepper"><button onclick="stepNum('#tN1',-1,1,10)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepNum('#tN1',1,1,10)" aria-label="Artır">+</button></div></div>
+              <div class="numbox"><input type="number" class="val" id="tN1" value="4" min="1" max="19">
+                <div class="stepper"><button onclick="stepNum('#tN1',-1,1,19)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepNum('#tN1',1,1,19)" aria-label="Artır">+</button></div></div>
               <span class="opsign" id="opSign">+</span>
               <input type="hidden" id="tOp" value="+">
-              <div class="numbox"><input type="number" class="val" id="tN2" value="3" min="1" max="10">
-                <div class="stepper"><button onclick="stepNum('#tN2',-1,1,10)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepNum('#tN2',1,1,10)" aria-label="Artır">+</button></div></div>
+              <div class="numbox"><input type="number" class="val" id="tN2" value="3" min="1" max="18">
+                <div class="stepper"><button onclick="stepNum('#tN2',-1,1,18)" aria-label="Azalt">−</button><span class="div"></span><button onclick="stepNum('#tN2',1,1,18)" aria-label="Artır">+</button></div></div>
               <span class="eqsign">=</span>
               <div class="ans" id="tAns">7</div>
             </div>
@@ -569,8 +639,8 @@ select option{background:var(--cell);color:var(--label)}
               <button class="btn tinted" style="flex:1" onclick="addQuestion()">Soruyu Ekle</button>
               <button class="btn tinted-purple" style="flex:1" onclick="fillRandomPhase()"><svg class="i"><use href="#i-spark"/></svg>Rastgele Ata</button>
             </div>
-            <div class="row" style="padding:0 12px 10px">
-              <button class="btn tinted-orange small block" onclick="fillAllPhasesRandom()">4 Evreyi Birden Rastgele Doldur</button>
+            <div class="row" id="fillAllRow" style="padding:0 12px 10px">
+              <button class="btn tinted-orange small block" id="fillAllBtn" onclick="fillAllPhasesRandom()">Tüm Evreleri Birden Rastgele Doldur</button>
             </div>
           </div>
           <div class="group-foot" id="addMsg" style="color:var(--red)"></div>
@@ -583,9 +653,12 @@ select option{background:var(--cell);color:var(--label)}
 
           <div id="codeBox" class="hidden">
             <div class="group-title">Oturum kodları</div>
-            <div class="student-code-banner">
-              <span>Öğrenci: <b id="linkedStudentName">—</b></span>
-              <span style="font-size:13px">Öğretmen: <span id="linkedTeacherName">—</span></span>
+            <div class="student-code-banner" style="flex-wrap:wrap;gap:10px">
+              <div>
+                <span>Öğrenci: <b id="linkedStudentName">—</b></span>
+                <span style="font-size:13px;margin-left:10px">Öğretmen: <span id="linkedTeacherName">—</span></span>
+              </div>
+              <button type="button" class="btn tinted-green small" onclick="shareAllCodes()"><svg class="i" style="width:16px;height:16px"><use href="#i-share"/></svg>Tüm Kodları Paylaş</button>
             </div>
             <div class="group code-list" id="codeList"></div>
             <div class="group-foot" id="codeMeta"></div>
@@ -646,7 +719,7 @@ select option{background:var(--cell);color:var(--label)}
 <section id="student" class="hidden">
   <div class="rotate-hint"><svg class="i"><use href="#i-rotate"/></svg>Daha rahat çalışmak için cihazı yatay çevirin</div>
   <div class="s-top">
-    <button class="plain s-exit" onclick="exitStudent()"><svg class="i" style="width:18px;height:18px"><use href="#i-exit"/></svg>Çıkış</button>
+    <button class="plain s-exit" onclick="requestExitStudent()"><svg class="i" style="width:18px;height:18px"><use href="#i-exit"/></svg>Çıkış</button>
     <div class="timer hidden" id="timer"></div>
   </div>
 
@@ -674,12 +747,113 @@ select option{background:var(--cell);color:var(--label)}
   </div>
 
   <div class="done hidden" id="doneArea">
-    <div class="seal"><svg class="i"><use href="#i-check"/></svg></div>
+    <div class="seal" id="doneSeal"><svg class="i"><use href="#i-check"/></svg></div>
+    <div class="medal-card hidden" id="doneMedalCard">
+      <svg class="medal-emblem" viewBox="0 0 120 132" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M36 6H56L48 54H26L36 6Z" fill="#EF4444"/>
+        <path d="M84 6H64L72 54H94L84 6Z" fill="#DC2626"/>
+        <path d="M46 6H74L68 54H52L46 6Z" fill="#3B82F6"/>
+        <circle cx="60" cy="82" r="38" fill="url(#goldGrad)" stroke="#D97706" stroke-width="4"/>
+        <circle cx="60" cy="82" r="29" fill="none" stroke="#FEF3C7" stroke-width="2.5" stroke-dasharray="5 4"/>
+        <path d="M60 61L66.2 73.6L80 75.6L70 85.3L72.4 99L60 92.5L47.6 99L50 85.3L40 75.6L53.8 73.6L60 61Z" fill="#FFFBEB" stroke="#B45309" stroke-width="2" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="goldGrad" x1="22" y1="44" x2="98" y2="120" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FDE047"/>
+            <stop offset="0.5" stop-color="#F59E0B"/>
+            <stop offset="1" stop-color="#B45309"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="m-tag" id="doneMedalTag">Başarı Ölçütü Karşılandı</div>
+      <h3 id="doneMedalTitle">Başarı Madalyası Kazandın!</h3>
+      <p class="m-desc" id="doneMedalDesc"></p>
+      <div class="medal-stars" aria-hidden="true">⭐ 🌟 ⭐</div>
+    </div>
     <h2 id="doneTitle">Bitti!</h2>
     <p id="doneSub"></p>
     <button class="btn" style="min-width:200px" onclick="exitStudent()">Ana Ekran</button>
   </div>
+
+  <!-- Oturum Bitmeden Çıkış İçin Öğretmen Doğrulama Modalı -->
+  <div id="exitAuthModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="exitModalTitle" onclick="if(event.target===this)closeExitModal()">
+    <div class="modal-card" id="exitModalCard">
+      <div class="exit-lock-badge" aria-hidden="true"><svg class="i"><use href="#i-lock"/></svg></div>
+      <h3 id="exitModalTitle">Öğretmen Çıkış Doğrulaması</h3>
+      <p>Öğrenci oturumu henüz tamamlanmadı. Oturumu sonlandırıp çıkmak için <b>öğretmen adını</b> ve <b>6 haneli öğretmen kodunu</b> girin.</p>
+      <div class="exit-session-pill" id="exitSessionInfo">Aktif Oturum Devam Ediyor</div>
+      <div class="group">
+        <div class="row icon-row">
+          <span class="ico" style="background:var(--blue)"><svg class="i"><use href="#i-person"/></svg></span>
+          <input class="field" id="exitTeacherName" placeholder="Öğretmen Adı Soyadı (Zorunlu)" autocomplete="off" autocapitalize="words">
+        </div>
+        <div class="row icon-row">
+          <span class="ico" style="background:var(--orange)"><svg class="i"><use href="#i-lock"/></svg></span>
+          <input class="field" id="exitTeacherCode" placeholder="Öğretmen Kodu (6 haneli sayı)" maxlength="6" inputmode="numeric" autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'').slice(0,6)">
+        </div>
+      </div>
+      <div class="login-err" id="exitModalMsg" style="margin:4px 0 12px"></div>
+      <div style="display:flex;gap:10px">
+        <button type="button" class="btn tinted" style="flex:1;min-height:44px" onclick="closeExitModal()">Vazgeç (Devam Et)</button>
+        <button type="button" class="btn tinted-red" id="exitConfirmBtn" style="flex:1;min-height:44px" onclick="confirmTeacherExit()">Doğrula ve Çık</button>
+      </div>
+    </div>
+  </div>
 </section>
+
+<!-- Sonuçlar Ekranı Başarı Madalyası Kutlama Modalı -->
+<div id="medalCelebrationModal" class="modal-backdrop hidden" onclick="if(event.target===this)closeMedalModal()">
+  <div class="modal-card" style="max-width:460px;text-align:center;padding:24px 22px 20px">
+    <div class="medal-card" style="margin:0 0 16px">
+      <svg class="medal-emblem" viewBox="0 0 120 132" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M36 6H56L48 54H26L36 6Z" fill="#EF4444"/>
+        <path d="M84 6H64L72 54H94L84 6Z" fill="#DC2626"/>
+        <path d="M46 6H74L68 54H52L46 6Z" fill="#3B82F6"/>
+        <circle cx="60" cy="82" r="38" fill="url(#goldGradModal)" stroke="#D97706" stroke-width="4"/>
+        <circle cx="60" cy="82" r="29" fill="none" stroke="#FEF3C7" stroke-width="2.5" stroke-dasharray="5 4"/>
+        <path d="M60 61L66.2 73.6L80 75.6L70 85.3L72.4 99L60 92.5L47.6 99L50 85.3L40 75.6L53.8 73.6L60 61Z" fill="#FFFBEB" stroke="#B45309" stroke-width="2" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="goldGradModal" x1="22" y1="44" x2="98" y2="120" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FDE047"/>
+            <stop offset="0.5" stop-color="#F59E0B"/>
+            <stop offset="1" stop-color="#B45309"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="m-tag" id="modalMedalTag">Başarı Madalyası Ödülü</div>
+      <h3 id="modalMedalStudent">Tebrikler!</h3>
+      <p class="m-desc" id="modalMedalDesc"></p>
+      <div class="medal-stars" aria-hidden="true">⭐ 🌟 ⭐</div>
+    </div>
+    <button type="button" class="btn block" onclick="closeMedalModal()">Harika! Kapat</button>
+  </div>
+</div>
+
+<!-- Oturum Kodu Hızlı Paylaşım Modalı (WhatsApp / Telegram / Sistem Paylaşımı) -->
+<div id="shareModal" class="modal-backdrop hidden" onclick="if(event.target===this)closeShareModal()">
+  <div class="modal-card" style="max-width:440px">
+    <h3>Oturum Kodunu Paylaş</h3>
+    <p id="shareStatusNote" style="color:var(--green);font-weight:600;margin-bottom:10px">✓ Mesaj panoya kopyalandı</p>
+    <div class="group" style="margin-bottom:14px">
+      <div class="row" style="padding:10px 14px">
+        <textarea id="sharePreviewText" readonly style="width:100%;min-height:92px;border:none;background:transparent;resize:none;font:inherit;font-size:14px;line-height:1.45;color:var(--label);outline:none"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <a id="waShareLink" href="#" target="_blank" rel="noopener noreferrer" class="btn" style="background:#25D366;color:#fff;text-decoration:none;min-height:46px">
+        <svg class="i" style="width:19px;height:19px"><use href="#i-share"/></svg>WhatsApp ile Gönder
+      </a>
+      <div style="display:flex;gap:8px">
+        <a id="tgShareLink" href="#" target="_blank" rel="noopener noreferrer" class="btn tinted" style="flex:1;text-decoration:none;min-height:42px;font-size:15px">Telegram</a>
+        <a id="mailShareLink" href="#" class="btn tinted-purple" style="flex:1;text-decoration:none;min-height:42px;font-size:15px">E-posta</a>
+        <button type="button" id="nativeShareBtn" class="btn tinted-orange hidden" style="flex:1;min-height:42px;font-size:15px" onclick="triggerNativeShare()">Diğer…</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:4px">
+        <button type="button" class="btn tinted" style="flex:1;min-height:42px;font-size:15px" onclick="copySharePreview(this)">Metni Tekrar Kopyala</button>
+        <button type="button" class="btn tinted-red" style="min-height:42px;font-size:15px" onclick="closeShareModal()">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -690,9 +864,23 @@ select option{background:var(--cell);color:var(--label)}
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxNKQve_8mGeKxKHL3dpF2_KhjNWZ-lji5S3zbK6Qhgf6RCX9la_wCkInCvKvQe4RoQNQ/exec";
 const SHEETS_ON = /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(GOOGLE_SCRIPT_URL);
 const TESSERACT_URL = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
-const NUM_WORDS = ["sıfır","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz","on"];
-const SHAPE_COLORS = ["","#FF3B30","#FF9500","#FFCC00","#34C759","#30B0C7","#007AFF","#5856D6","#AF52DE","#FF2D55","#1C1C1E"];
-const EVRE = { A: "Başlama düzeyi", B: "Uygulama", C: "İzleme", D: "Genelleme" };
+const NUM_WORDS = [
+  "sıfır","bir","iki","üç","dört","beş","altı","yedi","sekiz","dokuz","on",
+  "on bir","on iki","on üç","on dört","on beş","on altı","on yedi","on sekiz","on dokuz"
+];
+const SHAPE_COLORS = [
+  "","#FF3B30","#FF9500","#FFCC00","#34C759","#30B0C7","#007AFF","#5856D6","#AF52DE","#FF2D55","#1C1C1E",
+  "#FF3B30","#FF9500","#FFCC00","#34C759","#30B0C7","#007AFF","#5856D6","#AF52DE","#FF2D55"
+];
+const EVRE = new Proxy({ A: "Başlama düzeyi", B: "Uygulama 1", C: "İzleme", D: "Genelleme" }, {
+  get(target, prop) {
+    if (prop in target) return target[prop];
+    if (typeof prop === "string" && /^B(\d+)$/.test(prop)) return "Uygulama " + prop.slice(1);
+    return undefined;
+  }
+});
+const basePhaseKey = k => (typeof k === "string" && /^B\d*$/.test(k)) ? "B" : k;
+const basePhaseTitle = k => basePhaseKey(k) === "B" ? "Uygulama" : (EVRE[k] || k);
 const ADMIN_SIFRE = "1996";
 
 const $ = s => document.querySelector(s);
@@ -737,13 +925,45 @@ function toggleTheme() {
 applyTheme(store.get("sayiizi_tema", "light"));
 
 /* ---------- ses ---------- */
+const PRAISE_PHRASES = [
+  "Aferin!",
+  "Harika!",
+  "Çok iyi!",
+  "Harikasın!",
+  "Çok güzel!",
+  "Süpersin!",
+  "Bravo!",
+  "Tebrikler, çok iyi!"
+];
+let lastPraiseIdx = -1;
+function getRandomPraise() {
+  if (!PRAISE_PHRASES.length) return "Aferin!";
+  let idx = Math.floor(Math.random() * PRAISE_PHRASES.length);
+  if (PRAISE_PHRASES.length > 1 && idx === lastPraiseIdx) {
+    idx = (idx + 1 + Math.floor(Math.random() * (PRAISE_PHRASES.length - 1))) % PRAISE_PHRASES.length;
+  }
+  lastPraiseIdx = idx;
+  return PRAISE_PHRASES[idx];
+}
+let speakTimer = null;
 function speak(text) {
-  if (!("speechSynthesis" in window)) return;
+  if (!("speechSynthesis" in window) || !text) return;
   try {
+    if (speakTimer) clearTimeout(speakTimer);
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "tr-TR"; u.rate = 0.85;
-    speechSynthesis.speak(u);
+    if (speechSynthesis.paused) speechSynthesis.resume();
+    speakTimer = setTimeout(() => {
+      try {
+        const u = new SpeechSynthesisUtterance(String(text));
+        u.lang = "tr-TR";
+        u.rate = 0.9;
+        u.pitch = 1.05;
+        const voices = speechSynthesis.getVoices ? speechSynthesis.getVoices() : [];
+        const trVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith("tr"));
+        if (trVoice) u.voice = trVoice;
+        speechSynthesis.speak(u);
+      } catch (e) {}
+    }, 30);
   } catch (e) {}
 }
 
@@ -827,9 +1047,18 @@ let isAdminViewing = false;
 let teacherPackages = {};
 let currentEditingStudent = "";
 
+function clearNonStudentCredentials() {
+  ["#inTeacher", "#inTeacherCode", "#inAdminPass", "#newTeacherName", "#exitTeacherName", "#exitTeacherCode"].forEach(s => {
+    const el = $(s);
+    if (el) el.value = "";
+  });
+}
+
 $$("#roleSeg button").forEach(b => b.addEventListener("click", () => {
   role = b.dataset.role;
   $$("#roleSeg button").forEach(x => x.classList.toggle("on", x === b));
+  clearNonStudentCredentials();
+  adminPassMemory = "";
   $("#studentForm").classList.toggle("hidden", role !== "ogrenci");
   $("#teacherForm").classList.toggle("hidden", role !== "ogretmen");
   $("#adminForm").classList.toggle("hidden", role !== "yonetici");
@@ -839,8 +1068,34 @@ $$("#roleSeg button").forEach(b => b.addEventListener("click", () => {
 ["#inName", "#inCode", "#inTeacher", "#inTeacherCode", "#inAdminPass"].forEach(s => {
   const el = $(s); if (el) el.addEventListener("keydown", e => { if (e.key === "Enter") login(); });
 });
+if ($("#exitTeacherName")) {
+  $("#exitTeacherName").addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const codeEl = $("#exitTeacherCode");
+      if (codeEl && !codeEl.value.trim()) codeEl.focus();
+      else confirmTeacherExit();
+    }
+  });
+}
+if ($("#exitTeacherCode")) {
+  $("#exitTeacherCode").addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      confirmTeacherExit();
+    }
+  });
+}
+window.addEventListener("keydown", e => {
+  if (e.key === "Escape" && isExitModalOpen()) {
+    closeExitModal();
+  }
+});
 
 function showScreen(id) {
+  if (id === "#login") {
+    clearNonStudentCredentials();
+  }
   ["#login", "#teacher", "#student"].forEach(s => $(s).classList.toggle("hidden", s !== id));
   window.scrollTo(0, 0);
 }
@@ -860,6 +1115,7 @@ async function login() {
         btn.disabled = false; btn.innerText = "Başla";
         if (!res.onayla) { msg.innerText = res.mesaj || "Şifre hatalı!"; return; }
         adminPassMemory = pass;
+        $("#inAdminPass").value = "";
         store.set("sayiizi_ogretmenler", res.ogretmenler || {});
         renderAdminTeacherList(res.ogretmenler || {});
         $("#adminPanel").classList.remove("hidden");
@@ -871,6 +1127,7 @@ async function login() {
       btn.disabled = false; btn.innerText = "Başla";
       if (pass !== ADMIN_SIFRE) { msg.innerText = "Yönetici şifresi yanlış!"; return; }
       adminPassMemory = pass;
+      $("#inAdminPass").value = "";
       renderAdminTeacherList(store.get("sayiizi_ogretmenler", {}));
       $("#adminPanel").classList.remove("hidden");
     }
@@ -945,6 +1202,7 @@ async function openTeacherWorkspace(n, tKod, adminBypass) {
   }
 
   btn.disabled = false; btn.innerText = "Başla";
+  clearNonStudentCredentials();
   teacherPackages = pkgs || {};
   store.set("sayiizi_ogretmen_paketler_" + teacherCode, teacherPackages);
 
@@ -956,15 +1214,22 @@ async function openTeacherWorkspace(n, tKod, adminBypass) {
 
 function logout() {
   isAdminViewing = false;
+  teacherName = "";
+  teacherCode = "";
+  adminPassMemory = "";
+  clearNonStudentCredentials();
+  $("#adminPanel").classList.add("hidden");
   showScreen("#login");
 }
 
 function returnToAdminPanel() {
   isAdminViewing = false;
+  teacherName = "";
+  teacherCode = "";
+  adminPassMemory = "";
+  clearNonStudentCredentials();
   showScreen("#login");
   $$("#roleSeg button").forEach(b => { if (b.dataset.role === "yonetici") b.click(); });
-  $("#adminPanel").classList.remove("hidden");
-  renderAdminTeacherList(store.get("sayiizi_ogretmenler", {}));
 }
 
 function createTeacherCode() {
@@ -998,19 +1263,15 @@ function renderAdminTeacherList(mapObj) {
 
 function adminInspectTeacher(kod, ad) {
   isAdminViewing = true;
+  adminPassMemory = "";
+  clearNonStudentCredentials();
   openTeacherWorkspace(ad, kod, true);
 }
 
 /* ============================================================
    ÖĞRETMEN — MENÜ, OLUŞTUR, RASTGELE ATA, DÜZENLE VE SİL
    ============================================================ */
-const PHASES = [
-  { k: "A", ad: "Başlama düzeyi", mod: "yoklama" },
-  { k: "B", ad: "Uygulama", mod: "uygulama" },
-  { k: "C", ad: "İzleme", mod: "yoklama" },
-  { k: "D", ad: "Genelleme", mod: "yoklama" }
-];
-const PH = Object.fromEntries(PHASES.map(p => [p.k, p]));
+let tUygCount = 1;
 let tPhases = { A: [], B: [], C: [], D: [] };
 let tPhase = "A";
 let tQuestions = tPhases.A;
@@ -1018,6 +1279,122 @@ let tCount = 5;
 let tCodes = null;
 let tDirty = true;
 let tCode = "";
+
+function getUygKey(idx) {
+  return idx === 1 ? "B" : "B" + idx;
+}
+
+function ensurePhaseArrays() {
+  if (!tPhases.A) tPhases.A = [];
+  if (!tPhases.C) tPhases.C = [];
+  if (!tPhases.D) tPhases.D = [];
+  for (let i = 1; i <= tUygCount; i++) {
+    const k = getUygKey(i);
+    if (!Array.isArray(tPhases[k])) tPhases[k] = [];
+  }
+}
+
+function getAllDynamicPhases() {
+  ensurePhaseArrays();
+  const list = [{ k: "A", ad: "Başlama düzeyi", mod: "yoklama" }];
+  for (let i = 1; i <= tUygCount; i++) {
+    list.push({ k: getUygKey(i), ad: `Uygulama ${i}`, mod: "uygulama" });
+  }
+  list.push({ k: "C", ad: "İzleme", mod: "yoklama" });
+  list.push({ k: "D", ad: "Genelleme", mod: "yoklama" });
+  return list;
+}
+
+function getPhaseObj(k) {
+  const found = getAllDynamicPhases().find(p => p.k === k);
+  if (found) return found;
+  if (/^B(\d+)$/.test(k)) return { k, ad: "Uygulama " + k.slice(1), mod: "uygulama" };
+  return { k: "B", ad: "Uygulama 1", mod: "uygulama" };
+}
+
+function isAllPhasesOn() {
+  const el = $("#tAllPhases");
+  return el ? el.checked : true;
+}
+
+function getActivePhases() {
+  const all = getAllDynamicPhases();
+  return isAllPhasesOn() ? all : all.filter(p => p.mod === "uygulama");
+}
+
+function renderPhaseSeg() {
+  const seg = $("#phaseSeg");
+  if (!seg) return;
+  const active = getActivePhases();
+  if (!active.some(p => p.k === tPhase)) {
+    tPhase = active[0].k;
+  }
+  const btns = active.map(p => {
+    const n = (tPhases[p.k] || []).length;
+    const cls = n === tCount ? " full" : n > tCount ? " over" : "";
+    let delHtml = "";
+    if (p.mod === "uygulama" && tUygCount > 1) {
+      const uygIdx = p.k === "B" ? 1 : parseInt(p.k.slice(1), 10);
+      delHtml = ` <span class="ph-del" role="button" tabindex="0" title="${esc(p.ad)} oturumunu sil" onclick="event.stopPropagation(); removeUygulamaAt(${uygIdx})">×</span>`;
+    }
+    return `<button type="button" data-ph="${p.k}" class="${p.k === tPhase ? "on" : ""}" onclick="setPhase('${p.k}')">${esc(p.ad)} <span class="pc${cls}">${n}/${tCount}</span>${delHtml}</button>`;
+  }).join("");
+  const addBtn = `<button type="button" class="add-uyg-btn" onclick="stepUygCount(1)" title="Yeni Uygulama Oturumu Ekle">+ Uygulama Ekle</button>`;
+  seg.innerHTML = btns + addBtn;
+  const lbl = $("#tUygCountLbl");
+  if (lbl) lbl.innerText = tUygCount;
+  const fillBtn = $("#fillAllBtn");
+  if (fillBtn) {
+    fillBtn.innerText = isAllPhasesOn()
+      ? `Tüm Evreleri (${active.length} Oturum) Rastgele Doldur`
+      : (tUygCount > 1 ? `${tUygCount} Uygulamayı Birden Rastgele Doldur` : "Uygulamayı Rastgele Doldur");
+  }
+}
+
+function removeUygulamaAt(idx) {
+  if (tUygCount <= 1 || idx < 1 || idx > tUygCount) return;
+  ensurePhaseArrays();
+  const uygLists = [];
+  for (let i = 1; i <= tUygCount; i++) {
+    uygLists.push(tPhases[getUygKey(i)] || []);
+  }
+  uygLists.splice(idx - 1, 1);
+
+  Object.keys(tPhases).forEach(k => {
+    if (/^B\d*$/.test(k)) delete tPhases[k];
+  });
+
+  tUygCount = uygLists.length;
+  for (let i = 1; i <= tUygCount; i++) {
+    tPhases[getUygKey(i)] = uygLists[i - 1];
+  }
+
+  if (/^B\d*$/.test(tPhase)) {
+    const curIdx = tPhase === "B" ? 1 : parseInt(tPhase.slice(1), 10);
+    let nextIdx = curIdx;
+    if (curIdx === idx) nextIdx = Math.min(idx, tUygCount);
+    else if (curIdx > idx) nextIdx = curIdx - 1;
+    tPhase = getUygKey(Math.max(1, Math.min(tUygCount, nextIdx)));
+  }
+
+  renderPhaseSeg();
+  setPhase(tPhase);
+  markDirty();
+}
+
+function stepUygCount(d) {
+  if (d < 0 && tUygCount > 1) {
+    removeUygulamaAt(tUygCount);
+    return;
+  }
+  const next = Math.max(1, Math.min(30, tUygCount + d));
+  if (next === tUygCount) return;
+  tUygCount = next;
+  ensurePhaseArrays();
+  renderPhaseSeg();
+  setPhase(getUygKey(tUygCount));
+  markDirty();
+}
 
 function setTab(name) {
   $$("#tabSeg button").forEach(b => b.classList.toggle("on", b.dataset.tab === name));
@@ -1042,14 +1419,32 @@ function setTab(name) {
 }
 $$("#tabSeg button").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
 
+function toggleAllPhases() {
+  const allOn = isAllPhasesOn();
+  renderPhaseSeg();
+  if (!allOn) {
+    const firstUyg = getActivePhases()[0];
+    setPhase(firstUyg ? firstUyg.k : "B");
+  } else {
+    setPhase(tPhase || "A");
+  }
+  markDirty();
+  renderQuestions();
+}
+
 function resetEditorForNewStudent() {
   $("#tTargetStudent").value = "";
+  tUygCount = 1;
   tPhases = { A: [], B: [], C: [], D: [] };
   tCount = 5;
   $("#tCountLbl").innerText = 5;
+  if ($("#tAllPhases")) {
+    $("#tAllPhases").checked = true;
+  }
   tCodes = null;
   tDirty = true;
   $("#codeBox").classList.add("hidden");
+  renderPhaseSeg();
   setPhase("A");
 }
 
@@ -1062,7 +1457,7 @@ function renderSavedStudentsForEdit() {
     return;
   }
   box.innerHTML = list.map(pkg => {
-    const codesStr = (pkg.tCodes || []).map(c => `${c.ph.k}: ${c.kod}`).join(" · ");
+    const codesStr = (pkg.tCodes || []).map(c => `${c.ph.ad || c.ph.k}: ${c.kod}`).join(" · ");
     return `<div class="row res-row" onclick="selectStudentToEdit('${esc(pkg.ogrenciAdi)}')">
       <span class="ico" style="background:var(--blue)"><svg class="i"><use href="#i-person"/></svg></span>
       <div class="k">
@@ -1100,12 +1495,28 @@ function deleteStudentTeaching(studentName) {
   setTab("duzenle");
 }
 
+function detectUygCount(pkg) {
+  if (pkg.tUygCount && pkg.tUygCount >= 1) return pkg.tUygCount;
+  let maxB = 1;
+  Object.keys(pkg.tPhases || {}).forEach(k => {
+    const m = /^B(\d+)$/.exec(k);
+    if (m) maxB = Math.max(maxB, parseInt(m[1]));
+  });
+  (pkg.tCodes || []).forEach(c => {
+    const m = /^B(\d+)$/.exec(c.ph && c.ph.k);
+    if (m) maxB = Math.max(maxB, parseInt(m[1]));
+  });
+  return maxB;
+}
+
 function selectStudentToEdit(studentName) {
   const pkg = teacherPackages[studentName];
   if (!pkg) return;
   currentEditingStudent = pkg.ogrenciAdi || studentName;
   $("#tTargetStudent").value = currentEditingStudent;
   tPhases = JSON.parse(JSON.stringify(pkg.tPhases || { A: [], B: [], C: [], D: [] }));
+  tUygCount = detectUygCount(pkg);
+  ensurePhaseArrays();
   tCount = pkg.tCount || 5;
   $("#tCountLbl").innerText = tCount;
   if (pkg.ayarlar) {
@@ -1118,7 +1529,13 @@ function selectStudentToEdit(studentName) {
     $("#tOlcutYuzde").value = pkg.ayarlar.olcutYuzde || 80;
     $("#tOlcutOturum").value = pkg.ayarlar.olcutOturum || 3;
   }
-  setPhase("A");
+  const hasYoklamaCode = (pkg.tCodes || []).some(c => c.ph && c.ph.mod === "yoklama");
+  const useAll = pkg.tumEvreler !== undefined ? !!pkg.tumEvreler : (!pkg.tCodes || hasYoklamaCode);
+  if ($("#tAllPhases")) {
+    $("#tAllPhases").checked = useAll;
+  }
+  renderPhaseSeg();
+  setPhase(useAll ? "A" : "B");
   if (pkg.tCodes && pkg.tCodes.length) {
     tCodes = pkg.tCodes;
     tDirty = false;
@@ -1133,9 +1550,14 @@ function selectStudentToEdit(studentName) {
 }
 
 function setPhase(k) {
+  const active = getActivePhases();
+  if (!active.some(p => p.k === k)) {
+    k = active[0] ? active[0].k : "B";
+  }
   tPhase = k;
+  ensurePhaseArrays();
   tQuestions = tPhases[k];
-  const ph = PH[k];
+  const ph = getPhaseObj(k);
   $$("#phaseSeg button").forEach(b => b.classList.toggle("on", b.dataset.ph === k));
   $("#modHint").innerText = ph.mod === "yoklama"
     ? `${ph.ad}: yoklama oturumu. Sorular sırayla gelir; tek deneme, doğru/yanlış geri bildirimi, ipucu ve sesli sayım yok.`
@@ -1145,7 +1567,6 @@ function setPhase(k) {
   $("#addMsg").innerText = "";
   renderQuestions();
 }
-$$("#phaseSeg button").forEach(b => b.addEventListener("click", () => setPhase(b.dataset.ph)));
 
 function stepCount(d) {
   tCount = Math.min(20, Math.max(1, tCount + d));
@@ -1155,19 +1576,20 @@ function stepCount(d) {
 }
 
 function updatePhaseUI() {
+  renderPhaseSeg();
   let missing = [];
   const targetSt = ($("#tTargetStudent") ? $("#tTargetStudent").value.trim() : "");
   if (!targetSt) missing.push("Öğrenci adı yazılmalı");
-  PHASES.forEach(p => {
-    const n = tPhases[p.k].length;
-    const pc = document.querySelector(`#phaseSeg button[data-ph="${p.k}"] .pc`);
-    pc.innerText = `${n}/${tCount}`;
-    pc.className = "pc" + (n === tCount ? " full" : n > tCount ? " over" : "");
+  const activePhases = getActivePhases();
+  activePhases.forEach(p => {
+    const n = (tPhases[p.k] || []).length;
     if (n < tCount) missing.push(`${p.ad} ${tCount - n} soru eksik`);
     if (n > tCount) missing.push(`${p.ad} ${n - tCount} soru fazla`);
   });
   $("#saveBtn").disabled = missing.length > 0;
-  $("#saveHint").innerText = missing.length ? missing.join(" · ") : `Öğrenci (${targetSt}) için dört evre de hazır.`;
+  $("#saveHint").innerText = missing.length
+    ? missing.join(" · ")
+    : `Öğrenci (${targetSt}) için toplam ${activePhases.length} oturum (${activePhases.map(p => p.ad).join(", ")}) hazır.`;
 }
 
 ["#tHiz", "#tDeneme", "#tOto", "#tSes", "#tIpucu", "#tSureGoster", "#tOlcutYuzde", "#tOlcutOturum"].forEach(s => $(s).addEventListener("change", markDirty));
@@ -1191,15 +1613,32 @@ function stepSure(d) {
 
 function markDirty() { tDirty = true; $("#codeBox").classList.add("hidden"); updatePhaseUI(); }
 
+function validateOperation(n1, n2, op) {
+  if (!Number.isFinite(n1) || !Number.isFinite(n2)) return "Lütfen geçerli sayılar girin.";
+  if (op === "+") {
+    if (n1 < 1 || n1 > 18 || n2 < 1 || n2 > 18) return "Toplamada sayılar 1 ile 18 arasında olmalı.";
+    if (n1 > 9 && n2 > 9) return "Koyulacak birimlerden en az biri 1-9 arası rakam olmalı.";
+    if ((n1 % 10) + (n2 % 10) > 9) return "Eldeli toplama yapılamaz: Birler basamağı toplamı en fazla 9 olmalıdır.";
+    if (n1 + n2 > 19) return "Toplam en fazla 19 olabilir.";
+    return "";
+  } else {
+    if (n1 < 2 || n1 > 19 || n2 < 1 || n2 > 18) return "Çıkarmada ilk sayı 2-19, ikinci sayı 1-18 arasında olmalı.";
+    if (n2 > 9 && n1 > 9 && n1 - n2 > 9) return "Çıkarılacak birim 1-9 arası rakam olmalı.";
+    if (n1 - n2 < 0) return "Çıkarmada ilk sayı büyük veya eşit olmalı.";
+    if ((n1 % 10) < (n2 % 10)) return "Onluk bozmalı çıkarma yapılamaz: İlk sayının birler basamağı ikinciden küçük olamaz.";
+    return "";
+  }
+}
+
 function calcAnswer() {
   const n1 = parseInt($("#tN1").value), n2 = parseInt($("#tN2").value), op = $("#tOp").value;
   const box = $("#tAns");
   if (!Number.isFinite(n1) || !Number.isFinite(n2)) { box.innerText = "?"; box.classList.add("bad"); return null; }
   const a = op === "+" ? n1 + n2 : n1 - n2;
   box.innerText = a;
-  const bad = a < 0 || a > 10 || n1 < 0 || n1 > 10 || n2 < 1 || n2 > 10;
-  box.classList.toggle("bad", bad);
-  return bad ? null : a;
+  const err = validateOperation(n1, n2, op);
+  box.classList.toggle("bad", !!err);
+  return err ? null : a;
 }
 
 function addQuestion() {
@@ -1208,9 +1647,8 @@ function addQuestion() {
   const m = $("#addMsg");
   m.innerText = "";
   if (tQuestions.length >= tCount) { m.innerText = `Bu evre dolu (${tCount} soru). Soru sayısını artırın ya da bir soruyu silin.`; return; }
-  if (!Number.isFinite(n1) || !Number.isFinite(n2) || n2 < 1 || n2 > 10 || n1 < 1 || n1 > 10) { m.innerText = "Sayılar 1 ile 10 arasında olmalı."; return; }
-  if (op === "+" && n1 + n2 > 10) { m.innerText = "Toplam en fazla 10 olabilir."; return; }
-  if (op === "-" && n1 - n2 < 0) { m.innerText = "Çıkarmada ilk sayı büyük olmalı."; return; }
+  const err = validateOperation(n1, n2, op);
+  if (err) { m.innerText = err; return; }
   tQuestions.push({ num1: n1, num2: n2, op, sureSiniri: sure });
   markDirty(); renderQuestions();
 }
@@ -1218,9 +1656,23 @@ function addQuestion() {
 function generateRandomQuestionPool(op, sure) {
   const pool = [];
   if (op === "+") {
-    for (let a = 1; a <= 9; a++) for (let b = 1; a + b <= 10; b++) pool.push({ num1: a, num2: b, op: "+", sureSiniri: sure });
+    for (let a = 1; a <= 18; a++) {
+      if (a % 10 === 0) continue;
+      for (let b = 1; b <= 9; b++) {
+        if ((a % 10) + b <= 9 && a + b <= 19) {
+          pool.push({ num1: a, num2: b, op: "+", sureSiniri: sure });
+        }
+      }
+    }
   } else {
-    for (let a = 2; a <= 10; a++) for (let b = 1; b < a; b++) pool.push({ num1: a, num2: b, op: "-", sureSiniri: sure });
+    for (let a = 2; a <= 19; a++) {
+      if (a % 10 === 0) continue;
+      for (let b = 1; b <= 9; b++) {
+        if ((a % 10) >= b && a - b >= 1) {
+          pool.push({ num1: a, num2: b, op: "-", sureSiniri: sure });
+        }
+      }
+    }
   }
   return shuffle(pool);
 }
@@ -1247,7 +1699,7 @@ function fillRandomPhase() {
 function fillAllPhasesRandom() {
   const op = $("#tOp").value;
   const sure = Math.max(5, parseInt($("#tSure").value) || 30);
-  PHASES.forEach(p => {
+  getActivePhases().forEach(p => {
     const pool = generateRandomQuestionPool(op, sure);
     const arr = tPhases[p.k];
     const usedKeys = new Set(arr.map(q => `${q.num1}${q.op}${q.num2}`));
@@ -1307,10 +1759,11 @@ function renderCodeBox(studentName) {
   $("#linkedStudentName").innerText = stName;
   $("#linkedTeacherName").innerText = teacherName;
   $("#codeList").innerHTML = tCodes.map(c => `
-    <div class="row">
-      <span class="k ph">${c.ph.ad}<small>${esc(stName)} · ${c.ph.mod === "yoklama" ? "Yoklama" : "Öğretim"} · ${tCount} soru</small></span>
+    <div class="row" style="flex-wrap:wrap">
+      <span class="k ph">${esc(c.ph.ad)}<small>${esc(stName)} · ${c.ph.mod === "yoklama" ? "Yoklama" : "Öğretim"} · ${tCount} soru</small></span>
       <span class="code">${c.kod}</span>
       <button class="btn tinted small" onclick="copyCode('${c.kod}', this)">Kopyala</button>
+      <button class="btn tinted-green small" onclick="shareSingleCode('${c.kod}', '${esc(c.ph.ad)}', '${esc(stName)}')"><svg class="i" style="width:15px;height:15px"><use href="#i-share"/></svg>Paylaş</button>
       <button class="btn small" onclick="openStudentHere('${c.kod}', '${esc(stName)}')">Aç</button>
     </div>`).join("");
   $("#codeMeta").innerText = `Bu kodlar yalnızca "${stName}" öğrenci adıyla eşleştiğinde açılır.`;
@@ -1327,8 +1780,9 @@ function publishSession() {
   const ogretimId = "o" + Date.now().toString(36);
   const ayar = readSettings();
   const used = new Set();
+  const activePhases = getActivePhases();
 
-  tCodes = PHASES.map(p => {
+  tCodes = activePhases.map(p => {
     let kod;
     do { kod = String(Math.floor(100000 + Math.random() * 900000)); } while (used.has(kod));
     used.add(kod);
@@ -1340,6 +1794,8 @@ function publishSession() {
     ogrenciAdi: stName,
     tPhases: JSON.parse(JSON.stringify(tPhases)),
     tCount,
+    tUygCount,
+    tumEvreler: isAllPhasesOn(),
     ayarlar: ayar,
     tCodes,
     tarih: new Date().toISOString()
@@ -1355,7 +1811,7 @@ function publishSession() {
     const s = {
       kod: c.kod, ogretimId, ogretmen: teacherName, ogretmenKodu: teacherCode,
       hedefOgrenci: stName, olusturma: new Date().toISOString(),
-      mod: p.mod, evre: p.k, ayarlar, sorular: tPhases[p.k].slice()
+      mod: p.mod, evre: p.k, ayarlar, sorular: (tPhases[p.k] || []).slice()
     };
     store.set("sayiizi_oturum_" + c.kod, s);
     post({
@@ -1376,7 +1832,71 @@ function copyCode(kod, b) {
   const done = t => { if (b) { b.innerText = t; setTimeout(() => b.innerText = "Kopyala", 1600); } };
   (navigator.clipboard ? navigator.clipboard.writeText(kod) : Promise.reject()).then(() => done("Kopyalandı"), () => done("Olmadı"));
 }
+
+let currentShareText = "";
+function openShareModal(text) {
+  currentShareText = text;
+  const modal = $("#shareModal");
+  const preview = $("#sharePreviewText");
+  const statusNote = $("#shareStatusNote");
+  if (preview) preview.value = text;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(
+      () => { if (statusNote) statusNote.innerText = "✓ Mesaj panoya kopyalandı, paylaşmaya hazır"; },
+      () => { if (statusNote) statusNote.innerText = "Aşağıdaki uygulama seçenekleriyle paylaşabilirsiniz"; }
+    );
+  }
+  const encoded = encodeURIComponent(text);
+  const wa = $("#waShareLink");
+  if (wa) wa.href = `https://api.whatsapp.com/send?text=${encoded}`;
+  const tg = $("#tgShareLink");
+  if (tg) tg.href = `https://t.me/share/url?url=${encodeURIComponent(location.origin + location.pathname)}&text=${encoded}`;
+  const mail = $("#mailShareLink");
+  if (mail) mail.href = `mailto:?subject=${encodeURIComponent("Sayı İzi Öğrenci Oturum Kodu")}&body=${encoded}`;
+  const nativeBtn = $("#nativeShareBtn");
+  if (nativeBtn) nativeBtn.classList.toggle("hidden", typeof navigator.share !== "function");
+  if (modal) modal.classList.remove("hidden");
+}
+
+function closeShareModal() {
+  const modal = $("#shareModal");
+  if (modal) modal.classList.add("hidden");
+}
+
+function copySharePreview(btn) {
+  if (!currentShareText || !navigator.clipboard) return;
+  navigator.clipboard.writeText(currentShareText).then(() => {
+    const old = btn.innerText;
+    btn.innerText = "✓ Kopyalandı";
+    setTimeout(() => { btn.innerText = old; }, 1500);
+  });
+}
+
+function triggerNativeShare() {
+  if (typeof navigator.share === "function" && currentShareText) {
+    navigator.share({ title: "Sayı İzi Oturum Kodu", text: currentShareText }).catch(() => {});
+  }
+}
+
+function shareSingleCode(kod, phAd, stName) {
+  const student = stName || ($("#tTargetStudent") ? $("#tTargetStudent").value.trim() : "");
+  const text = `📚 Sayı İzi Öğrenci Oturumu\n👤 Öğrenci: ${student}\n🎯 Oturum: ${phAd}\n🔑 Oturum Kodu: ${kod}\n👩‍🏫 Öğretmen: ${teacherName}`;
+  openShareModal(text);
+}
+
+function shareAllCodes() {
+  if (!tCodes || !tCodes.length) return;
+  const student = $("#tTargetStudent") ? $("#tTargetStudent").value.trim() : "";
+  const lines = tCodes.map(c => `• ${c.ph.ad}: ${c.kod}`).join("\n");
+  const text = `📚 Sayı İzi Öğrenci Oturum Kodları\n👤 Öğrenci: ${student}\n👩‍🏫 Öğretmen: ${teacherName}\n\n${lines}`;
+  openShareModal(text);
+}
 function openStudentHere(kod, stName) {
+  isAdminViewing = false;
+  teacherName = "";
+  teacherCode = "";
+  adminPassMemory = "";
+  clearNonStudentCredentials();
   showScreen("#login");
   $$("#roleSeg button")[0].click();
   $("#inCode").value = kod || tCode;
@@ -1393,15 +1913,20 @@ const S = {
   hata: 0, errTypes: { siralama: 0, surukleme: 0, sembol: 0, sure: 0 },
   firstTouchTime: null, promptCount: 0, promptTimer: null,
   attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false,
-  questionShownAt: 0, start: 0, timerStarted: false, timer: null, autoTimer: null
+  questionShownAt: 0, start: 0, timerStarted: false, timerPaused: false, timer: null, autoTimer: null
 };
 const isUyg = () => S.session && S.session.mod === "uygulama";
+function isExitModalOpen() {
+  const modal = $("#exitAuthModal");
+  return !!(modal && !modal.classList.contains("hidden"));
+}
 function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
 function startStudent(session, name) {
   S.session = session; S.name = name; S.idx = 0; S.results = [];
   S.queue = session.sorular.slice();
   if (session.mod === "uygulama") shuffle(S.queue);
+  closeExitModal();
   showScreen("#student");
   $("#workArea").style.display = "contents";
   $("#doneArea").classList.add("hidden");
@@ -1411,9 +1936,118 @@ function startStudent(session, name) {
   nextQuestion();
 }
 
+function requestExitStudent() {
+  const isFinished = !$("#doneArea").classList.contains("hidden") || !S.q;
+  if (isFinished) {
+    exitStudent();
+    return;
+  }
+  S.timerPaused = true;
+  clearPromptTimer();
+  clearTimeout(S.autoTimer);
+  const infoEl = $("#exitSessionInfo");
+  if (infoEl && S.session) {
+    const total = S.queue ? S.queue.length : 0;
+    const cur = Math.min(S.idx || 1, total || 1);
+    const stLabel = S.name ? `Öğrenci: ${S.name} · ` : "";
+    infoEl.innerText = `${stLabel}Soru ${cur} / ${total} devam ediyor`;
+  }
+  $("#exitTeacherName").value = "";
+  $("#exitTeacherCode").value = "";
+  $("#exitModalMsg").innerText = "";
+  $("#exitAuthModal").classList.remove("hidden");
+  setTimeout(() => $("#exitTeacherName").focus(), 50);
+}
+
+function closeExitModal() {
+  const modal = $("#exitAuthModal");
+  const wasOpen = modal && !modal.classList.contains("hidden");
+  if (modal) modal.classList.add("hidden");
+  if ($("#exitTeacherName")) $("#exitTeacherName").value = "";
+  if ($("#exitTeacherCode")) $("#exitTeacherCode").value = "";
+  if ($("#exitModalMsg")) $("#exitModalMsg").innerText = "";
+  S.timerPaused = false;
+  if (wasOpen && S.q && !S.answered) {
+    schedulePromptHint();
+  }
+}
+
+async function confirmTeacherExit() {
+  const n = ($("#exitTeacherName").value || "").trim();
+  const c = ($("#exitTeacherCode").value || "").trim();
+  const msg = $("#exitModalMsg");
+  const btn = $("#exitConfirmBtn");
+  const card = $("#exitModalCard");
+  msg.innerText = "";
+
+  if (!n && !c) {
+    msg.innerText = "Çıkış yapabilmek için öğretmen adını ve 6 haneli öğretmen kodunu girmelisiniz.";
+    card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
+    $("#exitTeacherName").focus();
+    return;
+  }
+  if (!n) {
+    msg.innerText = "Lütfen öğretmen adını girin.";
+    card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
+    $("#exitTeacherName").focus();
+    return;
+  }
+  if (!/^\d{6}$/.test(c)) {
+    msg.innerText = "Lütfen 6 haneli öğretmen kodunu eksiksiz girin.";
+    card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
+    $("#exitTeacherCode").focus();
+    return;
+  }
+
+  let verified = false;
+  if (S.session && S.session.ogretmen && S.session.ogretmenKodu) {
+    if (cleanName(S.session.ogretmen) === cleanName(n) && String(S.session.ogretmenKodu).trim() === c) {
+      verified = true;
+    }
+  }
+  if (!verified) {
+    const localTeachers = store.get("sayiizi_ogretmenler", {});
+    if (localTeachers[c] && cleanName(localTeachers[c]) === cleanName(n)) {
+      verified = true;
+    }
+  }
+  if (!verified && S.session && S.session.kod) {
+    const savedSess = store.get("sayiizi_oturum_" + S.session.kod, null);
+    if (savedSess && savedSess.ogretmen && savedSess.ogretmenKodu) {
+      if (cleanName(savedSess.ogretmen) === cleanName(n) && String(savedSess.ogretmenKodu).trim() === c) {
+        verified = true;
+      }
+    }
+  }
+  if (!verified && SHEETS_ON) {
+    btn.disabled = true; btn.innerText = "Doğrulanıyor…";
+    try {
+      const url = `${GOOGLE_SCRIPT_URL}?islem=ogretmen_dogrula&ogretmenAdi=${encodeURIComponent(n)}&ogretmenKodu=${encodeURIComponent(c)}`;
+      const res = await fetchJSON(url, 6000);
+      if (res && res.onayla) verified = true;
+    } catch (e) {}
+    btn.disabled = false; btn.innerText = "Doğrula ve Çık";
+  }
+
+  if (!verified) {
+    msg.innerText = "Öğretmen adı veya öğretmen kodu hatalı! Oturum bitmeden çıkış yapılamaz.";
+    card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
+    return;
+  }
+
+  closeExitModal();
+  exitStudent();
+}
+
 function exitStudent() {
   stopTimer(); clearTimeout(S.autoTimer); clearPromptTimer(); S.token++; S.q = null;
-  showScreen(teacherName ? "#teacher" : "#login");
+  closeExitModal();
+  isAdminViewing = false;
+  teacherName = "";
+  teacherCode = "";
+  adminPassMemory = "";
+  clearNonStudentCredentials();
+  showScreen("#login");
 }
 
 function setMsg(text, cls) { const m = $("#msg"); m.innerText = text || ""; m.className = "msg " + (cls || ""); }
@@ -1441,10 +2075,10 @@ function nextQuestion() {
     hata: 0, errTypes: { siralama: 0, surukleme: 0, sembol: 0, sure: 0 },
     firstTouchTime: null, promptCount: 0,
     attempts: 0, empties: 0, reads: [], answered: false, checking: false, timeout: false,
-    questionShownAt: Date.now(), start: 0, timerStarted: false
+    questionShownAt: Date.now(), start: 0, timerStarted: false, timerPaused: false
   });
   clearNumberLineVisuals();
-  $("#prompt").innerText = `${S.idx}. sorudaki işlemi yap`;
+  $("#prompt").innerHTML = `<span class="p-num">${S.idx}.</span> Sorudaki sayıları <span class="hl-drag">sayı doğrusuna sürükle</span> ve <span class="hl-solve">işlemi yap</span>.`;
   $("#equation").innerHTML = `${q.num1} ${q.op === "-" ? "−" : "+"} ${q.num2} = <span class="qm">?</span>`;
   setMsg("");
   buildTray([q.num1, q.num2]);
@@ -1470,9 +2104,9 @@ function clearPromptTimer() {
 }
 function schedulePromptHint() {
   clearPromptTimer();
-  if (!isUyg() || !S.session.ayarlar.ipucu || S.placed >= 2 || !S.q) return;
+  if (!isUyg() || !S.session.ayarlar.ipucu || S.placed >= 2 || !S.q || isExitModalOpen()) return;
   S.promptTimer = setTimeout(() => {
-    if (!S.q || S.placed >= 2 || S.animating) return;
+    if (!S.q || S.placed >= 2 || S.animating || isExitModalOpen()) return;
     const needVal = S.q.op === "-" ? (S.placed === 0 ? S.q.num1 : S.q.num2) : S.remaining[0];
     const targetEl = $$("#tray .sh:not(.used)").find(el => parseInt(el.dataset.val) === needVal) || $$("#tray .sh:not(.used)")[0];
     if (targetEl) {
@@ -1493,9 +2127,83 @@ function prepareTimerDisplay(sec) {
   el.innerHTML = '<svg class="i"><use href="#i-timer"/></svg>' + sec + ' sn (Hazır)';
 }
 
+function formatOperationSpeech(q) {
+  if (!q) return "Dikkat et.";
+  const n1 = NUM_WORDS[q.num1] || q.num1;
+  const n2 = NUM_WORDS[q.num2] || q.num2;
+  const opWord = q.op === "-" ? "eksi" : "artı";
+  const ansVal = q.op === "-" ? (q.num1 - q.num2) : (q.num1 + q.num2);
+  const ansWord = NUM_WORDS[ansVal] || ansVal;
+  return `Dikkat et, ${n1} ${opWord} ${n2} cevap ${ansWord}`;
+}
+
+function getDetailedErrorSpeech(errType, details = {}) {
+  const q = S.q;
+  if (errType === "surukleme") {
+    const v = details.val != null ? (NUM_WORDS[details.val] || details.val) : "";
+    return v
+      ? `Dikkat et, ${v} sayısını sayı doğrusunun üzerine bırakmalısın. Tekrar dene.`
+      : "Dikkat et, sayıyı sayı doğrusunun üzerine bırakmalısın. Tekrar dene.";
+  }
+  if (errType === "siralama") {
+    if (q && q.op === "-") {
+      if (S.placed === 0) {
+        const bigWord = NUM_WORDS[q.num1] || q.num1;
+        return `Dikkat et, çıkarma işleminde önce büyük olan ${bigWord} sayısını sayı doğrusuna sürüklemelisin.`;
+      }
+      const smallWord = NUM_WORDS[q.num2] || q.num2;
+      return `Dikkat et, şimdi küçük olan ${smallWord} sayısını sayı doğrusuna sürüklemelisin.`;
+    }
+    return "Dikkat et, sorudaki sayıları sırayla sayı doğrusuna sürüklemelisin.";
+  }
+  if (errType === "sembol") {
+    return formatOperationSpeech(q);
+  }
+  if (errType === "sure") {
+    return "Süren doldu, bir sonraki soruya geçiyoruz.";
+  }
+  return details.customSpeech || "Dikkat et, tekrar dene.";
+}
+
+function registerStudentError(errType, details) {
+  S.hata++;
+  if (errType && S.errTypes && S.errTypes[errType] !== undefined) {
+    S.errTypes[errType]++;
+  }
+  if (isUyg() && S.session && (!S.session.ayarlar || S.session.ayarlar.ses !== false)) {
+    const speechText = typeof details === "string"
+      ? details
+      : getDetailedErrorSpeech(errType, details || {});
+    speak(speechText);
+  }
+}
+
+function handleQuestionTimeout() {
+  stopTimer();
+  clearTimeout(S.autoTimer);
+  if (S.answered || !S.q) return;
+  const q = S.q;
+  drawing = false;
+  S.timeout = true;
+  S.hata++;
+  if (S.errTypes && S.errTypes.sure !== undefined) S.errTypes.sure++;
+  const box = hasInk ? inkBox() : null;
+  const thumb = box ? thumbnail(box) : null;
+  record(false, "", thumb);
+  setMsg("Süren doldu, bir sonraki soruya geçiyoruz.", "warn");
+  toast("Süren doldu!<small>Bir sonraki soruya geçiyoruz</small>", "bad", 2500);
+  if (!S.session || !S.session.ayarlar || S.session.ayarlar.ses !== false) {
+    speak(getDetailedErrorSpeech("sure"));
+  }
+  setTimeout(() => {
+    if (S.q === q) nextQuestion();
+  }, 2700);
+}
+
 function startTimer(sec) {
   stopTimer();
   S.timerStarted = true;
+  S.timerPaused = false;
   S.start = Date.now();
   let left = sec;
   const el = $("#timer");
@@ -1505,13 +2213,12 @@ function startTimer(sec) {
   const draw = v => el.innerHTML = '<svg class="i"><use href="#i-timer"/></svg>' + Math.max(v, 0);
   draw(left);
   S.timer = setInterval(() => {
+    if (S.timerPaused || isExitModalOpen()) return;
     left--;
     draw(left);
     if (left <= 5) el.classList.add("low");
     if (left <= 0) {
-      stopTimer();
-      S.timeout = true; S.hata++; S.errTypes.sure++;
-      if (show && isUyg()) setMsg("Süre doldu, yine de bitirebilirsin.", "warn");
+      handleQuestionTimeout();
     }
   }, 1000);
 }
@@ -1520,7 +2227,7 @@ function stopTimer() { if (S.timer) clearInterval(S.timer); S.timer = null; }
 function buildNumberLine() {
   const nl = $("#numline");
   nl.innerHTML = `<svg class="arc-svg" id="arcSvg"></svg>`;
-  for (let i = 0; i <= 10; i++) {
+  for (let i = 0; i <= 19; i++) {
     const z = document.createElement("div");
     z.className = "zone"; z.dataset.i = i;
     z.innerHTML = `<div class="zlabel">${i}</div>`;
@@ -1543,7 +2250,7 @@ function buildTray(vals) {
 let drag = null;
 function startDrag(e) {
   const el = e.currentTarget;
-  if (S.animating || S.placed >= 2 || el.classList.contains("used")) return;
+  if (S.animating || S.placed >= 2 || el.classList.contains("used") || isExitModalOpen()) return;
   e.preventDefault();
   if (S.firstTouchTime === null && S.questionShownAt) {
     S.firstTouchTime = +((Date.now() - S.questionShownAt) / 1000).toFixed(2);
@@ -1576,10 +2283,13 @@ function endDrag(e) {
   el.classList.remove("lifted");
   $("#numline").classList.remove("over");
   if (e.type === "pointerup") {
+    const val = parseInt(el.dataset.val);
     if (overLine(e.clientX, e.clientY)) {
-      tryPlace(parseInt(el.dataset.val), el);
+      tryPlace(val, el);
     } else {
-      S.hata++; S.errTypes.surukleme++;
+      registerStudentError("surukleme", { val });
+      el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
+      if (isUyg()) setMsg(`${val} sayısını sayı doğrusunun üzerine bırakmalısın. Tekrar dene!`, "warn");
       schedulePromptHint();
     }
   }
@@ -1594,14 +2304,14 @@ function tryPlace(val, el) {
   let msg = "";
   if (minus) {
     const need = S.placed === 0 ? S.q.num1 : S.q.num2;
-    if (val !== need) msg = S.placed === 0 ? "Önce büyük sayıyı koymalısın!" : "Şimdi küçük sayıyı koymalısın!";
+    if (val !== need) msg = S.placed === 0 ? `Önce büyük olan ${S.q.num1} sayısını koymalısın!` : `Şimdi küçük olan ${S.q.num2} sayısını koymalısın!`;
   } else if (S.remaining.indexOf(val) === -1) {
     msg = "Sorudaki sayıları kullanmalısın!";
   }
   if (msg) {
-    S.hata++; S.errTypes.siralama++;
+    registerStudentError("siralama", { val });
     el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
-    if (isUyg()) setMsg(msg, "warn");
+    if (isUyg()) setMsg(msg + " Tekrar dene.", "warn");
     schedulePromptHint();
     return false;
   }
@@ -1689,7 +2399,7 @@ async function animateMove(val, dir, lane) {
 }
 
 function dropMarker(i, val, count, final, lane) {
-  if (i < 0 || i > 10) return;
+  if (i < 0 || i > 19) return;
   const zone = $$("#numline .zone")[i];
   zone.classList.add("active-step");
   const lbl = zone.querySelector(".zlabel");
@@ -1738,7 +2448,15 @@ function padXY(e) { const r = pad.getBoundingClientRect(), k = pad.width / r.wid
 
 pad.addEventListener("pointerdown", e => {
   if (!canWrite()) {
-    if (S.q && S.placed < 2) setMsg(S.animating ? "Sayma bitince yazabilirsin." : "Önce sayıları sayı doğrusuna taşı.", "warn");
+    if (S.q && S.placed < 2) {
+      const warnTxt = S.animating
+        ? "Sayma bitince cevabı yazabilirsin."
+        : (S.placed === 0 ? "Önce sayıları sayı doğrusuna sürüklemelisin." : "Diğer sayıyı da sayı doğrusuna sürüklemelisin.");
+      setMsg(warnTxt, "warn");
+      if (isUyg() && S.session && (!S.session.ayarlar || S.session.ayarlar.ses !== false) && !S.animating) {
+        speak("Dikkat et, " + warnTxt);
+      }
+    }
     return;
   }
   e.preventDefault();
@@ -1874,6 +2592,7 @@ async function submitAnswer() {
     S.empties++;
     if (S.empties < 3) {
       setMsg("Rakamı biraz daha büyük yaz", "info");
+      if (isUyg() && S.session.ayarlar.ses) speak("Tekrar dene. Rakamı biraz daha büyük yaz.");
       clearPad(true); lockAnswer(false);
       return;
     }
@@ -1892,26 +2611,31 @@ async function submitAnswer() {
   }
 
   if (correct) {
+    const praise = getRandomPraise();
+    const spokenWord = NUM_WORDS[+expected] || expected;
     record(true, read, thumb);
     setMsg("");
     burstParticles(window.innerWidth / 2, window.innerHeight / 2, "#34C759", 26);
-    toast(`Aferin! 🎉<small>Cevap ${expected}</small>`, "ok", 1800);
-    if (S.session.ayarlar.ses) speak("Aferin! Cevap " + (NUM_WORDS[+expected] || expected));
-    return setTimeout(nextQuestion, 2100);
+    toast(`${praise} 🎉<small>Cevap ${expected}</small>`, "ok", 1800);
+    if (!S.session.ayarlar || S.session.ayarlar.ses !== false) {
+      speak(`${praise} Cevap ${spokenWord}.`);
+    }
+    return setTimeout(nextQuestion, 2300);
   }
-  S.hata++; S.errTypes.sembol++;
+  const opText = `${q.num1} ${q.op === "-" ? "−" : "+"} ${q.num2} = ${expected}`;
+  const opSpeech = formatOperationSpeech(q);
   if (S.attempts >= S.session.ayarlar.deneme) {
+    registerStudentError("sembol", opSpeech);
     record(false, read, thumb);
     setMsg("");
-    toast(`Doğru cevap: ${expected}<small>Bir sonrakinde başaracaksın</small>`, "bad", 2400);
-    if (S.session.ayarlar.ses) speak("Doğru cevap " + (NUM_WORDS[+expected] || expected));
-    return setTimeout(nextQuestion, 2700);
+    toast(`Dikkat et!<small>${opText}</small>`, "bad", 2600);
+    return setTimeout(nextQuestion, 2900);
   }
-  toast("Dikkat et.<small>İşlemi yap</small>", "retry", 1600);
-  if (S.session.ayarlar.ses) speak("Dikkat et. İşlemi yap.");
+  registerStudentError("sembol", opSpeech);
+  toast(`Dikkat et!<small>${opText}</small>`, "retry", 2300);
   setMsg("");
   lockAnswer(true);
-  setTimeout(() => { if (S.q === q && !S.answered) retryQuestion(); }, 1700);
+  setTimeout(() => { if (S.q === q && !S.answered) retryQuestion(); }, 2500);
 }
 
 function retryQuestion() {
@@ -1951,6 +2675,26 @@ function record(dogru, read, thumb) {
   });
 }
 
+function launchConfettiRain(count = 55) {
+  const colors = ["#F59E0B", "#2EB84E", "#007AFF", "#FF2D55", "#AF52DE", "#FFCC00", "#30B0C7"];
+  for (let i = 0; i < count; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti-piece";
+    const w = 7 + Math.random() * 7;
+    const h = 10 + Math.random() * 10;
+    c.style.width = w + "px";
+    c.style.height = h + "px";
+    c.style.left = (Math.random() * 100) + "vw";
+    c.style.background = colors[i % colors.length];
+    c.style.setProperty("--dur", (1.8 + Math.random() * 1.4).toFixed(2) + "s");
+    c.style.setProperty("--drift", ((Math.random() - 0.5) * 180).toFixed(0) + "px");
+    c.style.setProperty("--rot", ((Math.random() > 0.5 ? 1 : -1) * (360 + Math.random() * 540)).toFixed(0) + "deg");
+    c.style.animationDelay = (Math.random() * 0.45).toFixed(2) + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 3600);
+  }
+}
+
 function finishSession() {
   stopTimer(); clearPromptTimer();
   S.q = null;
@@ -1966,11 +2710,16 @@ function finishSession() {
     all[all.length - 1] = Object.assign({}, res, { sorular: res.sorular.map(q => Object.assign({}, q, { resim: null })) });
     store.set("sayiizi_sonuclar", all);
   }
+  const totalQ = res.sorular.length;
   const dogru = res.sorular.filter(q => q.dogru === true).length;
+  const pct = totalQ ? Math.round((dogru / totalQ) * 100) : 0;
+  const targetPct = (s.ayarlar && +s.ayarlar.olcutYuzde) ? +s.ayarlar.olcutYuzde : 80;
+  const earnedMedal = pct >= targetPct;
+
   post({
     islemTipi: "oturum_sonuc_ozeti", sonucId: res.id, ogrenciAdi: res.ogrenci, oturumKodu: res.kod,
     ogretmenAdi: res.ogretmen, ogretmenKodu: res.ogretmenKodu || "", calismaTuru: res.mod, evre: res.evre, tarih: res.tarih,
-    toplamSoru: res.sorular.length, dogruSayisi: dogru,
+    toplamSoru: totalQ, dogruSayisi: dogru,
     detaylar: JSON.stringify(res.sorular.map(q => Object.assign({}, q, { resim: undefined }))),
     resimler: JSON.stringify(res.sorular.map(q => q.resim || ""))
   });
@@ -1978,10 +2727,53 @@ function finishSession() {
   $("#workArea").style.display = "none";
   $("#timer").classList.add("hidden");
   $("#doneArea").classList.remove("hidden");
-  burstParticles(window.innerWidth / 2, window.innerHeight / 3, "#34C759", 32);
-  $("#doneTitle").innerText = `Bitti! Aferin ${S.name}`;
-  $("#doneSub").innerText = s.mod === "uygulama" ? `${res.sorular.length} sorudan ${dogru} tanesini doğru yaptın.` : "Tüm soruları tamamladın.";
-  if (s.mod === "uygulama" && s.ayarlar.ses) speak("Bitti! Aferin " + S.name);
+
+  const sealEl = $("#doneSeal");
+  const medalCard = $("#doneMedalCard");
+  if (s.mod === "uygulama" && earnedMedal) {
+    if (sealEl) sealEl.classList.add("hidden");
+    if (medalCard) {
+      medalCard.classList.remove("hidden");
+      $("#doneMedalTag").innerText = `%${pct} Başarı · Hedef %${targetPct} Karşılandı`;
+      $("#doneMedalTitle").innerText = `Tebrikler ${S.name}, Başarı Madalyası Kazandın!`;
+      $("#doneMedalDesc").innerText = `${totalQ} sorudan ${dogru} tanesini doğru yaparak başarı ölçütüne ulaştın!`;
+    }
+    $("#doneTitle").innerText = `Harika İş Çıkardın!`;
+    $("#doneSub").innerText = `${EVRE[s.evre] || "Uygulama"} oturumunu madalya ile tamamladın.`;
+    launchConfettiRain(60);
+    burstParticles(window.innerWidth / 2, window.innerHeight / 3, "#F59E0B", 38);
+    setTimeout(() => burstParticles(window.innerWidth * 0.35, window.innerHeight * 0.35, "#2EB84E", 24), 320);
+    setTimeout(() => burstParticles(window.innerWidth * 0.65, window.innerHeight * 0.35, "#007AFF", 24), 600);
+    if (!s.ayarlar || s.ayarlar.ses !== false) {
+      speak(`Tebrikler ${S.name}! Yüzde ${pct} başarıyla Başarı Madalyası kazandın! Aferin sana!`);
+    }
+  } else {
+    if (sealEl) sealEl.classList.remove("hidden");
+    if (medalCard) medalCard.classList.add("hidden");
+    burstParticles(window.innerWidth / 2, window.innerHeight / 3, "#34C759", 32);
+    $("#doneTitle").innerText = `Bitti! Aferin ${S.name}`;
+    $("#doneSub").innerText = s.mod === "uygulama" ? `${totalQ} sorudan ${dogru} tanesini doğru yaptın (%${pct}).` : "Tüm soruları tamamladın.";
+    if (s.mod === "uygulama" && (!s.ayarlar || s.ayarlar.ses !== false)) {
+      speak("Bitti! Aferin " + S.name);
+    }
+  }
+}
+
+function showMedalCelebration(studentName, pct, targetPct, detailText) {
+  const modal = $("#medalCelebrationModal");
+  if (!modal) return;
+  $("#modalMedalTag").innerText = `%${pct} Başarı · Hedef %${targetPct}`;
+  $("#modalMedalStudent").innerText = `${studentName} · Başarı Madalyası`;
+  $("#modalMedalDesc").innerText = detailText || `${studentName}, belirlenen %${targetPct} başarı ölçütüne ulaşarak Başarı Madalyası kazandı!`;
+  modal.classList.remove("hidden");
+  launchConfettiRain(55);
+  burstParticles(window.innerWidth / 2, window.innerHeight / 3, "#F59E0B", 34);
+  speak(`Tebrikler ${studentName}! Yüzde ${pct} başarıyla Başarı Madalyası kazandın! Harikasın!`);
+}
+
+function closeMedalModal() {
+  const modal = $("#medalCelebrationModal");
+  if (modal) modal.classList.add("hidden");
 }
 
 /* ============================================================
@@ -2167,6 +2959,7 @@ function getStudentCriterion(studentName) {
   return { yuzde, oturum };
 }
 
+let lastCelebratedResultKey = "";
 function renderCriterionAndGagBanners(rows) {
   const critEl = $("#criterionBanner");
   const gagEl = $("#gagBanner");
@@ -2177,16 +2970,36 @@ function renderCriterionAndGagBanners(rows) {
   }
   const { yuzde, oturum } = getStudentCriterion(selectedResultStudent);
   const chronological = rows.slice().reverse();
-  const lastPhase = chronological[chronological.length - 1].evre;
-  const phaseSessions = chronological.filter(r => r.evre === lastPhase);
+  const latestSession = chronological[chronological.length - 1];
+  const latestSummary = summary(latestSession);
+  const lastPhase = basePhaseKey(latestSession.evre);
+  const phaseSessions = chronological.filter(r => basePhaseKey(r.evre) === lastPhase);
   const recent = phaseSessions.slice(-oturum);
   const met = recent.length >= oturum && recent.every(r => summary(r).pct >= yuzde);
+  const latestEarnedMedal = latestSummary.pct >= yuzde;
 
   critEl.classList.remove("hidden", "met", "wait");
-  critEl.classList.add(met ? "met" : "wait");
-  critEl.innerHTML = met
-    ? `<span><b>✓ Ölçüt Karşılandı (${esc(EVRE[lastPhase] || lastPhase)}):</b> Öğrenci son ${oturum} ardışık oturumda <b>%${yuzde}</b> ve üzeri başarı gösterdi. Bir sonraki evreye geçebilirsiniz.</span>`
-    : `<span><b>Ölçüt Takibi (${esc(EVRE[lastPhase] || lastPhase)}):</b> Hedef ardışık ${oturum} oturumda en az <b>%${yuzde}</b> başarı (${phaseSessions.length} oturum tamamlandı).</span>`;
+  critEl.classList.add((met || latestEarnedMedal) ? "met" : "wait");
+  const avgRecentPct = recent.length ? Math.round(recent.reduce((acc, r) => acc + summary(r).pct, 0) / recent.length) : 0;
+  if (met) {
+    critEl.innerHTML = `<span><b>🏅 Başarı Madalyası & Ölçüt Karşılandı (${esc(basePhaseTitle(lastPhase))}):</b> <b>${esc(selectedResultStudent)}</b> son ${oturum} ardışık oturumda <b>%${yuzde}</b> ve üzeri başarı gösterdi (Ort. <b>%${avgRecentPct}</b>).</span>
+       <button type="button" class="btn small" style="background:#F59E0B;color:#fff;border-color:#D97706" onclick="showMedalCelebration('${esc(selectedResultStudent)}', ${avgRecentPct}, ${yuzde}, '${esc(selectedResultStudent)}, ${esc(basePhaseTitle(lastPhase))} evresinde son ${oturum} ardışık oturumda %${yuzde} başarı ölçütünü karşılayarak Başarı Madalyası kazandı!')">🎉 Başarı Madalyasını Kutla</button>`;
+  } else if (latestEarnedMedal) {
+    critEl.innerHTML = `<span><b>🏅 Başarı Madalyası Kazanıldı (${esc(EVRE[latestSession.evre] || latestSession.evre)}):</b> <b>${esc(selectedResultStudent)}</b> son oturumda <b>%${latestSummary.pct}</b> (${latestSummary.d}/${latestSummary.n} doğru) ile <b>%${yuzde}</b> başarı ölçütünü aştı! (Ardışık ölçüt takibi: ${phaseSessions.length}/${oturum} oturum)</span>
+       <button type="button" class="btn small" style="background:#F59E0B;color:#fff;border-color:#D97706" onclick="showMedalCelebration('${esc(selectedResultStudent)}', ${latestSummary.pct}, ${yuzde}, '${esc(selectedResultStudent)}, ${esc(EVRE[latestSession.evre] || latestSession.evre)} oturumunda %${latestSummary.pct} başarı göstererek Başarı Madalyası kazandı!')">🎉 Başarı Madalyasını Kutla</button>`;
+  } else {
+    critEl.innerHTML = `<span><b>Ölçüt Takibi (${esc(basePhaseTitle(lastPhase))}):</b> Hedef ardışık ${oturum} oturumda en az <b>%${yuzde}</b> başarı (${phaseSessions.length} oturum tamamlandı).</span>`;
+  }
+
+  if ((met || latestEarnedMedal) && !$("#tab-sonuclar").classList.contains("hidden")) {
+    const celKey = `${selectedResultStudent}-${latestSession.id}-${met ? avgRecentPct : latestSummary.pct}`;
+    if (lastCelebratedResultKey !== celKey) {
+      lastCelebratedResultKey = celKey;
+      const celPct = met ? avgRecentPct : latestSummary.pct;
+      launchConfettiRain(45);
+      speak(`Tebrikler ${selectedResultStudent}! Yüzde ${celPct} başarıyla Başarı Madalyası kazandın!`);
+    }
+  }
 
   let totalGagScored = 0, totalGagAgree = 0;
   rows.forEach(r => {
@@ -2216,16 +3029,21 @@ function renderResults() {
     body.innerHTML = `<div class="empty">${selectedResultStudent ? `${esc(selectedResultStudent)} için henüz tamamlanmış oturum sonucu yok.` : "Henüz sonuç yok."}</div>`;
     return;
   }
+  const { yuzde: targetCritPct } = getStudentCriterion(selectedResultStudent);
   body.innerHTML = rows.map(r => {
     const s = summary(r);
     const open = openRow === r.id;
+    const rowEarnedMedal = s.pct >= targetCritPct;
+    const medalBadge = rowEarnedMedal
+      ? ` <span class="cap medal" onclick="event.stopPropagation(); showMedalCelebration('${esc(r.ogrenci)}', ${s.pct}, ${targetCritPct}, '${esc(r.ogrenci)}, ${esc(EVRE[r.evre] || r.evre)} oturumunda %${s.pct} (${s.d}/${s.n} doğru) başarı göstererek Başarı Madalyası kazandı!')" title="Madalyayı Göster">🏅 Başarı Madalyası</span>`
+      : "";
     const errHtml = showErrorAnalysis ? `<div class="err-breakdown">
       <b>Hata Analizi (Toplam ${s.errSum.toplam} Hata):</b>
       Sıralama/Kavram: <b>${s.errSum.siralama}</b> · Sürükleme/Motor: <b>${s.errSum.surukleme}</b> · Yazım/Sembol: <b>${s.errSum.sembol}</b> · Süre Aşımı: <b>${s.errSum.sure}</b>
     </div>` : "";
     return `<div class="row res-row ${open ? "open" : ""}" onclick="toggleRow('${esc(r.id)}')">
       <div class="k">
-        <div class="who">${esc(r.ogrenci)} <span class="cap ${r.mod === "yoklama" ? "y" : "u"}">${r.mod === "yoklama" ? "Yoklama" : "Uygulama"}</span>${s.unscored ? ` <span class="cap warn">${s.unscored} puansız</span>` : ""}${s.gagPct != null ? ` <span class="cap gag">GAG %${s.gagPct}</span>` : ""}</div>
+        <div class="who">${esc(r.ogrenci)} <span class="cap ${r.mod === "yoklama" ? "y" : "u"}">${r.mod === "yoklama" ? "Yoklama" : "Uygulama"}</span>${medalBadge}${s.unscored ? ` <span class="cap warn">${s.unscored} puansız</span>` : ""}${s.gagPct != null ? ` <span class="cap gag">GAG %${s.gagPct}</span>` : ""}</div>
         <div class="sub">${fmtDate(r.tarih)} · ${esc(EVRE[r.evre] || r.evre)} · Kod ${esc(r.kod)} · Ort. Süre ${s.avg.toFixed(1)} sn · Ort. İlk Tepki ${s.avgLat.toFixed(1)} sn</div>
         ${errHtml}
       </div>
@@ -2266,6 +3084,8 @@ function detailHTML(r) {
 }
 
 function setFix(id, no, val, observer) {
+  const targetRow = RESULTS.find(x => x.id === id);
+  const oldPct = targetRow ? summary(targetRow).pct : 0;
   if (observer === 2) {
     GAG_FIX[id] = GAG_FIX[id] || {};
     GAG_FIX[id][no] = val;
@@ -2278,6 +3098,13 @@ function setFix(id, no, val, observer) {
   post({ islemTipi: "sonuc_duzeltme", sonucId: id, soruNo: no, dogru: val, ogretmenAdi: teacherName, gozlemci: String(observer || 1), tarih: new Date().toISOString() });
   renderResults();
   renderChart();
+  if (observer !== 2 && targetRow && val === true) {
+    const newSummary = summary(targetRow);
+    const { yuzde } = getStudentCriterion(targetRow.ogrenci);
+    if (oldPct < yuzde && newSummary.pct >= yuzde) {
+      showMedalCelebration(targetRow.ogrenci, newSummary.pct, yuzde, `${targetRow.ogrenci}, ${EVRE[targetRow.evre] || targetRow.evre} oturumunda %${newSummary.pct} (${newSummary.d}/${newSummary.n} doğru) başarıya ulaşarak Başarı Madalyası kazandı!`);
+    }
+  }
 }
 
 function exportCSV() {
@@ -2352,10 +3179,10 @@ function renderChart() {
   g += `<text x="${L + iw / 2}" y="${H - 8}" text-anchor="middle" font-size="12" font-weight="600" fill="${C.muted}">Oturum</text>`;
 
   const runs = [];
-  pts.forEach(p => { const last = runs[runs.length - 1]; if (last && last.evre === p.r.evre) last.pts.push(p); else runs.push({ evre: p.r.evre, pts: [p] }); });
+  pts.forEach(p => { const bp = basePhaseKey(p.r.evre); const last = runs[runs.length - 1]; if (last && last.evre === bp) last.pts.push(p); else runs.push({ evre: bp, pts: [p] }); });
   runs.forEach((run, k) => {
     const x0 = run.pts[0].x - step / 2, x1 = run.pts[run.pts.length - 1].x + step / 2;
-    g += `<text x="${(x0 + x1) / 2}" y="${T - 16}" text-anchor="middle" font-size="13" font-weight="700" fill="${C.text}">${esc(EVRE[run.evre] || run.evre)}</text>`;
+    g += `<text x="${(x0 + x1) / 2}" y="${T - 16}" text-anchor="middle" font-size="13" font-weight="700" fill="${C.text}">${esc(basePhaseTitle(run.evre))}</text>`;
     if (k > 0) g += `<line x1="${x0}" x2="${x0}" y1="${T - 6}" y2="${T + ih}" stroke="${C.faint}" stroke-width="1.5" stroke-dasharray="6 5"/>`;
     ["yoklama", "uygulama"].forEach(t => {
       const seg = run.pts.filter(p => p.r.mod === t);
@@ -2405,7 +3232,7 @@ function renderChart() {
   pts.forEach(p => { if (p.i % every === 0 || p.i === n - 1) lg += `<text x="${p.x}" y="${LT + lih + 20}" text-anchor="middle" font-size="12" fill="${C.muted}">${p.i + 1}</text>`; });
   runs.forEach((run, k) => {
     const x0 = run.pts[0].x - step / 2, x1 = run.pts[run.pts.length - 1].x + step / 2;
-    lg += `<text x="${(x0 + x1) / 2}" y="${LT - 10}" text-anchor="middle" font-size="12" font-weight="700" fill="${C.text}">${esc(EVRE[run.evre] || run.evre)}</text>`;
+    lg += `<text x="${(x0 + x1) / 2}" y="${LT - 10}" text-anchor="middle" font-size="12" font-weight="700" fill="${C.text}">${esc(basePhaseTitle(run.evre))}</text>`;
     if (k > 0) lg += `<line x1="${x0}" x2="${x0}" y1="${LT - 4}" y2="${LT + lih}" stroke="${C.faint}" stroke-width="1.5" stroke-dasharray="6 5"/>`;
     ["yoklama", "uygulama"].forEach(t => {
       const seg = run.pts.filter(p => p.r.mod === t);
@@ -2428,6 +3255,7 @@ function downloadChart() {
 }
 
 /* ---------- başlangıç ---------- */
+renderPhaseSeg();
 setPhase("A");
 calcAnswer();
 renderQuestions();
